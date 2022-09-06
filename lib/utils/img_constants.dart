@@ -1,3 +1,14 @@
 const String kIcLogo = "assets/ic_logo.png";
 const String kIcEmail = "assets/ic_email.png";
 const String kIcPassword = "assets/ic_password.png";
+const String kIcProfileTF = "assets/ic_profile.png";
+const String kIcPhone = "assets/ic_phone.png";
+const String kIcNotification = "assets/ic_notification.png";
+const String kIcPoin = "assets/ic_saldo.png";
+const String kIcCalculator = "assets/ic_calculator.png";
+const String kIcPuls = "assets/ic_pulsa.png";
+const String kIcOthersMenu = "assets/ic_more.png";
+const String kIcPdam = "assets/ic_water.png";
+const String kIcCircleMotor = "assets/ic_circle_motor.png";
+const String kIcMotor = "assets/ic_motor.png";
+const String kIcBack = "assets/ic_back.png";

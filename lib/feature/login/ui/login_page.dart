@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                       TBButtonSecondaryWidget(
                         buttonName: "Daftar",
                         onPressed: () {
-                          GoRouter.of(context).go(RegisterPage.routeName);
+                          context.push(RegisterPage.routeName);
                         },
                         height: 40,
                         width: double.infinity,

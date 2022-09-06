@@ -1,11 +1,13 @@
-import 'package:bank_sampah/feature/login/provider/login_provider.dart';
+import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
+import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:bank_sampah/widget/tb_textfield_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:go_router/go_router.dart';
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register-page';
   const RegisterPage({Key? key}) : super(key: key);
@@ -17,6 +19,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,55 +126,90 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                       TBTextfieldWidget(
-                        iconName: kIcEmail,
-                        hintText: "Email",
+                      TBTextfieldWidget(
+                        iconName: kIcProfileTF,
+                        hintText: "Nama Lengkap",
                         controller: emailController,
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                       TBTextfieldWidget(
-                        iconName: kIcEmail,
-                        hintText: "Email",
+                      TBTextfieldWidget(
+                        iconName: kIcPhone,
+                        hintText: "Nomor Telepon",
                         controller: emailController,
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                      Consumer<LoginProvider>(
-                        builder:(context,value, _) => TBTextfieldWidget(
+                      Consumer<RegisterProvider>(
+                        builder: (context, value, _) => TBTextfieldWidget(
                           iconName: kIcPassword,
                           hintText: "Password",
                           controller: passwordController,
                           isShowPassword: value.isObsured,
                           isPassword: true,
-                          onShowPassword: (){value.showPassword();},
+                          onShowPassword: () {
+                            value.showPassword();
+                          },
                         ),
-                      ),
-                      const SizedBox(
-                        height: kDefaultPadding,
-                      ),
-                      Text(
-                        "Lupa Password?",
-                        style: kGreenText.copyWith(
-                          fontSize: 10,
-                        ),
-                        textAlign: TextAlign.right,
                       ),
                       const SizedBox(
                         height: kDefaultPadding * 2,
                       ),
+                      RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                        
+                          text:
+                              "Dengan mendaftar melalui aplikasi ini, berarti anda telah menyetujui ",
+                          style: kGreyText.copyWith(fontSize: 11),
+                          children: [
+                            TextSpan(
+                              text:
+                                  "Syarat dan Ketentuan Bank Sampah Sorong Raya",
+                              style: kGreenText.copyWith(fontSize: 11),
+                              recognizer: TapGestureRecognizer()..onTap = (){}
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding /2 ,
+                      ),
                       TBButtonPrimaryWidget(
                         buttonName: "Daftar",
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(HomePage.routeName);
+                        },
                         height: 40,
                         width: double.infinity,
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                    
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                            text:
+                                "Sudah memiliki akun? silahkan ",
+                            style: kGreyText.copyWith(fontSize: 11),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "Login",
+                                style: kGreenText.copyWith(fontSize: 11),
+                                recognizer: TapGestureRecognizer()..onTap = (){
+                                 context.pop();
+                                }
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                     const SizedBox(
+                        height: kDefaultPadding,
+                      ),
                     ],
                   ),
                 ),
