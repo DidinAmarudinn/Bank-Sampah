@@ -1,11 +1,23 @@
+import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
+import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
+import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
+import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
+import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
+import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
+import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
+import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
+import 'package:bank_sampah/feature/transaction/provider/transaction_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
+import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
+import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
+import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +36,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
-        ChangeNotifierProvider(create: (_) => HomePageProvider()) 
+        ChangeNotifierProvider(create: (_) => HomePageProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(create: (_) => OjekProvider())
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
@@ -44,7 +58,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: "/",
         builder: (BuildContext context, GoRouterState state) {
-          return const MainPage();
+          return const LoginPage();
         },
       ),
       GoRoute(
@@ -54,15 +68,80 @@ class MyApp extends StatelessWidget {
         },
       ),
       GoRoute(
+        path: MainPage.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const MainPage();
+        },
+      ),
+      GoRoute(
         path: HomePage.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const HomePage();
         },
       ),
-      GoRoute(path: TrashCalculatorPage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return const TrashCalculatorPage();
-      })
+      GoRoute(
+        path: SelectAddressScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const SelectAddressScreen();
+        },
+      ),
+      GoRoute(
+          path: TrashCalculatorPage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const TrashCalculatorPage();
+          }),
+      GoRoute(
+          path: CheckoutScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const CheckoutScreen();
+          }),
+      GoRoute(
+          path: WithdrawPointScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const WithdrawPointScreen();
+          }),
+      GoRoute(
+          path: WithdarwBankScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const WithdarwBankScreen();
+          }),
+      GoRoute(
+          path: DetailActiviyScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const DetailActiviyScreen();
+          }),
+      GoRoute(
+          path: AddDataNasabahScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddDataNasabahScreen();
+          }),
+      GoRoute(
+          path: NasabahScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const NasabahScreen();
+          }),
+      GoRoute(
+          path: AddAddressScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddAddressScreen();
+          }),
+      GoRoute(
+        path: WithdrawEwalletScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          String? eWalletName = state.extra as String?;
+          return WithdrawEwalletScreen(
+            eWalletName: eWalletName ?? "",
+          );
+        },
+      ),
+      GoRoute(
+          path: OjekScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            bool? isDaily = state.extra as bool?;
+            return OjekScreen(
+              isDaily: isDaily ?? false,
+            );
+          }),
     ],
   );
 }

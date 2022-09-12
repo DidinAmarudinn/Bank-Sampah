@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const CircleMenuWidget(
                           color: kDarkGreen,
-                          iconName: kIcCalculator,
+                          iconName: kIcListrik,
                           menuName: "Listrik",
                         ),
                         const CircleMenuWidget(
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: kDefaultPadding,
                     ),
-                    const CustomSliderWidget(),
+                    const CustomSliderWidget(height: 100,),
                   ],
                 ),
               ),

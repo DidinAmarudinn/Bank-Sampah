@@ -6,12 +6,14 @@ class TBButtonPrimaryWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final double height;
   final double width;
+  final bool? isDisable;
   const TBButtonPrimaryWidget(
       {Key? key,
       required this.buttonName,
       required this.onPressed,
       required this.height,
-      required this.width})
+      required this.width,
+      this.isDisable})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class TBButtonPrimaryWidget extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: kDarkGreen,
+          backgroundColor: isDisable ?? false ? kGreyDivider : kDarkGreen,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -30,10 +32,12 @@ class TBButtonPrimaryWidget extends StatelessWidget {
         child: Center(
           child: Text(
             buttonName,
-            style: kWhiteText.copyWith(
-              fontSize: 12,
-              fontWeight: semiBold,
-            ),
+            style: isDisable ?? false
+                ? kGreyText.copyWith(fontSize: 12, fontWeight: semiBold)
+                : kWhiteText.copyWith(
+                    fontSize: 12,
+                    fontWeight: semiBold,
+                  ),
           ),
         ),
       ),

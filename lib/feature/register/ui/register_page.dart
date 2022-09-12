@@ -1,13 +1,19 @@
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
+import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:bank_sampah/widget/tb_textfield_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../utils/request_state_enum.dart';
+
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register-page';
   const RegisterPage({Key? key}) : super(key: key);
@@ -129,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       TBTextfieldWidget(
                         iconName: kIcProfileTF,
                         hintText: "Nama Lengkap",
-                        controller: emailController,
+                        controller: nameController,
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
@@ -137,7 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       TBTextfieldWidget(
                         iconName: kIcPhone,
                         hintText: "Nomor Telepon",
-                        controller: emailController,
+                        controller: phoneController,
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
@@ -160,30 +166,57 @@ class _RegisterPageState extends State<RegisterPage> {
                       RichText(
                         textAlign: TextAlign.left,
                         text: TextSpan(
-                        
                           text:
                               "Dengan mendaftar melalui aplikasi ini, berarti anda telah menyetujui ",
                           style: kGreyText.copyWith(fontSize: 11),
                           children: [
                             TextSpan(
-                              text:
-                                  "Syarat dan Ketentuan Bank Sampah Sorong Raya",
-                              style: kGreenText.copyWith(fontSize: 11),
-                              recognizer: TapGestureRecognizer()..onTap = (){}
-                            ),
+                                text:
+                                    "Syarat dan Ketentuan Bank Sampah Sorong Raya",
+                                style: kGreenText.copyWith(fontSize: 11),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {}),
                           ],
                         ),
                       ),
                       const SizedBox(
-                        height: kDefaultPadding /2 ,
+                        height: kDefaultPadding / 2,
                       ),
-                      TBButtonPrimaryWidget(
-                        buttonName: "Daftar",
-                        onPressed: () {
-                          context.push(HomePage.routeName);
-                        },
-                        height: 40,
-                        width: double.infinity,
+                      Consumer<RegisterProvider>(
+                        builder: (context, provider, _) => provider.state ==
+                                RequestState.loading
+                            ? const LoadingButton(
+                                height: 40, width: double.infinity)
+                            : TBButtonPrimaryWidget(
+                                buttonName: "Daftar",
+                                onPressed: () async {
+                                  String email = emailController.text;
+                                  String password = passwordController.text;
+                                  String noTelp = phoneController.text;
+                                  String name = nameController.text;
+
+                                  if (email.isNotEmpty &&
+                                      noTelp.isNotEmpty &&
+                                      name.isNotEmpty &&
+                                      password.isNotEmpty) {
+                                    await provider.register(
+                                        email, password, name, name, noTelp);
+                                    if (!mounted) return;
+                                    if (provider.state == RequestState.loaded) {
+                                      context.pop();
+                                      SnackbarMessage.showSnackbar(
+                                          context, "Registrasi Berhasil");
+                                    } else {
+                                      SnackbarMessage.showSnackbar(
+                                          context, provider.message);
+                                    }
+                                  } else {
+                                    SnackbarMessage.showSnackbar(context, provider.message);
+                                  }
+                                },
+                                height: 40,
+                                width: double.infinity,
+                              ),
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
@@ -191,23 +224,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       Center(
                         child: RichText(
                           text: TextSpan(
-                            text:
-                                "Sudah memiliki akun? silahkan ",
+                            text: "Sudah memiliki akun? silahkan ",
                             style: kGreyText.copyWith(fontSize: 11),
                             children: [
                               TextSpan(
-                                text:
-                                    "Login",
-                                style: kGreenText.copyWith(fontSize: 11),
-                                recognizer: TapGestureRecognizer()..onTap = (){
-                                 context.pop();
-                                }
-                              ),
+                                  text: "Login",
+                                  style: kGreenText.copyWith(fontSize: 11),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      context.pop();
+                                    }),
                             ],
                           ),
                         ),
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         height: kDefaultPadding,
                       ),
                     ],

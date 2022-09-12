@@ -1,3 +1,5 @@
+import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
+import 'package:bank_sampah/feature/trash_calculator/ui/dialog_add_trash.dart';
 import 'package:bank_sampah/widget/card_trash_product.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -57,16 +59,17 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                   ),
                   Center(
                     child: Container(
-                      padding:const EdgeInsets.symmetric(horizontal: kDefaultPadding/2 ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding / 2),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 12,
-                          offset: const Offset(3, 3)
-                        )]
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 12,
+                                offset: const Offset(3, 3))
+                          ]),
                       margin: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       width: double.infinity,
@@ -97,7 +100,17 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                 ),
                 itemCount: 24,
                 itemBuilder: (context, index) {
-                  return const CardTrashProduct();
+                  return InkWell(
+                      onTap: () {
+                        showDialog(
+                          
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const DialogAddTrash();
+                          },
+                        );
+                      },
+                      child: const CardTrashProduct());
                 },
               ),
             ),
@@ -107,7 +120,9 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                   vertical: kDefaultPadding / 2),
               child: TBButtonPrimaryWidget(
                 buttonName: "Hitung",
-                onPressed: () {},
+                onPressed: () {
+                  context.push(CheckoutScreen.routeName);
+                },
                 height: 40,
                 width: double.infinity,
               ),

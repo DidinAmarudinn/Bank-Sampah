@@ -1,4 +1,7 @@
+import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
+import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../themes/constants.dart';
 import '../../../utils/img_constants.dart';
@@ -40,18 +43,22 @@ class BottomSheetOthersMenu extends StatelessWidget {
               height: kDefaultPadding,
             ),
             Row(
-              children: const [
+              children:  [
                 CircleMenuWidget(
                   color: kPastelColor,
                   iconName: kIcCalculator,
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    context.push(TrashCalculatorPage.routeName);
+                  },
                   menuName: "Kalkulator\nSampah",
                 ),
-                CircleMenuWidget(
+             const   CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcPuls,
                   menuName: "Pulsa",
                 ),
-                CircleMenuWidget(
+              const  CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcCalculator,
                   menuName: "Listrik",
@@ -62,18 +69,22 @@ class BottomSheetOthersMenu extends StatelessWidget {
               height: kDefaultPadding,
             ),
             Row(
-              children: const [
-                CircleMenuWidget(
+              children:  [
+               const CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcPdam,
                   menuName: "Pdam",
                 ),
                 CircleMenuWidget(
+                  onTap: (){
+                     Navigator.of(context).pop();
+                    context.push(WithdrawPointScreen.routeName);
+                  },
                   color: kYellowColor,
                   iconName: kIcPoin,
                   menuName: "Tuker Poin",
                 ),
-                Expanded(
+               const Expanded(
                     child: SizedBox(
                   width: 20,
                 ))

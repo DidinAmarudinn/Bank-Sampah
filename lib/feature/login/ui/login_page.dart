@@ -1,13 +1,18 @@
+import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:bank_sampah/widget/tb_button_secondary_widget.dart';
 import 'package:bank_sampah/widget/tb_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+
 class LoginPage extends StatefulWidget {
   static const routeName = '/login-page';
   const LoginPage({Key? key}) : super(key: key);
@@ -125,13 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                         height: kDefaultPadding,
                       ),
                       Consumer<LoginProvider>(
-                        builder:(context,value, _) => TBTextfieldWidget(
+                        builder: (context, value, _) => TBTextfieldWidget(
                           iconName: kIcPassword,
                           hintText: "Password",
                           controller: passwordController,
                           isShowPassword: value.isObsured,
                           isPassword: true,
-                          onShowPassword: (){value.showPassword();},
+                          onShowPassword: () {
+                            value.showPassword();
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -147,11 +154,36 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: kDefaultPadding * 2,
                       ),
-                      TBButtonPrimaryWidget(
-                        buttonName: "Masuk",
-                        onPressed: () {},
-                        height: 40,
-                        width: double.infinity,
+                      Consumer<LoginProvider>(
+                        builder: (context, provider, _) => provider.state ==
+                                RequestState.loading
+                            ? const LoadingButton(
+                                height: 40, width: double.infinity)
+                            : TBButtonPrimaryWidget(
+                                buttonName: "Masuk",
+                                onPressed: () async {
+                                  String username = emailController.text;
+                                  String password = passwordController.text;
+                                  if (username.isNotEmpty &&
+                                      password.isNotEmpty) {
+                                    await provider.login(username, password);
+                                    if (!mounted) return;
+                                    if (provider.state == RequestState.loaded) {
+                                      SnackbarMessage.showToast("Login Berhasil");
+                                      context.push(MainPage.routeName);
+                                    } else if (provider.state ==
+                                        RequestState.error) {
+                                      SnackbarMessage.showSnackbar(
+                                          context, provider.message);
+                                    }
+                                  } else {
+                                    SnackbarMessage.showSnackbar(
+                                        context, provider.message);
+                                  }
+                                },
+                                height: 40,
+                                width: double.infinity,
+                              ),
                       ),
                       const SizedBox(
                         height: kDefaultPadding,
@@ -164,17 +196,17 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                       const SizedBox(
-                        height: kDefaultPadding/4,
+                      const SizedBox(
+                        height: kDefaultPadding / 4,
                       ),
                       TBButtonSecondaryWidget(
                         buttonName: "Daftar",
-                        onPressed: () {
+                        onPressed: () async {
                           context.push(RegisterPage.routeName);
                         },
                         height: 40,
                         width: double.infinity,
-                      )
+                      ),
                     ],
                   ),
                 ),

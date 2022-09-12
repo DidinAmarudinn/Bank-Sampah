@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomSliderWidget extends StatelessWidget {
+  final double height;
+  final bool? isFullFraction;
   const CustomSliderWidget({
-    Key? key,
+    Key? key, required this.height, this.isFullFraction,
   }) : super(key: key);
 
   @override
@@ -18,7 +20,9 @@ class CustomSliderWidget extends StatelessWidget {
           CarouselSlider(
             items: imgList
                 .map((e) => Container(
-                      height: 100,
+                      height: height,
+                      
+                      margin: EdgeInsets.only(right: isFullFraction ?? true ? 0 : kDefaultPadding/2),
                       decoration: BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(8),
@@ -31,8 +35,8 @@ class CustomSliderWidget extends StatelessWidget {
                 .toList(),
             options: CarouselOptions(
                 autoPlay: true,
-                height: 100,
-                viewportFraction: 1,
+                height: height,
+                viewportFraction:isFullFraction ?? true ? 1 : 0.95,
                 onPageChanged: (index, reason) {
                   value.changeSliderIndex(index);
                 }),

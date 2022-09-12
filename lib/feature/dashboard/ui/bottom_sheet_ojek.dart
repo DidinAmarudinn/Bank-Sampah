@@ -1,6 +1,8 @@
+import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/card_ojek_sampah.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../themes/constants.dart';
 
@@ -40,22 +42,25 @@ class BottomSheetOjekSampah extends StatelessWidget {
               height: kDefaultPadding,
             ),
             Column(
-              children: const [
+              children: [
                 CardOjekSampah(
                   titile: "Ojek Sampah Harian",
                   color: kDarkGreen,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.push(OjekScreen.routeName, extra: true);
+                  },
                   subTitle: "Ojek Sampah Dalam Sekali Pesan",
                 ),
                 CardOjekSampah(
                   titile: "Ojek Sampah Berlangganan",
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.push(OjekScreen.routeName, extra: false);
+                  },
                   color: kGreen,
                   subTitle: "Pelayanan Ojek Jemput Berkala Sesuai Jadwal",
                 ),
-                CardOjekSampah(
-                  titile: "Ojek Sampah BSU ",
-                  color: kYoungGreen,
-                  subTitle: "Mencari Jemputan Jadi Lebih Mudah",
-                )
               ],
             )
           ],

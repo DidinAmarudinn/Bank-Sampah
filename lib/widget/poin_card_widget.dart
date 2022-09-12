@@ -1,6 +1,9 @@
+import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
+import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PoinCardWidget extends StatelessWidget {
   const PoinCardWidget({Key? key}) : super(key: key);
@@ -49,21 +52,26 @@ class PoinCardWidget extends StatelessWidget {
           const SizedBox(
             width: kDefaultPadding / 2,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Image.asset(
-                kIcPoin,
-                width: 24,
-              ),
-               Text(
-                  "Tukar Poin",
-                  style: kWhiteText.copyWith(
-                    fontWeight: light,
-                    fontSize: 12,
-                  ),
+          InkWell(
+            onTap: (){
+              context.push(WithdrawPointScreen.routeName);
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Image.asset(
+                  kIcPoin,
+                  width: 24,
                 ),
-            ],
+                 Text(
+                    "Tukar Poin",
+                    style: kWhiteText.copyWith(
+                      fontWeight: light,
+                      fontSize: 12,
+                    ),
+                  ),
+              ],
+            ),
           )
         ],
       ),

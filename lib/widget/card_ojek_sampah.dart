@@ -7,12 +7,19 @@ class CardOjekSampah extends StatelessWidget {
   final String titile;
   final String subTitle;
   final Color color;
-  const CardOjekSampah({Key? key, required this.titile, required this.subTitle, required this.color}) : super(key: key);
+  final VoidCallback? onTap;
+  const CardOjekSampah(
+      {Key? key,
+      required this.titile,
+      required this.subTitle,
+      required this.color,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){},
+      onTap: onTap,
       child: Container(
         height: 70,
         padding: const EdgeInsets.symmetric(
@@ -29,8 +36,7 @@ class CardOjekSampah extends StatelessWidget {
             Container(
               height: 35,
               width: 35,
-              decoration:
-                   BoxDecoration(color: color, shape: BoxShape.circle),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               child: Center(
                 child: Image.asset(
                   kIcMotor,

@@ -1,11 +1,17 @@
+import 'package:bank_sampah/feature/activity/ui/activity_screen.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_ojek.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
+import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/profile_screen.dart';
+import 'package:bank_sampah/feature/transaction/ui/transaction_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../themes/constants.dart';
 
 class MainPage extends StatefulWidget {
+  static const routeName = "/main-page";
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -22,15 +28,9 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> screens = const [
     HomePage(),
-    Scaffold(
-      backgroundColor: Colors.red,
-    ),
-    Scaffold(
-      backgroundColor: Colors.blue,
-    ),
-    Scaffold(
-      backgroundColor: Colors.green,
-    ),
+    TransactionScreen(),
+    ActivityScreen(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -166,20 +166,22 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              onTap: (){
+              onTap: () {
                 showModalBottomSheet(
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(24),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) {
-                                  return Wrap(children: const [
-                                    BottomSheetOjekSampah()
-                                  ]);
-                                });
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) {
+                      return Wrap(
+                        children: const [
+                          BottomSheetOjekSampah(),
+                        ],
+                      );
+                    });
               },
               child: Container(
                 height: 60,
@@ -187,7 +189,7 @@ class _MainPageState extends State<MainPage> {
                 margin: const EdgeInsets.only(bottom: kDefaultPadding / 3),
                 decoration: const BoxDecoration(
                     color: kDarkGreen, shape: BoxShape.circle),
-                child:  Image.asset(kIcMotor),
+                child: Image.asset(kIcMotor),
               ),
             ),
             Text(

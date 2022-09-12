@@ -3,6 +3,7 @@
    <application
         android:label="bank_sampah"
         android:name="${applicationName}"
+        
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -30,5 +31,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+             <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBICrQlhgCeJPLzw5yFKfkMysgU9P4Xvq4"/>
     </application>
 </manifest>

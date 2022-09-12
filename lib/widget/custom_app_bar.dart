@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String titlePage;
-  const CustomAppBar({Key? key, required this.titlePage}) : super(key: key);
+  final bool? isHaveShadow;
+  const CustomAppBar({Key? key, required this.titlePage, this.isHaveShadow})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +15,34 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: (){
-              context.pop();
-            },
-            child: Image.asset(kIcBack, width:16)),
-          const SizedBox(width: kDefaultPadding/2,),
-          Text(titlePage, style: kGreenText.copyWith(fontWeight: semiBold),)
+              onTap: () {
+                context.pop();
+              },
+              child: isHaveShadow != null
+                  ? Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(2),
+                        boxShadow: [BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 18,
+                          offset: const Offset(2, 2)
+                        )]
+                      ),
+                      child: Image.asset(kIcBack, width: 16),
+                    )
+                  : Image.asset(kIcBack, width: 16)),
+          const SizedBox(
+            width: kDefaultPadding / 2,
+          ),
+          Text(
+            titlePage,
+            style: kGreenText.copyWith(fontWeight: semiBold),
+          ),
+          const SizedBox(
+            width: kDefaultPadding / 2,
+          ),
         ],
       ),
     );
