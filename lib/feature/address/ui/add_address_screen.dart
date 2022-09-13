@@ -38,7 +38,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   getIcons() async {
     var icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(12, 12)), kIcMarker);
+       const ImageConfiguration(size: Size(12, 12)), kIcMarker);
     setState(() {
       this.icon = icon;
     });
@@ -140,7 +140,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   buttonName: "Simpan",
                   isDisable: false,
                   onPressed: () {
-                    print(markers.last.position.latitude);
                   },
                   height: 40,
                   width: double.infinity,

@@ -18,9 +18,12 @@ import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.da
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
+import 'package:bank_sampah/splash_screen.dart';
+import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +37,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(
+          create: (_) => LoginProvider(
+            preferencesHelper: PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
         ChangeNotifierProvider(create: (_) => HomePageProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
@@ -57,6 +66,12 @@ class MyApp extends StatelessWidget {
     routes: <GoRoute>[
       GoRoute(
         path: "/",
+        builder: (BuildContext context, GoRouterState state) {
+          return const SplasScreen();
+        },
+      ),
+      GoRoute(
+        path: LoginPage.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
         },

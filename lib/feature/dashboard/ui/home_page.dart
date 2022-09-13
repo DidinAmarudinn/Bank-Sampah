@@ -1,13 +1,10 @@
-import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/circle_menu_widget.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
 import 'package:bank_sampah/widget/poin_card_widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/card_last_transaction.dart';

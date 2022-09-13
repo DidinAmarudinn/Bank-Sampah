@@ -122,8 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: kDefaultPadding * 3,
                       ),
                       TBTextfieldWidget(
-                        iconName: kIcEmail,
-                        hintText: "Email",
+                        iconName: kIcProfileTF,
+                        hintText: "Username",
                         controller: emailController,
                       ),
                       const SizedBox(

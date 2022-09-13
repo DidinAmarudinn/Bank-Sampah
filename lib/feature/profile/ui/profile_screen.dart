@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     border: Border.all(color: kBorderGray, width: 2)),
                 child: InkWell(
                   onTap: (){
-                    print("tapped");
+                   
                   },
                   splashColor: Colors.amber,
                   child: Row(

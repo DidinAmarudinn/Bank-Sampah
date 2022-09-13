@@ -1,5 +1,4 @@
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
-import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/card_ojek_sampah.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

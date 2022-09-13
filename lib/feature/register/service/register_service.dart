@@ -23,7 +23,6 @@ class RegisterService {
 
       var request = http.MultipartRequest("POST", Uri.parse(registerUrl));
       request.fields.addAll(map);
-      print(map);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);

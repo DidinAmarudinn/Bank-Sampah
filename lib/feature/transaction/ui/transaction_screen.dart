@@ -3,10 +3,6 @@ import 'package:bank_sampah/feature/transaction/ui/bottomsheet_filter_transactio
 import 'package:bank_sampah/feature/transaction/ui/transaction_done_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/transaction_on_progress.dart';
 import 'package:bank_sampah/themes/constants.dart';
-import 'package:bank_sampah/widget/card_checkout_product.dart';
-import 'package:bank_sampah/widget/card_last_transaction.dart';
-import 'package:bank_sampah/widget/custom_app_bar.dart';
-import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

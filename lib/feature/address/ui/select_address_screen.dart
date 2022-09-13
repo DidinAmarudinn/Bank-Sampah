@@ -21,10 +21,6 @@ class SelectAddressScreen extends StatefulWidget {
 
 class _SelectAddressScreenState extends State<SelectAddressScreen> {
   final Completer<GoogleMapController> _controller = Completer();
-  final CameraPosition _kGooglePlex = const CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 1,
-  );
 
   @override
   Widget build(BuildContext context) {

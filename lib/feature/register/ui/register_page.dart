@@ -1,5 +1,3 @@
-import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
-import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
@@ -27,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +147,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
+                      TBTextfieldWidget(
+                        iconName: kIcProfileTF,
+                        hintText: "Username",
+                        controller: usernameController,
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding,
+                      ),
                       Consumer<RegisterProvider>(
                         builder: (context, value, _) => TBTextfieldWidget(
                           iconName: kIcPassword,
@@ -194,13 +201,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                   String password = passwordController.text;
                                   String noTelp = phoneController.text;
                                   String name = nameController.text;
-
+                                  String username = usernameController.text;
                                   if (email.isNotEmpty &&
                                       noTelp.isNotEmpty &&
                                       name.isNotEmpty &&
-                                      password.isNotEmpty) {
-                                    await provider.register(
-                                        email, password, name, name, noTelp);
+                                      password.isNotEmpty &&
+                                      username.isNotEmpty) {
+                                    await provider.register(email, password,
+                                        name, username, noTelp);
                                     if (!mounted) return;
                                     if (provider.state == RequestState.loaded) {
                                       context.pop();
@@ -211,7 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                           context, provider.message);
                                     }
                                   } else {
-                                    SnackbarMessage.showSnackbar(context, provider.message);
+                                    SnackbarMessage.showSnackbar(
+                                        context, provider.message);
                                   }
                                 },
                                 height: 40,
