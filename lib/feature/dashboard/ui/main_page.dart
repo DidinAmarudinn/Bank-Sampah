@@ -1,10 +1,13 @@
 import 'package:bank_sampah/feature/activity/ui/activity_screen.dart';
+import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
+import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_ojek.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/profile/ui/profile_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/transaction_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 
@@ -16,13 +19,9 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  int _tabIndex = 0;
-  void _changeTab(index) {
-    setState(() {
-      _tabIndex = index;
-    });
-  }
+class _MainPageState extends State<MainPage>
+    with AutomaticKeepAliveClientMixin {
+ 
 
   List<Widget> screens = const [
     HomePage(),
@@ -31,10 +30,21 @@ class _MainPageState extends State<MainPage> {
     ProfileScreen(),
   ];
   @override
+  void dispose() {
+    Provider.of<HomePageProvider>(context, listen: false).dispose();
+    super.dispose();
+  }
+    @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final provider = Provider.of<MainPageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: screens[_tabIndex],
+      resizeToAvoidBottomInset: false,
+      body: screens[provider.tabIndex],
       bottomNavigationBar: SafeArea(
         child: Container(
           decoration: const BoxDecoration(),
@@ -62,16 +72,16 @@ class _MainPageState extends State<MainPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _changeTab(0);
+                      provider.changeTabIndex(0);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(Icons.home,
-                            color: _tabIndex == 0 ? Colors.black : kGreyColor),
+                            color: provider.tabIndex == 0 ? Colors.black : kGreyColor),
                         Text(
                           "Beranda",
-                          style: _tabIndex == 0
+                          style: provider.tabIndex == 0
                               ? kBlackText.copyWith(
                                   fontSize: 12, fontWeight: semiBold)
                               : kLightGrayText.copyWith(
@@ -84,16 +94,16 @@ class _MainPageState extends State<MainPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _changeTab(1);
+                     provider.changeTabIndex(1);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(Icons.history,
-                            color: _tabIndex == 1 ? Colors.black : kGreyColor),
+                            color: provider.tabIndex == 1 ? Colors.black : kGreyColor),
                         Text(
                           "Transaksi",
-                          style: _tabIndex == 1
+                          style: provider.tabIndex == 1
                               ? kBlackText.copyWith(
                                   fontSize: 12, fontWeight: semiBold)
                               : kLightGrayText.copyWith(
@@ -109,18 +119,18 @@ class _MainPageState extends State<MainPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _changeTab(2);
+                      provider.changeTabIndex(2);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(
                           Icons.article,
-                          color: _tabIndex == 2 ? Colors.black : kGreyColor,
+                          color: provider.tabIndex == 2 ? Colors.black : kGreyColor,
                         ),
                         Text(
                           "Kegiatan",
-                          style: _tabIndex == 2
+                          style: provider.tabIndex == 2
                               ? kBlackText.copyWith(
                                   fontSize: 12, fontWeight: semiBold)
                               : kLightGrayText.copyWith(
@@ -133,16 +143,16 @@ class _MainPageState extends State<MainPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _changeTab(3);
+                      provider.changeTabIndex(3);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(Icons.person,
-                            color: _tabIndex == 3 ? Colors.black : kGreyColor),
+                            color: provider.tabIndex == 3 ? Colors.black : kGreyColor),
                         Text(
                           "Profile",
-                          style: _tabIndex == 3
+                          style: provider.tabIndex == 3
                               ? kBlackText.copyWith(
                                   fontSize: 12, fontWeight: semiBold)
                               : kLightGrayText.copyWith(
@@ -199,4 +209,6 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+
 }

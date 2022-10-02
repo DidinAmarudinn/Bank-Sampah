@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
@@ -211,7 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         name, username, noTelp);
                                     if (!mounted) return;
                                     if (provider.state == RequestState.loaded) {
-                                      context.pop();
+                                      context.go(LoginPage.routeName);
                                       SnackbarMessage.showSnackbar(
                                           context, "Registrasi Berhasil");
                                     } else {

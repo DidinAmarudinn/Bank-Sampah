@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PoinCardWidget extends StatelessWidget {
-  const PoinCardWidget({Key? key}) : super(key: key);
+  final String userBalance;
+  const PoinCardWidget({Key? key, required this.userBalance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,14 @@ class PoinCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Poin anda",
+                  "Saldo anda",
                   style: kWhiteText.copyWith(
                     fontWeight: light,
                     fontSize: 12,
                   ),
                 ),
                 Text(
-                  "80000",
+                  userBalance,
                   style: kWhiteText.copyWith(
                     fontWeight: semiBold,
                     fontSize: 14,
@@ -63,7 +64,7 @@ class PoinCardWidget extends StatelessWidget {
                   width: 24,
                 ),
                  Text(
-                    "Tukar Poin",
+                    "Tukar Saldo",
                     style: kWhiteText.copyWith(
                       fontWeight: light,
                       fontSize: 12,

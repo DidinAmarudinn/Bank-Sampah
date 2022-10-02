@@ -13,7 +13,7 @@ class TBTextFieldWithBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: kDefaultPadding),
+      margin: const EdgeInsets.only(top: kDefaultPadding/2),
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       decoration: BoxDecoration(
           border: Border.all(color: kBorderGray, width: 1),
@@ -33,6 +33,7 @@ class TBTextFieldWithBorder extends StatelessWidget {
           Expanded(
             child: TextField(
                 controller: controller,
+                style: kBlackText.copyWith(fontSize: 12),
                 maxLines: maxLines,
                 decoration: InputDecoration(
                   hintText: hintText,

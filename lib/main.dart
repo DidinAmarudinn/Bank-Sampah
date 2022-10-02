@@ -3,11 +3,15 @@ import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
+import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
+import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
+import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
+import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
@@ -21,12 +25,13 @@ import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/splash_screen.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -45,9 +50,15 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
-        ChangeNotifierProvider(create: (_) => HomePageProvider()),
+        ChangeNotifierProvider(create: (_) => MainPageProvider()),
+        ChangeNotifierProvider(
+            create: (_) => HomePageProvider(
+                PreferencesHelper(
+                    sharedPreference: SharedPreferences.getInstance()),
+                DashboardService())),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
-        ChangeNotifierProvider(create: (_) => OjekProvider())
+        ChangeNotifierProvider(create: (_) => OjekProvider()),
+        ChangeNotifierProvider(create: (_) => NasabahProvider()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
@@ -80,6 +91,12 @@ class MyApp extends StatelessWidget {
         path: RegisterPage.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const RegisterPage();
+        },
+      ),
+      GoRoute(
+        path: CompleteProfileScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const CompleteProfileScreen();
         },
       ),
       GoRoute(

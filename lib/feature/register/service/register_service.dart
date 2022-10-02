@@ -20,7 +20,6 @@ class RegisterService {
       map["id_group"] = idGroup;
       map['password'] = password;
       map["email"] = email;
-
       var request = http.MultipartRequest("POST", Uri.parse(registerUrl));
       request.fields.addAll(map);
       var reqResponse = await request.send();

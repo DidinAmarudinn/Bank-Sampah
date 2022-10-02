@@ -24,7 +24,7 @@ class CustomSliderWidget extends StatelessWidget {
                       
                       margin: EdgeInsets.only(right: isFullFraction ?? true ? 0 : kDefaultPadding/2),
                       decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
                             image: NetworkImage(e),

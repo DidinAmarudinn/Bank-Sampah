@@ -1,9 +1,11 @@
+import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
 
 class CardLastTransaction extends StatelessWidget {
-  const CardLastTransaction({Key? key}) : super(key: key);
+  final TransactionResult? transactionResult;
+  const CardLastTransaction({Key? key, required this.transactionResult}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +33,15 @@ class CardLastTransaction extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cecep Gunawan",
+                  transactionResult?.noTransaksi ?? "",
                   style: kDarkGrayText.copyWith(fontWeight: bold, fontSize: 12),
                 ),
                 Text(
-                  "Ojek Sampah Harian",
+                  transactionResult?.getTransactionType() ?? "",
                   style: kGreyText.copyWith(fontSize: 12),
                 ),
                 Text(
-                  "27 Juli 2022",
+                  transactionResult?.getDisplayedDate() ?? "",
                   style: kGreyText.copyWith(fontSize: 12),
                 ),
               ],
@@ -48,7 +50,7 @@ class CardLastTransaction extends StatelessWidget {
           Column(
             children: [
               Text(
-                "12000 Poin",
+                transactionResult?.totalTagihan ?? "",
                 style: kDarkGrayText.copyWith(fontWeight: bold, fontSize: 12),
               ),
               const SizedBox(

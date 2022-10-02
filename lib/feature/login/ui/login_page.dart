@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
+import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
@@ -167,10 +168,18 @@ class _LoginPageState extends State<LoginPage> {
                                   if (username.isNotEmpty &&
                                       password.isNotEmpty) {
                                     await provider.login(username, password);
+                                    await provider.checkNasabahData();
                                     if (!mounted) return;
                                     if (provider.state == RequestState.loaded) {
-                                      SnackbarMessage.showToast("Login Berhasil");
-                                      context.push(MainPage.routeName);
+                                      if (provider
+                                          .checkIsUserHasCompletedProfile) {
+                                        SnackbarMessage.showToast(
+                                            "Login Berhasil");
+                                        context.go(MainPage.routeName);
+                                      } else {
+                                        context.go(
+                                            CompleteProfileScreen.routeName);
+                                      }
                                     } else if (provider.state ==
                                         RequestState.error) {
                                       SnackbarMessage.showSnackbar(

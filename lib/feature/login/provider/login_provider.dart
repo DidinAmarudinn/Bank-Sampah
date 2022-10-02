@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/login/model/login_model.dart';
 import 'package:bank_sampah/feature/login/service/login_service.dart';
+import 'package:bank_sampah/feature/nasabah/service/nasabah_service.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +12,9 @@ class LoginProvider extends ChangeNotifier {
   LoginProvider({required this.preferencesHelper});
   bool get isObsured => _isObsured;
   final LoginService service = LoginService();
-
+  final NasabahService nasabahService = NasabahService();
+  bool _checkIsUserHasCompletedProfile = false;
+  bool get checkIsUserHasCompletedProfile => _checkIsUserHasCompletedProfile;
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
@@ -34,17 +37,29 @@ class LoginProvider extends ChangeNotifier {
       _state = RequestState.error;
       _message = failure.message;
       notifyListeners();
-    }, (result) {
-      _state = RequestState.loaded;
-      _loginModel = result;
-
-      int id = int.parse(_loginModel?.result?.id ?? "0");
-      preferencesHelper.setFullName(_loginModel?.result?.namaUser ?? "");
-      preferencesHelper.setId(id);
-      preferencesHelper.setUsername(_loginModel?.result?.username ?? "");
-      preferencesHelper
-          .setImageProfileUrl(_loginModel?.result?.filefotoprofile ?? "");
+    }, (result)  async {
+      _loginModel = result?.data;
+      
       notifyListeners();
     });
+  }
+
+  Future<void> checkNasabahData() async {
+    int id = int.parse(_loginModel?.id ?? "0");
+    final nasabahData = await nasabahService.getDataNsabah(id);
+      nasabahData.fold((l) {
+        _state = RequestState.error;
+        _message = l.message;
+        notifyListeners();
+      }, (r) {
+        preferencesHelper.setFullName(_loginModel?.namaUser ?? "");
+        preferencesHelper.setId(id);
+        preferencesHelper.setUsername(_loginModel?.username ?? "");
+        preferencesHelper
+            .setImageProfileUrl(_loginModel?.filefotoprofile ?? "");
+        _state = RequestState.loaded;
+        _checkIsUserHasCompletedProfile = r != null;
+        notifyListeners();
+      });
   }
 }

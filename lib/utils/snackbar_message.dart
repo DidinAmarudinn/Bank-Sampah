@@ -1,3 +1,4 @@
+import 'package:bank_sampah/themes/constants.dart';
 import 'package:flutter/material.dart';
 
 class SnackbarMessage {
@@ -5,7 +6,8 @@ class SnackbarMessage {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        backgroundColor: Colors.black,
+        content: Text(message,style: kWhiteText,),
       ),
     );
   }

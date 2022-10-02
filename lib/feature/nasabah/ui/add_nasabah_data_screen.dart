@@ -1,6 +1,9 @@
+
+import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:bank_sampah/widget/tb_textfield_border.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/custom_app_bar.dart';
@@ -18,6 +21,17 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
   final TextEditingController controllerVilage = TextEditingController();
   final TextEditingController controllerDetailAddress = TextEditingController();
   final TextEditingController controllerNoTlp = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    getNasabahType();
+  }
+
+  void getNasabahType() {
+    Future.microtask(() {
+      Provider.of<NasabahProvider>(context, listen: false).getNasabahCategory();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +97,6 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                   ),
                 ),
               ),
-             
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),

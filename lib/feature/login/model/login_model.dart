@@ -1,35 +1,25 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'login_model.g.dart';
+
+@JsonSerializable(genericArgumentFactories: true)
 class LoginModel {
-  String? status;
-  LoginResult? result;
-
-  LoginModel({this.status, this.result});
-
-  LoginModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    result =
-        json['result'] != null ? LoginResult.fromJson(json['result']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
-    data['status'] = status;
-    if (result != null) {
-      data['result'] = result!.toJson();
-    }
-    return data;
-  }
-}
-
-class LoginResult {
+  @JsonKey(name: 'id')
   String? id;
+  @JsonKey(name: 'nama_user')
   String? namaUser;
+  @JsonKey(name: "level")
   String? level;
+  @JsonKey(name: "status")
   String? status;
+  @JsonKey(name: "username")
   String? username;
+  @JsonKey(name: "filefotoprofile")
   String? filefotoprofile;
+  @JsonKey(name: "id_group")
   String? idGroup;
 
-  LoginResult(
+  LoginModel(
       {this.id,
       this.namaUser,
       this.level,
@@ -37,26 +27,8 @@ class LoginResult {
       this.username,
       this.filefotoprofile,
       this.idGroup});
+  factory LoginModel.fromJson(Map<String, dynamic>json) =>
+      _$LoginModelFromJson(json);
 
-  LoginResult.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    namaUser = json['nama_user'];
-    level = json['level'];
-    status = json['status'];
-    username = json['username'];
-    filefotoprofile = json['filefotoprofile'];
-    idGroup = json['id_group'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['nama_user'] = namaUser;
-    data['level'] = level;
-    data['status'] = status;
-    data['username'] = username;
-    data['filefotoprofile'] = filefotoprofile;
-    data['id_group'] = idGroup;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$LoginModelToJson(this);
 }
