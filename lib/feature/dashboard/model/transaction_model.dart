@@ -75,4 +75,9 @@ class TransactionResult {
         DateFormat("yyyy-mm-dd").parse(tglTransaksi ?? "2022-09-01");
     return DateFormat("dd MMMM yyyy","id_ID").format(transactionDate);
   }
+
+  String getPoint() {
+    int total = int.parse(totalTagihan ?? "0") - int.parse(nominalTransaksi ?? "0");
+    return total.toString();
+  }
 }

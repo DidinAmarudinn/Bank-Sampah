@@ -50,7 +50,7 @@ class CardLastTransaction extends StatelessWidget {
           Column(
             children: [
               Text(
-                transactionResult?.totalTagihan ?? "",
+                transactionResult?.getPoint() ?? "",
                 style: kDarkGrayText.copyWith(fontWeight: bold, fontSize: 12),
               ),
               const SizedBox(

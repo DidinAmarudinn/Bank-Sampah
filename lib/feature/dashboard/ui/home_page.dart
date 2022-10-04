@@ -56,208 +56,208 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {},
-          child: NotificationListener<ScrollNotification>(
-            child: CustomScrollView(slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 200,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        right: -20,
-                        top: -20,
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: const BoxDecoration(
-                            color: kGreen,
-                            shape: BoxShape.circle,
-                          ),
+          onRefresh: () async {
+            provider.pagingController.refresh();
+          },
+          child: CustomScrollView(slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: -20,
+                      top: -20,
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: const BoxDecoration(
+                          color: kGreen,
+                          shape: BoxShape.circle,
                         ),
                       ),
-                      Positioned(
-                        left: -40,
-                        bottom: 0,
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: kDarkGreen.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
+                    ),
+                    Positioned(
+                      left: -40,
+                      bottom: 0,
+                      child: Container(
+                        height: 150,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: kDarkGreen.withOpacity(0.1),
+                          shape: BoxShape.circle,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            kDefaultPadding, 0, kDefaultPadding, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Hello Cecep!",
-                                        style: kGreenText.copyWith(
-                                            fontWeight: semiBold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          kDefaultPadding, 0, kDefaultPadding, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Hello Cecep!",
+                                      style: kGreenText.copyWith(
+                                          fontWeight: semiBold),
+                                    ),
+                                    Text(
+                                      "Selamat datang di Bank Sampah Sorong Raya",
+                                      style: kGreenText.copyWith(
+                                        fontWeight: reguler,
+                                        fontSize: 12,
                                       ),
-                                      Text(
-                                        "Selamat datang di Bank Sampah Sorong Raya",
-                                        style: kGreenText.copyWith(
-                                          fontWeight: reguler,
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 2,
-                                      ),
-                                    ],
-                                  ),
+                                      maxLines: 2,
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  kIcNotification,
-                                  width: 40,
-                                )
-                              ],
-                            ),
-                            PoinCardWidget(
-                              userBalance:
-                                  provider.userBalance?.result?.belumDibayar ??
-                                      "",
-                            ),
-                          ],
-                        ),
+                              ),
+                              Image.asset(
+                                kIcNotification,
+                                width: 40,
+                              )
+                            ],
+                          ),
+                          PoinCardWidget(
+                            userBalance:
+                                provider.userBalance?.result?.belumDibayar ??
+                                    "",
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                decoration: const BoxDecoration(),
+                clipBehavior: Clip.antiAlias,
+                child: Container(
+                  margin: const EdgeInsets.only(top: kDefaultPadding),
+                  padding: const EdgeInsets.fromLTRB(
+                      kDefaultPadding / 2,
+                      kDefaultPadding,
+                      kDefaultPadding / 2,
+                      kDefaultPadding / 2),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.12),
+                        blurRadius: 20,
+                        spreadRadius: 4,
+                        offset: const Offset(0, 5),
                       )
+                    ],
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleMenuWidget(
+                            color: kPastelColor,
+                            iconName: kIcCalculator,
+                            menuName: "Kalkulator Sampah",
+                            onTap: () {
+                              context.push(TrashCalculatorPage.routeName);
+                            },
+                          ),
+                          const CircleMenuWidget(
+                            color: kDarkGreen,
+                            iconName: kIcPuls,
+                            menuName: "Pulsa",
+                          ),
+                          const CircleMenuWidget(
+                            color: kDarkGreen,
+                            iconName: kIcListrik,
+                            menuName: "Listrik",
+                          ),
+                          const CircleMenuWidget(
+                            color: kDarkGreen,
+                            iconName: kIcPdam,
+                            menuName: "Pdam",
+                          ),
+                          CircleMenuWidget(
+                            color: kLightGray,
+                            iconName: kIcOthersMenu,
+                            menuName: "Lainnya",
+                            onTap: () {
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(24),
+                                    ),
+                                  ),
+                                  context: context,
+                                  builder: (context) {
+                                    return Wrap(children: const [
+                                      BottomSheetOthersMenu()
+                                    ]);
+                                  });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding,
+                      ),
+                      const CustomSliderWidget(
+                        height: 100,
+                      ),
                     ],
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Container(
-                  decoration: const BoxDecoration(),
-                  clipBehavior: Clip.antiAlias,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: kDefaultPadding),
-                    padding: const EdgeInsets.fromLTRB(
-                        kDefaultPadding / 2,
-                        kDefaultPadding,
-                        kDefaultPadding / 2,
-                        kDefaultPadding / 2),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.12),
-                          blurRadius: 20,
-                          spreadRadius: 4,
-                          offset: const Offset(0, 5),
-                        )
-                      ],
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleMenuWidget(
-                              color: kPastelColor,
-                              iconName: kIcCalculator,
-                              menuName: "Kalkulator Sampah",
-                              onTap: () {
-                                context.push(TrashCalculatorPage.routeName);
-                              },
-                            ),
-                            const CircleMenuWidget(
-                              color: kDarkGreen,
-                              iconName: kIcPuls,
-                              menuName: "Pulsa",
-                            ),
-                            const CircleMenuWidget(
-                              color: kDarkGreen,
-                              iconName: kIcListrik,
-                              menuName: "Listrik",
-                            ),
-                            const CircleMenuWidget(
-                              color: kDarkGreen,
-                              iconName: kIcPdam,
-                              menuName: "Pdam",
-                            ),
-                            CircleMenuWidget(
-                              color: kLightGray,
-                              iconName: kIcOthersMenu,
-                              menuName: "Lainnya",
-                              onTap: () {
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(24),
-                                      ),
-                                    ),
-                                    context: context,
-                                    builder: (context) {
-                                      return Wrap(children: const [
-                                        BottomSheetOthersMenu()
-                                      ]);
-                                    });
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: kDefaultPadding,
-                        ),
-                        const CustomSliderWidget(
-                          height: 100,
-                        ),
-                      ],
-                    ),
-                  ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                height: 15,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: kLightGray,
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Container(
-                  height: 15,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: kLightGray,
-                  ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
+                child: Text(
+                  "Transaksi Terkahir",
+                  style: kDarkGrayText.copyWith(fontWeight: bold),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding / 2),
-                  child: Text(
-                    "Transaksi Terkahir",
-                    style: kDarkGrayText.copyWith(fontWeight: bold),
-                  ),
+            ),
+            PagedSliverList<int, TransactionResult>(
+              pagingController: provider.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
+                noItemsFoundIndicatorBuilder: (context) => Center(
+                  child: Text("Belum Ada Transaksi", style: kBlackText,),
                 ),
+                itemBuilder: (context, item, index) {
+                  return CardLastTransaction(transactionResult: item);
+                },
               ),
-              PagedSliverList<int, TransactionResult>(
-                pagingController: provider.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
-                  noItemsFoundIndicatorBuilder: (context) => Column(
-                    children: [Text("")],
-                  ),
-                  itemBuilder: (context, item, index) {
-                    return CardLastTransaction(transactionResult: item);
-                  },
-                ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: kDefaultPadding,
               ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: kDefaultPadding,
-                ),
-              ),
-            ]),
-          ),
+            ),
+          ]),
         ),
       ),
     );
