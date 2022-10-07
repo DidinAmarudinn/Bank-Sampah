@@ -1,6 +1,8 @@
+import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +10,13 @@ import 'package:provider/provider.dart';
 class CustomSliderWidget extends StatelessWidget {
   final double height;
   final bool? isFullFraction;
+  final List<SliderModel?> list;
+
   const CustomSliderWidget({
-    Key? key, required this.height, this.isFullFraction,
+    Key? key,
+    required this.height,
+    this.isFullFraction,
+    required this.list,
   }) : super(key: key);
 
   @override
@@ -18,25 +25,35 @@ class CustomSliderWidget extends StatelessWidget {
       builder: (context, value, _) => Column(
         children: [
           CarouselSlider(
-            items: imgList
+            items: list
                 .map((e) => Container(
                       height: height,
-                      
-                      margin: EdgeInsets.only(right: isFullFraction ?? true ? 0 : kDefaultPadding/2),
+                      margin: EdgeInsets.only(
+                          right:
+                              isFullFraction ?? true ? 0 : kDefaultPadding / 2),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          image: DecorationImage(
-                            image: NetworkImage(e),
-                            fit: BoxFit.cover,
-                          )),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CachedNetworkImage(
+                          imageUrl: e?.pathImage ?? "",
+                          fit: BoxFit.cover ,
+                          errorWidget: (context, url, error) {
+                            return Center(
+                              child: Text(error.toString()),
+                            );
+                          },
+                        ),
+                      ),
                     ))
                 .toList(),
             options: CarouselOptions(
                 autoPlay: true,
                 height: height,
-                viewportFraction:isFullFraction ?? true ? 1 : 0.95,
+                viewportFraction: isFullFraction ?? true ? 1 : 0.95,
                 onPageChanged: (index, reason) {
                   value.changeSliderIndex(index);
                 }),
@@ -46,7 +63,7 @@ class CustomSliderWidget extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.asMap().entries.map((entry) {
+            children: list.asMap().entries.map((entry) {
               return Container(
                 width: value.currentIndex == entry.key ? 14 : 8,
                 height: 8,

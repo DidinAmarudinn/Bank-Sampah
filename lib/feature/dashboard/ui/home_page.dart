@@ -1,10 +1,12 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/circle_menu_widget.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
 import 'package:bank_sampah/widget/poin_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +49,9 @@ class _HomePageState extends State<HomePage> {
 
   void init() {
     Provider.of<HomePageProvider>(context, listen: false).start();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<HomePageProvider>(context, listen: false).getListSlider();
+    });
   }
 
   @override
@@ -100,8 +105,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Hello Cecep!",
@@ -215,9 +219,30 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                      const CustomSliderWidget(
-                        height: 100,
-                      ),
+                      Consumer<HomePageProvider>(
+                        builder: ((context, value, child) {
+                          if (value.sliderState == RequestState.loaded) {
+                            return CustomSliderWidget(
+                              height: 100,
+                              list: value.listSlider ?? [],
+                            );
+                          } else if (value.sliderState ==
+                              RequestState.loading) {
+                            return const SizedBox(
+                              height: 100,
+                              width: double.infinity,
+                              child: Center(
+                                child: SpinKitFadingCircle(
+                                  size: 40,
+                                  color: kDarkGreen,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        }),
+                      )
                     ],
                   ),
                 ),
@@ -245,7 +270,10 @@ class _HomePageState extends State<HomePage> {
               pagingController: provider.pagingController,
               builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
                 noItemsFoundIndicatorBuilder: (context) => Center(
-                  child: Text("Belum Ada Transaksi", style: kBlackText,),
+                  child: Text(
+                    "Belum Ada Transaksi",
+                    style: kBlackText,
+                  ),
                 ),
                 itemBuilder: (context, item, index) {
                   return CardLastTransaction(transactionResult: item);

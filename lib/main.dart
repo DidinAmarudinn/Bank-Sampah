@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
         ChangeNotifierProvider(create: (_) => MainPageProvider()),
+        ChangeNotifierProvider(create: (_) => ActivityProvider()),
         ChangeNotifierProvider(
             create: (_) => HomePageProvider(
                 PreferencesHelper(

@@ -58,7 +58,7 @@ class DropdownVilage extends StatelessWidget {
                   ),
                   selectedItem: value.selectedVilage,
                   onChanged: (vilage) {
-                    print(vilage?.id);
+                   
                     value.selectVilage(vilage);
                   },
                 ),

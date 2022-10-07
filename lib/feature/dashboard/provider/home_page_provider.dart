@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/dashboard/model/user_balance_model.dart';
 import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
@@ -15,8 +16,17 @@ class HomePageProvider extends ChangeNotifier {
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
+  RequestState _sliderState = RequestState.empty;
+  RequestState get sliderState => _sliderState;
+
   UserBalance? _userBalance;
   UserBalance? get userBalance => _userBalance;
+
+  List<SliderModel?>? _listSlider = [];
+  List<SliderModel?>? get listSlider => _listSlider;
+
+  String _errorMessage = "";
+  String get errorMessage => _errorMessage;
 
   final PagingController<int, TransactionResult> pagingController =
       PagingController(firstPageKey: 0);
@@ -71,6 +81,21 @@ class HomePageProvider extends ChangeNotifier {
     } catch (e) {
       pagingController.error = e;
     }
+  }
+
+  Future<void> getListSlider() async {
+    _sliderState = RequestState.loading;
+    notifyListeners();
+    final result = await service.getSlider("Home");
+    result.fold((error){
+      _sliderState = RequestState.error;
+      _errorMessage = error.message;
+      notifyListeners();
+    }, (data) {
+      _sliderState = RequestState.loaded;
+      _listSlider = data.data;
+      notifyListeners();
+    });
   }
 
   void start() {

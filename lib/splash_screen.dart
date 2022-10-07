@@ -43,7 +43,7 @@ class _SplasScreenState extends State<SplasScreen> {
       value.fold((l) {
         SnackbarMessage.showSnackbar(context, l.message);
       }, (r) {
-        print(r?.email);
+        debugPrint(r?.email);
         if (r != null) {
           context.go(MainPage.routeName);
         } else {
