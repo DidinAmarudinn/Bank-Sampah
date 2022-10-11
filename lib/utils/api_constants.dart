@@ -14,3 +14,6 @@ const String getListSliderUrl = "$baserUrl/api/v1/get_slide/";
 const String getListActivityUrl = "$baserUrl/api/v1/list_kegiatan";
 const String getListArticleUrl = "$baserUrl/api/v1/list_artikel";
 const String addCountOfViewUrl = "$baserUrl/api/v1/add_view/";
+const String getDataBsuUrl = "$baserUrl/api/v1/cek_data_bsu/";
+const String getListNasbahBsuUrl = "$baserUrl/api/v1/list_data_nasabah/";
+const String addNasabahBsuUrl = "$baserUrl/api/v1/add_data_nasabah_bsu";

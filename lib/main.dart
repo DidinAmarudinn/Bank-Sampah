@@ -55,7 +55,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
-        ChangeNotifierProvider(create: (_) => MainPageProvider()),
+        ChangeNotifierProvider(
+            create: (_) => MainPageProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(create: (_) => ActivityProvider()),
         ChangeNotifierProvider(
             create: (_) => HomePageProvider(
@@ -64,7 +66,12 @@ class MyApp extends StatelessWidget {
                 DashboardService())),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
         ChangeNotifierProvider(create: (_) => OjekProvider()),
-        ChangeNotifierProvider(create: (_) => NasabahProvider()),
+        ChangeNotifierProvider(
+          create: (_) => NasabahProvider(
+            helper: PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()),
+          ),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',

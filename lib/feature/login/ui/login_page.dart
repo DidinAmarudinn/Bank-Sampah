@@ -156,8 +156,12 @@ class _LoginPageState extends State<LoginPage> {
                         height: kDefaultPadding * 2,
                       ),
                       Consumer<LoginProvider>(
-                        builder: (context, provider, _) => provider.state ==
-                                RequestState.loading
+                        builder: (context, provider, _) => (provider.state ==
+                                    RequestState.loading ||
+                                provider.stateGetDataBSU ==
+                                    RequestState.loading ||
+                                provider.stateChecDataNasabah ==
+                                    RequestState.loading)
                             ? const LoadingButton(
                                 height: 40, width: double.infinity)
                             : TBButtonPrimaryWidget(
@@ -168,17 +172,33 @@ class _LoginPageState extends State<LoginPage> {
                                   if (username.isNotEmpty &&
                                       password.isNotEmpty) {
                                     await provider.login(username, password);
-                                    await provider.checkNasabahData();
                                     if (!mounted) return;
                                     if (provider.state == RequestState.loaded) {
-                                      if (provider
-                                          .checkIsUserHasCompletedProfile) {
-                                        SnackbarMessage.showToast(
-                                            "Login Berhasil");
-                                        context.go(MainPage.routeName);
+                                      if (provider.isBsu) {
+                                        await provider.getDataBsu();
+                                        if (!mounted) return;
+                                        if (provider.stateGetDataBSU ==
+                                            RequestState.loaded) {
+                                          context.go(MainPage.routeName);
+                                          SnackbarMessage.showSnackbar(
+                                              context, "Login Berhasil");
+                                        } else {
+                                          SnackbarMessage.showSnackbar(context,
+                                              provider.messageErrorBsu);
+                                        }
                                       } else {
-                                        context.go(
-                                            CompleteProfileScreen.routeName);
+                                        await provider.checkNasabahData();
+                                        if (!mounted) return;
+                                        if (provider.stateChecDataNasabah ==
+                                            RequestState.loaded) {
+                                          context.go(
+                                              CompleteProfileScreen.routeName);
+                                          SnackbarMessage.showSnackbar(
+                                              context, "Complete Your Profile");
+                                        } else {
+                                          SnackbarMessage.showSnackbar(context,
+                                              provider.messageErrorNasabah);
+                                        }
                                       }
                                     } else if (provider.state ==
                                         RequestState.error) {

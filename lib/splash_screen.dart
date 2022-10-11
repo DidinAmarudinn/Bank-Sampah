@@ -30,9 +30,14 @@ class _SplasScreenState extends State<SplasScreen> {
   _checkUSerSession() async {
     await Future.delayed(const Duration(milliseconds: 1200));
     int? id = await _prefenceHelper.getId();
+    String? level = await _prefenceHelper.getLevel();
     if (!mounted) return;
     if (id != null) {
-      _checkIsUserHasCompletedProfile(id);
+      if (level == "Bank Sampah Unit") {
+        context.go(MainPage.routeName);
+      } else {
+        _checkIsUserHasCompletedProfile(id);
+      }
     } else {
       context.go(LoginPage.routeName);
     }

@@ -1,7 +1,10 @@
+import 'package:bank_sampah/feature/nasabah/model/add_nasabah_bsu_request.dart';
 import 'package:bank_sampah/feature/nasabah/model/complete_profile_request.dart';
 import 'package:bank_sampah/feature/nasabah/model/district_model.dart';
+import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/vilage_model.dart';
 import 'package:bank_sampah/feature/nasabah/service/nasabah_service.dart';
+import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/request_state_enum.dart';
@@ -11,6 +14,7 @@ class NasabahProvider extends ChangeNotifier {
   final NasabahService service = NasabahService();
 
   RequestState _state = RequestState.empty;
+
   RequestState get state => _state;
 
   List<DistrictModel> _districts = [];
@@ -19,6 +23,15 @@ class NasabahProvider extends ChangeNotifier {
   List<VilageModel> get vilages => _vilages;
   List<NasabahCategoryModel> _nasabahCategories = [];
   List<NasabahCategoryModel> get nasabahCategories => _nasabahCategories;
+
+  RequestState _stateListNasabah = RequestState.empty;
+  RequestState get stateListNasabah => _stateListNasabah;
+
+  List<NasabahBSUModel> _nasabahBsuList = [];
+  List<NasabahBSUModel> get nasabaBsuList => _nasabahBsuList;
+
+  String _errorMessage = "";
+  String get errorMessage => _errorMessage;
 
   DistrictModel? _selectedDistrict;
   DistrictModel? get selectedDistrict => _selectedDistrict;
@@ -35,6 +48,8 @@ class NasabahProvider extends ChangeNotifier {
   String _message = "";
   String get message => _message;
 
+  final PreferencesHelper helper;
+  NasabahProvider({required this.helper});
   String _messageVilage = "";
   String get messageVilage => _messageVilage;
 
@@ -97,6 +112,36 @@ class NasabahProvider extends ChangeNotifier {
         _nasabahCategories = result?.data ?? [];
         notifyListeners();
       }
+    });
+  }
+
+  Future<void> getListNasabahBSU() async {
+    _stateListNasabah = RequestState.loading;
+    notifyListeners();
+    final idBsu = await helper.getIdBsu();
+    final result = await service.getListNasabahBSU(idBsu ?? "0");
+    result.fold((failure) {
+      _errorMessage = failure.message;
+      _stateListNasabah = RequestState.error;
+      notifyListeners();
+    }, (result) {
+      _nasabahBsuList = result?.data ?? [];
+      _stateListNasabah = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  Future<void> addNasabahBsu(AddNasabahBsuRequest request) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.addNasabahBsu(request);
+    result.fold((failure) {
+      _state = RequestState.error;
+      _messageCompleteProfile = failure.message;
+      notifyListeners();
+    }, (success) {
+      _state = RequestState.loaded;
+      notifyListeners();
     });
   }
 

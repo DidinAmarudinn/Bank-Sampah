@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bank_sampah/core/base_response_list.dart';
+import 'package:bank_sampah/feature/login/model/bsu_model.dart';
 import 'package:bank_sampah/feature/login/model/login_model.dart';
 import 'package:bank_sampah/core/base_response.dart';
 import 'package:bank_sampah/utils/exception.dart';
@@ -39,4 +41,31 @@ class LoginService {
       return Left(ConnectionFailure("Failed to connect to the network"));
     }
   }
+
+  Future<Either<Failure, BSUModel?>> getDataBsu(String idBsu) async {
+     try {
+      final response = await http.get(Uri.parse("$getDataBsuUrl$idBsu"));
+      var data = json.decode(response.body);
+     
+      if (response.statusCode == 200) {
+        if (data["status"] == "true") {
+          final result = BaseResponseList<BSUModel>.fromJson(data, (data) {
+            List<BSUModel> bsuList =
+                data.map((e) => BSUModel.fromJson(e)).toList();
+            return bsuList;
+          });
+          return Right(result.data?[0]);
+        } else {
+          return const Right(null);
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+  
 }

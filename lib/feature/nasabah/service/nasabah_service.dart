@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bank_sampah/core/base_response_list.dart';
+import 'package:bank_sampah/feature/nasabah/model/add_nasabah_bsu_request.dart';
 import 'package:bank_sampah/feature/nasabah/model/complete_profile_request.dart';
 import 'package:bank_sampah/feature/nasabah/model/district_model.dart';
+import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/nasabah_category_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/vilage_model.dart';
 import 'package:bank_sampah/utils/exception.dart';
@@ -147,6 +149,73 @@ class NasabahService {
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
+        if (res["status"] == "true") {
+          return const Right(true);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, BaseResponseList<NasabahBSUModel>?>> getListNasabahBSU(
+      String idBsu) async {
+    try {
+      final response = await http.get(Uri.parse("$getListNasbahBsuUrl$idBsu"));
+      var data = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (data["status"] == "true") {
+          final result =
+              BaseResponseList<NasabahBSUModel>.fromJson(data, (data) {
+            List<NasabahBSUModel> nasabahBsuList =
+                data.map((e) => NasabahBSUModel.fromJson(e)).toList();
+            return nasabahBsuList;
+          });
+          return Right(result);
+        } else {
+          return const Right(null);
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, bool>> addNasabahBsu(
+      AddNasabahBsuRequest addRequest) async {
+    try {
+      var request =
+          http.MultipartRequest("POST", Uri.parse(addNasabahBsuUrl));
+      request.fields.addAll({
+        'username': addRequest.userName,
+        'password': addRequest.password,
+        'id_bsu': addRequest.idBsu,
+        'id_jenis': addRequest.idJenis,
+        'id_kecamatan': addRequest.idKecamatan,
+        'id_kelurahan': addRequest.idKelurahan,
+        'nama_nasabah': addRequest.namaNasabah,
+        'no_kontak': addRequest.noKontak,
+        'email': addRequest.email,
+        'alamat': addRequest.alamat,
+        'add_bukualamat': addRequest.addBukualamat,
+        'nama_alamat': addRequest.namaAlamat
+      });
+      var reqResponse = await request.send();
+      print(await reqResponse.stream.bytesToString());
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        print(response.body);
         if (res["status"] == "true") {
           return const Right(true);
         } else {
