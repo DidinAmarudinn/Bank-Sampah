@@ -1,31 +1,20 @@
-import 'package:bank_sampah/feature/activity/model/activity_model.dart';
-import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
+import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 
-class DetailActivityScreen extends StatefulWidget {
-  final Activty? activty;
-  static const routeName = "/detail-activity-page";
-  const DetailActivityScreen({super.key, this.activty});
+class DetailSliderActiviyScreen extends StatefulWidget {
+  final SliderModel? sliderModel;
+  static const routeName = "/detail-slider-activity-page";
+  const DetailSliderActiviyScreen({Key? key, required this.sliderModel})
+      : super(key: key);
 
   @override
-  State<DetailActivityScreen> createState() => _DetailActivityScreenState();
+  State<DetailSliderActiviyScreen> createState() => _DetailActiviyScreenState();
 }
 
-class _DetailActivityScreenState extends State<DetailActivityScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      Provider.of<ActivityProvider>(context, listen: false)
-          .addCountOfView(int.parse(widget.activty?.idartikel ?? "0"));
-    });
-  }
-
+class _DetailActiviyScreenState extends State<DetailSliderActiviyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +61,8 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                         children: [
                           Center(
                             child: Text(
-                               widget.activty?.judulArtikel ?? "",
-                               style: kGreenText.copyWith(
+                              widget.sliderModel?.title ?? "",
+                              style: kGreenText.copyWith(
                                   fontSize: 16, fontWeight: bold),
                             ),
                           ),
@@ -85,7 +74,8 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                                 child: CachedNetworkImage(
                                   width: double.infinity,
                                   height: 130,
-                                  imageUrl: widget.activty?.pathImage ?? "",
+                                
+                                  imageUrl: widget.sliderModel?.pathImage ?? "",
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) {
                                     return const Text(
@@ -96,9 +86,13 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                               )),
                           Expanded(
                               child: SingleChildScrollView(
-                            child: Html(
-                              data: widget.activty?.isiArtikel ?? "",
-                             
+                            child: Text(
+                              widget.sliderModel?.caption ?? "",
+                              style: kDarkGrayText.copyWith(
+                                height: 1.5,
+                                fontSize: 13,
+                                fontWeight: reguler,
+                              ),
                             ),
                           )),
                         ],

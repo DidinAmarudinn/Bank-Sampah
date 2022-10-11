@@ -1,11 +1,13 @@
+import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.dart';
 import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
-import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 
 class CustomSliderWidget extends StatelessWidget {
   final double height;
@@ -26,29 +28,34 @@ class CustomSliderWidget extends StatelessWidget {
         children: [
           CarouselSlider(
             items: list
-                .map((e) => Container(
-                      height: height,
-                      margin: EdgeInsets.only(
-                          right:
-                              isFullFraction ?? true ? 0 : kDefaultPadding / 2),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CachedNetworkImage(
-                          imageUrl: e?.pathImage ?? "",
-                          fit: BoxFit.cover ,
-                          errorWidget: (context, url, error) {
-                            return Center(
-                              child: Text(error.toString()),
-                            );
-                          },
+                .map((e) => InkWell(
+                  onTap: (){
+                    context.push(DetailSliderActiviyScreen.routeName, extra: e);
+                  },
+                  child: Container(
+                        height: height,
+                        margin: EdgeInsets.only(
+                            right:
+                                isFullFraction ?? true ? 0 : kDefaultPadding / 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: CachedNetworkImage(
+                            imageUrl: e?.pathImage ?? "",
+                            fit: BoxFit.cover ,
+                            errorWidget: (context, url, error) {
+                              return Center(
+                                child: Text(error.toString()),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ))
+                ))
                 .toList(),
             options: CarouselOptions(
                 autoPlay: true,

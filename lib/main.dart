@@ -1,8 +1,11 @@
+import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
+import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
+import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
@@ -30,6 +33,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null).then((_) => runApp(MyApp()));
@@ -140,9 +144,20 @@ class MyApp extends StatelessWidget {
             return const WithdarwBankScreen();
           }),
       GoRoute(
-          path: DetailActiviyScreen.routeName,
+          path: DetailSliderActiviyScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const DetailActiviyScreen();
+            SliderModel? sliderModel = state.extra as SliderModel?;
+            return DetailSliderActiviyScreen(
+              sliderModel: sliderModel,
+            );
+          }),
+      GoRoute(
+          path: DetailActivityScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            Activty? activty = state.extra as Activty?;
+            return DetailActivityScreen(
+              activty: activty,
+            );
           }),
       GoRoute(
           path: AddDataNasabahScreen.routeName,

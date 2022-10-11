@@ -32,7 +32,7 @@ class HomePageProvider extends ChangeNotifier {
       PagingController(firstPageKey: 0);
 
   bool _isLastPage = false;
-  final int _numberOfTransactionPerRequest = 2;
+  final int _numberOfTransactionPerRequest = 5;
   final DashboardService service;
   final PreferencesHelper helper;
 

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/activity_screen.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
@@ -32,6 +33,7 @@ class _MainPageState extends State<MainPage>
   @override
   void dispose() {
     Provider.of<HomePageProvider>(context, listen: false).dispose();
+    Provider.of<ActivityProvider>(context, listen: false).dispose();
     super.dispose();
   }
     @override
