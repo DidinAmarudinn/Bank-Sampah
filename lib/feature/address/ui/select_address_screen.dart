@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/card_item_user_address.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/tb_button_primary_widget.dart';
@@ -20,101 +23,112 @@ class SelectAddressScreen extends StatefulWidget {
 }
 
 class _SelectAddressScreenState extends State<SelectAddressScreen> {
-  final Completer<GoogleMapController> _controller = Completer();
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<AddressProvider>(context, listen: false).getUserAddress();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: height * 0.5,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: height * 0.5,
-                  child: GoogleMap(
-                    compassEnabled: false,
-                    mapType: MapType.normal,
-                    initialCameraPosition:  const CameraPosition(
-                          target:
-                              LatLng(-6.9003069, 107.6187099), zoom: 16),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                    markers: <Marker>{
-                      Marker(
-                          markerId:const MarkerId("value"),
-                          draggable: true,
-                          position:
-                            const LatLng(-6.9003069, 107.6187099),
-                          onDragEnd: ((newPosition) {
-                          }))
-                    },
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(kDefaultPadding),
-                  child: CustomAppBar(
-                    titlePage: "",
-                    isHaveShadow: true,
-                  ),
-                ),
-              ],
-            ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          child: CustomAppBar(
+            isHaveShadow: true,
+            titlePage: "Atur Lokasi Penjemputan",
           ),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-            child: Column(
-              children: [
-                Container(
-                  height: 8,
-                  width: 80,
-                  decoration: BoxDecoration(
-                      color: kGreyColor.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(4)),
-                ),
-                Expanded(
-                    child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    const SizedBox(
-                      height: kDefaultPadding,
-                    ),
-                    const CardItemUserAddress(
-                      imageName: kIcMap,
-                      title: "Cecep",
-                      desc:
-                          "Jl. Alfa I No.2 Cigadung Kecamatan Cibenying Kaler Kota Bandung - Jawabarat",
-                    ),
-                    const SizedBox(
-                      height: kDefaultPadding,
-                    ),
-                    CardItemUserAddress(
-                      imageName: kIcCircleMarker,
-                      title: "Gunakan Lokasi Lain",
-                      onTap: () {
-                        context.push(AddAddressScreen.routeName);
-                      },
-                      desc: "Pilih Lokasi Lain Atau Tambah Lokasi Baru",
-                    ),
-                  ],
-                )),
-                SafeArea(
-                  child: TBButtonPrimaryWidget(
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Consumer<AddressProvider>(
+                        builder: (context, provider, _) {
+                      if (provider.state == RequestState.loading) {
+                        return const Center(
+                          child: SpinKitFadingCircle(
+                            size: 50,
+                            color: kDarkGreen,
+                          ),
+                        );
+                      } else if (provider.state == RequestState.loaded) {
+                        return ListView.builder(
+                          itemCount: provider.listUserAddress.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == provider.listUserAddress.length) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: kDefaultPadding / 3),
+                                child: CardItemUserAddress(
+                                  imageName: kIcCircleMarker,
+                                  title: "Gunakan Lokasi Lain",
+                                  onTap: () {
+                                    context.push(AddAddressScreen.routeName);
+                                  },
+                                  desc:
+                                      "Pilih Lokasi Lain Atau Tambah Lokasi Baru",
+                                ),
+                              );
+                            } else {
+                              var data = provider.listUserAddress[index];
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: kDefaultPadding / 3),
+                                child: CardItemUserAddress(
+                                  imageName: kIcMap,
+                                  onTap: () {
+                                    provider.selectAddress(index);
+                                  },
+                                  isSelected: provider.selectedIndex == index,
+                                  title: data.namaAlamat ?? "",
+                                  desc: data.alamatLengkap ?? "",
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      } else if (provider.state == RequestState.error) {
+                        return Center(
+                          child: TBButtonPrimaryWidget(
+                            buttonName: "Coba Lagi",
+                            height: 40,
+                            width: double.infinity,
+                            onPressed: () {
+                              provider.getUserAddress();
+                            },
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    }),
+                  ),
+                  const SizedBox(
+                    height: kDefaultPadding,
+                  ),
+                  TBButtonPrimaryWidget(
                     buttonName: "Cari Ojek",
                     onPressed: () {},
                     height: 40,
                     width: double.infinity,
                   ),
-                ),
-              ],
-            ),
-          ))
-        ],
+                ],
+              ),
+            ))
+          ],
+        ),
       ),
     );
   }

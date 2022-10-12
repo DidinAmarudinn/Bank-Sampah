@@ -2,6 +2,7 @@ import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.dart';
+import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
@@ -65,6 +66,8 @@ class MyApp extends StatelessWidget {
                     sharedPreference: SharedPreferences.getInstance()),
                 DashboardService())),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(create: (_) => AddressProvider(PreferencesHelper(
+                    sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(create: (_) => OjekProvider()),
         ChangeNotifierProvider(
           create: (_) => NasabahProvider(

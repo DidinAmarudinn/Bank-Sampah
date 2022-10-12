@@ -14,7 +14,8 @@ class CardItemUserAddress extends StatelessWidget {
       required this.imageName,
       this.isHaveArrow,
       required this.title,
-      required this.desc, this.onTap})
+      required this.desc,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -26,8 +27,10 @@ class CardItemUserAddress extends StatelessWidget {
         height: 90,
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isSelected ?? false ? kBYoungBlue : Colors.white,
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+              color: isSelected ?? false ? kBorderBlue : Colors.transparent),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -38,9 +41,32 @@ class CardItemUserAddress extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(
-              imageName,
-              width: 36,
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Image.asset(
+                      imageName,
+                      width: 36,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: isSelected ?? false
+                        ? const Icon(
+                            Icons.location_on,
+                            color: kBlueColor,
+                            size: 15,
+                          )
+                        : const SizedBox(),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
               width: kDefaultPadding / 2,

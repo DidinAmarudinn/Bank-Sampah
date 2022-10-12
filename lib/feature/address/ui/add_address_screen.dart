@@ -1,10 +1,18 @@
-import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/feature/address/model/add_address_request.dart';
+import 'package:bank_sampah/feature/address/provider/address_provider.dart';
+import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/custom_app_bar.dart';
+import '../../../widget/dropdown_district.dart';
+import '../../../widget/dropdown_vilage.dart';
 import '../../../widget/tb_textfield_border.dart';
 
 class AddAddressScreen extends StatefulWidget {
@@ -16,32 +24,11 @@ class AddAddressScreen extends StatefulWidget {
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
-  final TextEditingController controllerName = TextEditingController();
-  final TextEditingController controllerVilage = TextEditingController();
+  final TextEditingController controllerAddressName = TextEditingController();
   final TextEditingController controllerDetailAddress = TextEditingController();
-  late BitmapDescriptor icon;
-
-  final markers = <Marker>{};
-  MarkerId markerId = const MarkerId("newLocation");
-  LatLng latLng = const LatLng(-6.9003069, 107.6187099);
   @override
   void initState() {
-    markers.add(
-      Marker(
-        markerId: markerId,
-        position: latLng,
-      ),
-    );
-    getIcons();
     super.initState();
-  }
-
-  getIcons() async {
-    var icon = await BitmapDescriptor.fromAssetImage(
-       const ImageConfiguration(size: Size(12, 12)), kIcMarker);
-    setState(() {
-      this.icon = icon;
-    });
   }
 
   @override
@@ -71,24 +58,33 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Nama",
+                              "Kecamatan",
                               style:
                                   kDarkGrayText.copyWith(fontWeight: semiBold),
                             ),
-                            TBTextFieldWithBorder(
-                                controller: controllerName,
-                                hintText: "Masukan Nama Penerima"),
+                            const SizedBox(
+                              height: kDefaultPadding / 2,
+                            ),
+                            const DropdownDistrict(),
                             const SizedBox(
                               height: kDefaultPadding,
                             ),
                             Text(
-                              "Alamat",
+                              "Kelurahan",
                               style:
                                   kDarkGrayText.copyWith(fontWeight: semiBold),
                             ),
-                            TBTextFieldWithBorder(
-                              controller: controllerVilage,
-                              hintText: "Masukan Kelurahan",
+                            const SizedBox(
+                              height: kDefaultPadding / 2,
+                            ),
+                            const DropdownVilage(),
+                            const SizedBox(
+                              height: kDefaultPadding,
+                            ),
+                            Text(
+                              "Alamat Lengkap",
+                              style:
+                                  kDarkGrayText.copyWith(fontWeight: semiBold),
                             ),
                             TBTextFieldWithBorder(
                               controller: controllerDetailAddress,
@@ -98,37 +94,22 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             const SizedBox(
                               height: kDefaultPadding,
                             ),
+                            Text(
+                              "Nama Alamat",
+                              style:
+                                  kDarkGrayText.copyWith(fontWeight: semiBold),
+                            ),
+                            TBTextFieldWithBorder(
+                              controller: controllerAddressName,
+                              hintText: "Masukan Nama Alamat",
+                            ),
+                            const SizedBox(
+                              height: kDefaultPadding,
+                            ),
                           ],
                         ),
                       ),
-                      Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20)),
-                        child: GoogleMap(
-                            mapType: MapType.normal,
-                            initialCameraPosition: const CameraPosition(
-                                target: LatLng(-6.9003069, 107.6187099),
-                                zoom: 14),
-                            onMapCreated: (GoogleMapController controller) {},
-                            onCameraMove: (position) {
-                              setState(() {
-                                markers.add(Marker(
-                                    markerId: markerId,
-                                    icon: BitmapDescriptor.defaultMarkerWithHue(146),
-                                    position: position.target));
-                              });
-                            },
-                            markers: markers),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kDefaultPadding,
-                            vertical: kDefaultPadding / 2),
-                        child: Text(
-                            "Atur titik pada peta  sesuai lokasi yang anda inginkan",
-                            style: kLightGrayText.copyWith(fontSize: 12)),
-                      )
+                      
                     ],
                   ),
                 ),
@@ -136,14 +117,54 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
-                child: TBButtonPrimaryWidget(
-                  buttonName: "Simpan",
-                  isDisable: false,
-                  onPressed: () {
-                  },
-                  height: 40,
-                  width: double.infinity,
-                ),
+                child: Consumer2<NasabahProvider, AddressProvider>(
+                    builder: (context, nasabahProvider, addressProvider, _) {
+                  if (addressProvider.state == RequestState.loading) {
+                    return const LoadingButton(
+                      height: 40,
+                      width: double.infinity,
+                    );
+                  } else {
+                    return TBButtonPrimaryWidget(
+                      buttonName: "Simpan",
+                      isDisable: false,
+                      onPressed: () async {
+                        String addressName = controllerAddressName.text;
+                        String detailAddress = controllerDetailAddress.text;
+                        if (addressName.isNotEmpty &&
+                            detailAddress.isNotEmpty &&
+                            nasabahProvider.selectedDistrict != null &&
+                            nasabahProvider.selectedVilage != null) {
+                          AddAddressRequest request = AddAddressRequest(
+                            idKelurahan:
+                                nasabahProvider.selectedVilage?.id ?? "0",
+                            idKecamatan:
+                                nasabahProvider.selectedDistrict?.id ?? "0",
+                            namaAlamat: addressName,
+                            alamatLengkap: detailAddress,
+                          );
+                          await addressProvider.addAddressNasabah(request);
+                          if (!mounted) return;
+                          if (addressProvider.state == RequestState.loaded) {
+                            addressProvider.getUserAddress();
+                            SnackbarMessage.showSnackbar(
+                                context, "Berhasil menambahkan alamat");
+                            context.pop();
+                          }
+                          if (addressProvider.state == RequestState.error) {
+                            SnackbarMessage.showSnackbar(
+                                context, addressProvider.message);
+                          }
+                        } else {
+                            SnackbarMessage.showSnackbar(
+                                context, "Silahkan isi semua field di atas");
+                        }
+                      },
+                      height: 40,
+                      width: double.infinity,
+                    );
+                  }
+                }),
               ),
             ],
           ),

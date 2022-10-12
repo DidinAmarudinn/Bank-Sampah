@@ -17,3 +17,5 @@ const String addCountOfViewUrl = "$baserUrl/api/v1/add_view/";
 const String getDataBsuUrl = "$baserUrl/api/v1/cek_data_bsu/";
 const String getListNasbahBsuUrl = "$baserUrl/api/v1/list_data_nasabah/";
 const String addNasabahBsuUrl = "$baserUrl/api/v1/add_data_nasabah_bsu";
+const String getListUserAddressUrl = "$baserUrl/api/v1/list_data_buku_alamat/";
+const String addNabasahAddressUrl = "$baserUrl/api/v1/add_data_buku_alamat";

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../themes/constants.dart';
 import '../../../utils/preference_helper.dart';
 import '../../../utils/request_state_enum.dart';
@@ -16,7 +15,6 @@ import '../../../widget/dropdown_district.dart';
 import '../../../widget/dropdown_nasabah_category.dart';
 import '../../../widget/dropdown_vilage.dart';
 import '../../../widget/loading_button.dart';
-import '../../dashboard/ui/main_page.dart';
 
 class AddDataNasabahScreen extends StatefulWidget {
   static const routeName = "/add-data-nasabah-page";
@@ -64,12 +62,15 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const PreferredSize(
-        preferredSize: Size.fromHeight(56),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          child: CustomAppBar(isHaveShadow: true, titlePage: "Add data nasabah",),
-        )),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(56),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+            child: CustomAppBar(
+              isHaveShadow: true,
+              titlePage: "Add data nasabah",
+            ),
+          )),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -264,7 +265,10 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                               await value.addNasabahBsu(request);
                               if (!mounted) return;
                               if (value.state == RequestState.loaded) {
-                                context.go(MainPage.routeName);
+                                SnackbarMessage.showSnackbar(
+                                    context, "Data nasabah berhasil disimpan");
+                                value.getListNasabahBSU();
+                                context.pop();
                               }
                               if (value.state == RequestState.error) {
                                 SnackbarMessage.showSnackbar(

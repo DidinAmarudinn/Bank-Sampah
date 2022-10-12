@@ -1,4 +1,3 @@
-import 'package:bank_sampah/feature/nasabah/model/nasabah_model.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';

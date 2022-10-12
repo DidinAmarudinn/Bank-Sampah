@@ -13,6 +13,9 @@ const Color kBorderGray = Color(0xFFDDE2E8);
 const Color kGreenBgLight = Color(0xFFE5F9F0);
 const Color kGreyDivider = Color(0xFFECECEC);
 const Color kGreyDisableButtonColor = Color(0xFFF3F7FA);
+const Color kBorderBlue = Color(0xFF7C91BC);
+const Color kBYoungBlue = Color(0xFFF2F6F9);
+const Color kBlueColor = Color(0xFF326AD0);
 //padding
 const double kDefaultPadding = 24;
 

@@ -1,7 +1,6 @@
 import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
-import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
