@@ -50,6 +50,7 @@ class _SplasScreenState extends State<SplasScreen> {
       }, (r) {
         debugPrint(r?.email);
         if (r != null) {
+          _prefenceHelper.setPhoneNumber(r.noKontak ?? "");
           context.go(MainPage.routeName);
         } else {
           context.go(CompleteProfileScreen.routeName);

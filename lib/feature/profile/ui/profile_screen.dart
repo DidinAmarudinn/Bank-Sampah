@@ -1,7 +1,17 @@
+import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
+import 'package:bank_sampah/feature/login/ui/login_page.dart';
+import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/item_menu_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../dashboard/provider/home_page_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,6 +21,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<ProfileProvider>(context, listen: false).getOthersInfo();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +63,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Cecep Gunawan",
-                      style: kGreenText.copyWith(fontWeight: bold),
+                    Consumer<HomePageProvider>(
+                      builder: (context, value, _) => Text(
+                        value.fullName,
+                        style: kGreenText.copyWith(fontWeight: bold),
+                      ),
                     ),
                     const SizedBox(
                       width: kDefaultPadding / 4,
@@ -62,9 +81,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: kDefaultPadding / 3,
                 ),
-                Text(
-                  "085888231664",
-                  style: kGreyText,
+                Consumer<HomePageProvider>(
+                  builder: (context, value, _) => Text(
+                    value.phoneNumber,
+                    style: kGreyText,
+                  ),
                 )
               ],
             ),
@@ -133,7 +154,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ItemMenuProfile(
                         iconName: Icons.question_mark,
                         title: "Bantuan",
-                        onTap: () {}),
+                        onTap: () {
+                          context.push(HelpScreen.routeName);
+                        }),
                     const Divider(
                       height: 5,
                       thickness: 2,
@@ -141,7 +164,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ItemMenuProfile(
                         iconName: Icons.shield,
                         title: "Kebijakan Privasi",
-                        onTap: () {}),
+                        onTap: () {
+                          context.push(PrivacyPolicyScreen.routeName);
+                        }),
                   ],
                 ),
               ),
@@ -155,8 +180,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     border: Border.all(color: kBorderGray, width: 2)),
                 child: InkWell(
-                  onTap: (){
-                   
+                  onTap: () async {
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    await preferences.clear();
+                    if (!mounted) return;
+                    context.read<MainPageProvider>().changeTabIndex(0);
+                    context.go(LoginPage.routeName);
                   },
                   splashColor: Colors.amber,
                   child: Row(

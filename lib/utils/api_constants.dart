@@ -19,3 +19,6 @@ const String getListNasbahBsuUrl = "$baserUrl/api/v1/list_data_nasabah/";
 const String addNasabahBsuUrl = "$baserUrl/api/v1/add_data_nasabah_bsu";
 const String getListUserAddressUrl = "$baserUrl/api/v1/list_data_buku_alamat/";
 const String addNabasahAddressUrl = "$baserUrl/api/v1/add_data_buku_alamat";
+const String getTrashListUrl = "$baserUrl/api/v1/list_data_sampah";
+const String updateProfileUrl = "$baserUrl/api/v1/update_data_nasabah";
+const String getOthersInfoUrl = "$baserUrl/api/v1/get_akun";

@@ -74,6 +74,7 @@ class LoginProvider extends ChangeNotifier {
     }, (r) {
       _stateChecDataNasabah = RequestState.loaded;
       _checkIsUserHasCompletedProfile = r != null;
+      preferencesHelper.setPhoneNumber(r?.noKontak ?? "");
       notifyListeners();
     });
   }
@@ -92,6 +93,7 @@ class LoginProvider extends ChangeNotifier {
         _messageErrorBsu = "Error Silahkan Coba Kembali";
       } else {
         preferencesHelper.setIdBsu(result.id ?? "0");
+        preferencesHelper.setPhoneNumber(result.noKontak ?? "");
         _stateGetDataBSU = RequestState.loaded;
       }
       notifyListeners();

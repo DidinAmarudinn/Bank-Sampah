@@ -10,6 +10,7 @@ class PreferencesHelper {
   static const level = "LEVEL";
   static const imageProfileUrl = "IMAGE_PROFILE_URL";
   static const idBSU = "IDBSU";
+  static const phoneNumber = "NoHp";
 
   void setFullName(String value) async {
     final prefs = await sharedPreference;
@@ -20,6 +21,7 @@ class PreferencesHelper {
     final prefs = await sharedPreference;
     return prefs.getString(fullName);
   }
+
   void setImageProfileUrl(String value) async {
     final prefs = await sharedPreference;
     prefs.setString(imageProfileUrl, value);
@@ -48,6 +50,16 @@ class PreferencesHelper {
   Future<int?> getId() async {
     final prefs = await sharedPreference;
     return prefs.getInt(id);
+  }
+
+  void setPhoneNumber(String value) async {
+    final prefs = await sharedPreference;
+    prefs.setString(phoneNumber, value);
+  }
+
+  Future<String?> getPhoneNumber() async {
+    final prefs = await sharedPreference;
+    return prefs.getString(phoneNumber);
   }
 
   void setIdBsu(String value) async {

@@ -180,8 +180,6 @@ class _LoginPageState extends State<LoginPage> {
                                         if (provider.stateGetDataBSU ==
                                             RequestState.loaded) {
                                           context.go(MainPage.routeName);
-                                          SnackbarMessage.showSnackbar(
-                                              context, "Login Berhasil");
                                         } else {
                                           SnackbarMessage.showSnackbar(context,
                                               provider.messageErrorBsu);
@@ -191,10 +189,16 @@ class _LoginPageState extends State<LoginPage> {
                                         if (!mounted) return;
                                         if (provider.stateChecDataNasabah ==
                                             RequestState.loaded) {
-                                          context.go(
-                                              CompleteProfileScreen.routeName);
-                                          SnackbarMessage.showSnackbar(
-                                              context, "Complete Your Profile");
+                                          if (provider
+                                              .checkIsUserHasCompletedProfile) {
+                                            context.go(MainPage.routeName);
+                                          } else {
+                                            context.go(CompleteProfileScreen
+                                                .routeName);
+                                            SnackbarMessage.showSnackbar(
+                                                context,
+                                                "Complete Your Profile");
+                                          }
                                         } else {
                                           SnackbarMessage.showSnackbar(context,
                                               provider.messageErrorNasabah);

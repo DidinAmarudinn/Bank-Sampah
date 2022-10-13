@@ -1,9 +1,13 @@
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
+import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/dialog_add_trash.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/card_trash_product.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/tb_button_primary_widget.dart';
@@ -18,6 +22,14 @@ class TrashCalculatorPage extends StatefulWidget {
 
 class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
   final TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<CalculatorProvider>(context,listen: false).getTrashList();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,8 +87,12 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                       width: double.infinity,
                       child: TextField(
                         controller: controller,
+                        onChanged: (query){
+                          context.read<CalculatorProvider>().searchTrash(query);
+                        },
                         decoration: const InputDecoration(
                           hintText: "Cari Sampah",
+                          
                           border: InputBorder.none,
                           suffixIcon: Icon(
                             Icons.search,
@@ -90,29 +106,54 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
               ),
             ),
             Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.fromLTRB(
-                    kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 24,
-                ),
-                itemCount: 24,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                      onTap: () {
-                        showDialog(
-                          
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const DialogAddTrash();
+              child:
+                  Consumer<CalculatorProvider>(builder: (context, provider, _) {
+                if (provider.state == RequestState.loaded) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(
+                        kDefaultPadding, 0, kDefaultPadding, kDefaultPadding),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 24,
+                    ),
+                    itemCount: provider.searchResult.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const DialogAddTrash();
+                              },
+                            );
                           },
-                        );
+                          child:  CardTrashProduct(trashModel: provider.searchResult[index],));
+                    },
+                  );
+                } else if (provider.state == RequestState.loading) {
+                  return const Center(
+                    child: SpinKitFadingCircle(
+                      color: kDarkGreen,
+                      size: 40,
+                    ),
+                  );
+                } else if (provider.state == RequestState.error) {
+                  return Center(
+                    child: TBButtonPrimaryWidget(
+                      buttonName: "Coba Lagi",
+                      height: 40,
+                      width: double.infinity,
+                      onPressed: () {
+                        provider.getTrashList();
                       },
-                      child: const CardTrashProduct());
-                },
-              ),
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              }),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

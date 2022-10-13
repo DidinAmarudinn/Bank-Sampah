@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Hello Cecep!",
+                                      "Hello ${provider.fullName}!",
                                       style: kGreenText.copyWith(
                                           fontWeight: semiBold),
                                     ),

@@ -31,12 +31,6 @@ class _MainPageState extends State<MainPage>
     ProfileScreen(),
   ];
   bool isBsu = false;
-  @override
-  void dispose() {
-    Provider.of<HomePageProvider>(context, listen: false).dispose();
-    Provider.of<ActivityProvider>(context, listen: false).dispose();
-    super.dispose();
-  }
 
   @override
   void initState() {

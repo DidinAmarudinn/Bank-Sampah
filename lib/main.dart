@@ -20,9 +20,13 @@ import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
+import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
 import 'package:bank_sampah/feature/transaction/provider/transaction_provider.dart';
+import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
@@ -59,6 +63,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => MainPageProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
+        ChangeNotifierProvider(
+            create: (_) => ProfileProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(create: (_) => ActivityProvider()),
         ChangeNotifierProvider(
             create: (_) => HomePageProvider(
@@ -66,9 +73,11 @@ class MyApp extends StatelessWidget {
                     sharedPreference: SharedPreferences.getInstance()),
                 DashboardService())),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
-        ChangeNotifierProvider(create: (_) => AddressProvider(PreferencesHelper(
-                    sharedPreference: SharedPreferences.getInstance()))),
+        ChangeNotifierProvider(
+            create: (_) => AddressProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(create: (_) => OjekProvider()),
+        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
         ChangeNotifierProvider(
           create: (_) => NasabahProvider(
             helper: PreferencesHelper(
@@ -147,6 +156,16 @@ class MyApp extends StatelessWidget {
           path: WithdrawPointScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
             return const WithdrawPointScreen();
+          }),
+      GoRoute(
+          path: HelpScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const HelpScreen();
+          }),
+      GoRoute(
+          path: PrivacyPolicyScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const PrivacyPolicyScreen();
           }),
       GoRoute(
           path: WithdarwBankScreen.routeName,

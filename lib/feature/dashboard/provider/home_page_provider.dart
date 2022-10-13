@@ -28,6 +28,12 @@ class HomePageProvider extends ChangeNotifier {
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
 
+  String _fullName = "";
+  String get fullName => _fullName;
+
+  String _phoneNumber = "";
+  String get phoneNumber => _phoneNumber;
+
   final PagingController<int, TransactionResult> pagingController =
       PagingController(firstPageKey: 0);
 
@@ -55,6 +61,12 @@ class HomePageProvider extends ChangeNotifier {
       _state = RequestState.loaded;
       notifyListeners();
     });
+  }
+
+  Future<void> getUserData() async {
+    _fullName = await helper.getFullName() ?? "";
+    _phoneNumber = await helper.getPhoneNumber() ?? "";
+    notifyListeners();
   }
 
   Future<void> getListTransaction(int pageKey) async {
@@ -87,7 +99,7 @@ class HomePageProvider extends ChangeNotifier {
     _sliderState = RequestState.loading;
     notifyListeners();
     final result = await service.getSlider("Home");
-    result.fold((error){
+    result.fold((error) {
       _sliderState = RequestState.error;
       _errorMessage = error.message;
       notifyListeners();
@@ -102,6 +114,7 @@ class HomePageProvider extends ChangeNotifier {
     pagingController.addPageRequestListener((pageKey) {
       getListTransaction(pageKey);
     });
+    getUserData();
   }
 
   void destroy() {
