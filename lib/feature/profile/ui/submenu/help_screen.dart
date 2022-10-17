@@ -12,24 +12,64 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: Column(
-          children: [
-            const CustomAppBar(titlePage: "Bantuan"),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Consumer<ProfileProvider>(
-                  builder: (context, provider, _) {
-                    return Html(data: provider.othersInfoModel?.bantuan ?? "");
-                  },
+      body: SafeArea(
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              Positioned(
+                right: -20,
+                top: -20,
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: const BoxDecoration(
+                    color: kGreen,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: kDefaultPadding,),
-          ],
+              Positioned(
+                left: -40,
+                top: 100,
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: kDarkGreen.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              const Positioned(
+                left: kDefaultPadding,
+                top: kDefaultPadding,
+                child: CustomAppBar(
+                  titlePage: "Bantuan",
+                  isHaveShadow: true,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 70, left: kDefaultPadding, right: kDefaultPadding),
+                child: Expanded(
+                  child: SingleChildScrollView(
+                    child: Consumer<ProfileProvider>(
+                      builder: (context, provider, _) {
+                        return Html(
+                          data:
+                              provider.othersInfoModel?.bantuan ?? "",
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

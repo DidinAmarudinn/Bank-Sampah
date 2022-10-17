@@ -1,6 +1,8 @@
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
@@ -72,9 +74,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       width: kDefaultPadding / 4,
                     ),
-                    Image.asset(
-                      kIcEditProfile,
-                      width: 14,
+                    InkWell(
+                      onTap: (){
+                        context.push(EditProfileScreen.routeName);
+                      },
+                      child: Image.asset(
+                        kIcEditProfile,
+                        width: 14,
+                      ),
                     )
                   ],
                 ),
@@ -129,7 +136,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ItemMenuProfile(
                         iconName: Icons.lock,
                         title: "Ubah Password",
-                        onTap: () {}),
+                        onTap: () {
+                          context.push(ChangePasswordScreen.routeName);
+                        }),
                   ],
                 ),
               ),

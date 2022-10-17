@@ -48,4 +48,53 @@ class ProfileProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  int _index = 0;
+  int get index => _index;
+
+  String _description =
+      "Untuk lanjut mengubah, masukkan password akunmu saat ini.";
+  String get description => _description;
+
+  String _buttonName = "Lanjut";
+  String get buttonName => _buttonName;
+  void nextPage() {
+    _index++;
+    if (_index == 1) {
+      _description = "Silakhan buat password baru akunmu.";
+      _buttonName = "Lanjut";
+    }
+    if (_index == 2) {
+      _buttonName = "Ubah Password";
+      _description =
+          "Konfirmasi password dengan memasukkan ulang password baru yang kamu buat.";
+    }
+    notifyListeners();
+  }
+
+  void resetIndex() {
+    _index = 0;
+    _description = "Untuk lanjut mengubah, masukkan password akunmu saat ini.";
+    _buttonName = "Lanjut";
+    notifyListeners();
+  }
+
+  void previousPage() {
+    _index--;
+    if (index == 0) {
+      _description =
+          "Untuk lanjut mengubah, masukkan password akunmu saat ini.";
+      _buttonName = "Lanjut";
+    }
+    if (_index == 1) {
+      _description = "Silakhan buat password baru akunmu.";
+      _buttonName = "Lanjut";
+    }
+    if (_index == 2) {
+      _buttonName = "Ubah Password";
+      _description =
+          "Konfirmasi password dengan memasukkan ulang password baru yang kamu buat.";
+    }
+    notifyListeners();
+  }
 }

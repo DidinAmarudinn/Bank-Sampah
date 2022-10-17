@@ -21,6 +21,8 @@ import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
@@ -161,6 +163,16 @@ class MyApp extends StatelessWidget {
           path: HelpScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
             return const HelpScreen();
+          }),
+      GoRoute(
+          path: ChangePasswordScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const ChangePasswordScreen();
+          }),
+      GoRoute(
+          path: EditProfileScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const EditProfileScreen();
           }),
       GoRoute(
           path: PrivacyPolicyScreen.routeName,
