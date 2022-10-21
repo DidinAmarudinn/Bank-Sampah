@@ -1,7 +1,9 @@
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_bsu_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
@@ -30,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Provider.of<ProfileProvider>(context, listen: false).getOthersInfo();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,13 +77,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       width: kDefaultPadding / 4,
                     ),
-                    InkWell(
-                      onTap: (){
-                        context.push(EditProfileScreen.routeName);
-                      },
-                      child: Image.asset(
-                        kIcEditProfile,
-                        width: 14,
+                    Consumer<HomePageProvider>(
+                      builder: (context, val, _) => InkWell(
+                        onTap: () {
+                          if (val.isBsu) {
+                            context.push(EditProfileBSUScreen.routeName);
+                          } else {
+                            context.push(EditProfileScreen.routeName);
+                          }
+                        },
+                        child: Image.asset(
+                          kIcEditProfile,
+                          width: 14,
+                        ),
                       ),
                     )
                   ],
@@ -195,6 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     await preferences.clear();
                     if (!mounted) return;
                     context.read<MainPageProvider>().changeTabIndex(0);
+                    context.read<CheckoutProvider>().clearCart();
                     context.go(LoginPage.routeName);
                   },
                   splashColor: Colors.amber,

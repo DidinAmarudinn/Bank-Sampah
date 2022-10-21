@@ -1,7 +1,10 @@
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
+import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/widget/card_checkout_product.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widget/custom_app_bar.dart';
 
@@ -58,12 +61,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       padding: const EdgeInsets.only(top: 72),
                       child: Column(
                         children: [
-                          Expanded(
+                          Consumer<CheckoutProvider>(
+                            builder: (context, val, _) => Expanded(
                               child: ListView.builder(
-                                  itemCount: 4,
-                                  itemBuilder: (context, index) {
-                                    return const CardCheckoutProduct();
-                                  })),
+                                itemCount: val.list.length,
+                                itemBuilder: (context, index) {
+                                  return CardCheckoutProduct(
+                                    productCheckout: val.list[index],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                           Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: kDefaultPadding),
@@ -87,10 +96,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   style: kBlackText.copyWith(
                                       fontSize: 11, fontWeight: light),
                                 ),
-                                Text(
-                                  "Total : Rp.6.800.00 ",
-                                  style:
-                                      kGreenText.copyWith(fontWeight: semiBold),
+                                Consumer<CheckoutProvider>(
+                                  builder:(context, value, child) =>  Text(
+                                    "Total : ${FormatterExt().currencyFormatter.format(value.totalPrice)}",
+                                    style:
+                                        kGreenText.copyWith(fontWeight: semiBold),
+                                  ),
                                 )
                               ],
                             ),

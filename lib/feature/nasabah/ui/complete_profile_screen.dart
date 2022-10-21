@@ -185,6 +185,64 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
+                      Text(
+                        "Jenis Ojek Sampah",
+                        style: kDarkGrayText.copyWith(fontWeight: semiBold),
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding,
+                      ),
+                      Consumer<NasabahProvider>(
+                        builder: (context, val, _) => Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                val.selectStatusOjekSampah(true);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kDefaultPadding / 2,
+                                    vertical: kDefaultPadding / 3),
+                                decoration: BoxDecoration(
+                                  color: val.statusOjekSampah == "berlangganan"
+                                      ? kDarkGreen
+                                      : kGreyColor,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Text(
+                                  "Berlangganan",
+                                  style: kWhiteText,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: kDefaultPadding/2,),
+                            InkWell(
+                              onTap: () {
+                                val.selectStatusOjekSampah(false);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kDefaultPadding / 2,
+                                    vertical: kDefaultPadding / 3),
+                                decoration: BoxDecoration(
+                                  color: val.statusOjekSampah ==
+                                          "tidak berlangganan"
+                                      ? kDarkGreen
+                                      : kGreyColor,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Text(
+                                  "Tidak Berlangganan",
+                                  style: kWhiteText,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding,
+                      ),
                     ],
                   ),
                 ),
@@ -199,7 +257,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         child: TBButtonPrimaryWidget(
                           buttonName: "Simpan dan lanjutkan",
                           onPressed: () async {
-                            
                             String name = controllerName.text;
                             String address = controllerAddress.text;
                             String addressName = controllerAddressName.text;
@@ -207,6 +264,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             String email = controllerEmail.text;
                             int? id = await helper.getId();
                             String? districsId = value.selectedDistrict?.id;
+                            String? statusOjekSampah = value.statusOjekSampah;
                             String? vilageId = value.selectedVilage?.id;
                             String? idType = value.selectedNasabahType?.id;
                             if (name.isNotEmpty &&
@@ -230,7 +288,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                       alamat: address,
                                       addBukualamat:
                                           value.isAddToAddressBook ? "Y" : "T",
-                                      namaAlamat: addressName);
+                                      namaAlamat: addressName,
+                                      statusOjekSampah: statusOjekSampah);
                               await value.completeProfile(request);
                               if (!mounted) return;
                               if (value.state == RequestState.loaded) {
@@ -241,9 +300,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                     context, value.messageCompleteProfile);
                               }
                             } else {
-                               if (!mounted) return;
-                               SnackbarMessage.showSnackbar(
-                                    context, value.messageCompleteProfile);
+                              if (!mounted) return;
+                              SnackbarMessage.showSnackbar(
+                                  context, value.messageCompleteProfile);
                             }
                           },
                           height: 40,

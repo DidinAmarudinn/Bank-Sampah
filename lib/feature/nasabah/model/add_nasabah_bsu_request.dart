@@ -11,6 +11,7 @@ class AddNasabahBsuRequest {
   String alamat;
   String addBukualamat;
   String namaAlamat;
+  String statusOjekSampah;
   AddNasabahBsuRequest({
     required this.userName,
     required this.password,
@@ -24,5 +25,6 @@ class AddNasabahBsuRequest {
     required this.alamat,
     required this.addBukualamat,
     required this.namaAlamat,
+    required this.statusOjekSampah
   });
 }

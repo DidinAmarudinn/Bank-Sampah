@@ -142,6 +142,7 @@ class NasabahService {
         'nama_nasabah': completeProfileRequest.namaNasabah,
         'no_kontak': completeProfileRequest.noKontak,
         'email': completeProfileRequest.email,
+        'status_ojek_sampah': completeProfileRequest.statusOjekSampah,
         'alamat': completeProfileRequest.alamat,
         'add_bukualamat': completeProfileRequest.addBukualamat,
         'nama_alamat': completeProfileRequest.namaAlamat
@@ -209,7 +210,8 @@ class NasabahService {
         'email': addRequest.email,
         'alamat': addRequest.alamat,
         'add_bukualamat': addRequest.addBukualamat,
-        'nama_alamat': addRequest.namaAlamat
+        'nama_alamat': addRequest.namaAlamat,
+        'status_ojek_sampah': addRequest.statusOjekSampah
       });
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {

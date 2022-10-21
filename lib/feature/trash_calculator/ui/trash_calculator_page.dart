@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../../themes/constants.dart';
 import '../../../widget/tb_button_primary_widget.dart';
 
@@ -27,9 +26,10 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<CalculatorProvider>(context,listen: false).getTrashList();
+      Provider.of<CalculatorProvider>(context, listen: false).getTrashList();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,12 +87,11 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                       width: double.infinity,
                       child: TextField(
                         controller: controller,
-                        onChanged: (query){
+                        onChanged: (query) {
                           context.read<CalculatorProvider>().searchTrash(query);
                         },
                         decoration: const InputDecoration(
                           hintText: "Cari Sampah",
-                          
                           border: InputBorder.none,
                           suffixIcon: Icon(
                             Icons.search,
@@ -125,11 +124,15 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const DialogAddTrash();
+                                return DialogAddTrash(
+                                  trashModel: provider.searchResult[index],
+                                );
                               },
                             );
                           },
-                          child:  CardTrashProduct(trashModel: provider.searchResult[index],));
+                          child: CardTrashProduct(
+                            trashModel: provider.searchResult[index],
+                          ));
                     },
                   );
                 } else if (provider.state == RequestState.loading) {

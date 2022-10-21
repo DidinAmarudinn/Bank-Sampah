@@ -28,6 +28,9 @@ class HomePageProvider extends ChangeNotifier {
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
 
+  bool _isBsu = false;
+  bool get isBsu => _isBsu;
+
   String _fullName = "";
   String get fullName => _fullName;
 
@@ -66,6 +69,7 @@ class HomePageProvider extends ChangeNotifier {
   Future<void> getUserData() async {
     _fullName = await helper.getFullName() ?? "";
     _phoneNumber = await helper.getPhoneNumber() ?? "";
+    _isBsu = await helper.getLevel() == "Bank Sampah Unit";
     notifyListeners();
   }
 

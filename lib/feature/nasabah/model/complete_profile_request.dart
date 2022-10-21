@@ -9,6 +9,7 @@ class CompleteProfileRequest {
   String alamat;
   String addBukualamat;
   String namaAlamat;
+  String statusOjekSampah;
   CompleteProfileRequest({
     required this.idUserNasabah,
     required this.idJenis,
@@ -20,5 +21,6 @@ class CompleteProfileRequest {
     required this.alamat,
     required this.addBukualamat,
     required this.namaAlamat,
+    required this.statusOjekSampah
   });
 }

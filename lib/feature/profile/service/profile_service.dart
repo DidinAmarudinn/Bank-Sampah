@@ -65,4 +65,7 @@ class ProfileService {
       return Left(ConnectionFailure("Failed to connect to the network"));
     }
   }
+
+  
+
 }

@@ -97,4 +97,46 @@ class ProfileProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  String _takePeriod = "harian";
+  String get takePeriod => _takePeriod;
+
+  void changeTakePeroid(bool isDaily) {
+    if (isDaily) {
+      _takePeriod = "harian";
+    } else {
+      _takePeriod = "bulanan";
+    }
+    notifyListeners();
+  }
+
+  List<String> listDay = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+  ];
+  String _selectedDay = "";
+  String get selectedDay => _selectedDay;
+  void changeSelectedDay(int index) {
+    _selectedDay = listDay[index];
+    notifyListeners();
+  }
+
+  bool _isActive = true;
+  bool get isActive => _isActive;
+
+  void changeStatus(bool newVal) {
+    _isActive = newVal;
+    notifyListeners();
+  }
+  int _tanggalAngkut = 1;
+  int get tanggalAngkut => _tanggalAngkut;
+  void changeSlider(int newVal) {
+    _tanggalAngkut = newVal;
+    notifyListeners();
+  }
 }

@@ -1,8 +1,16 @@
+import 'package:bank_sampah/feature/checkout/model/product_checkout.dart';
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../feature/trash_calculator/provider/calculator_provider.dart';
+import '../utils/formatter_ext.dart';
 
 class CardCheckoutProduct extends StatelessWidget {
-  const CardCheckoutProduct({Key? key}) : super(key: key);
+  final ProductCheckout productCheckout;
+  const CardCheckoutProduct({Key? key, required this.productCheckout})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,29 +36,49 @@ class CardCheckoutProduct extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Duplex",
+                  productCheckout.trashModel.jenisSampah ?? "",
                   style: kBlackText,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Jumlah 1kg",
-                      style: kBlackText.copyWith(fontSize: 12, fontWeight: light),
+                      "Jumlah ${productCheckout.weight}",
+                      style:
+                          kBlackText.copyWith(fontSize: 12, fontWeight: light),
                     ),
-                    Text(
-                      "Harga : 400 poin/kg",
-                      style: kBlackText.copyWith(fontSize: 12, fontWeight: light),
-                    ),
-                    Text(
-                      "Total : Rp.400",
-                      style: kGreenText.copyWith(fontWeight: semiBold),
+                    Consumer<CalculatorProvider>(builder: (context, val, _) {
+                      if (val.isBsu) {
+                        return Text(
+                          "Harga: ${FormatterExt().currencyFormatter.format(double.parse(productCheckout.trashModel.hargaBeliUnit ?? "0.0"))} /Kg",
+                          style: kGreenText.copyWith(
+                            fontSize: 12,
+                            fontWeight: light,
+                          ),
+                        );
+                      } else {
+                        return Text(
+                          "Harga: ${FormatterExt().currencyFormatter.format(double.parse(productCheckout.trashModel.hargaBeliNasabah ?? "0.0"))} /Kg",
+                          style: kGreenText.copyWith(
+                            fontSize: 12,
+                            fontWeight: light,
+                          ),
+                        );
+                      }
+                    }),
+                    Consumer<CalculatorProvider>(
+                      builder:(context, val, _) => Text(
+                        "Total : ${productCheckout.getTotal(val.isBsu)}",
+                        style: kGreenText.copyWith(fontWeight: semiBold),
+                      ),
                     ),
                   ],
                 ),
                 InkWell(
                   onTap: () {
-                    debugPrint("Tapped");
+                    context
+                        .read<CheckoutProvider>()
+                        .removeFromCart(productCheckout);
                   },
                   child: Row(
                     children: [
@@ -63,7 +91,8 @@ class CardCheckoutProduct extends StatelessWidget {
                       ),
                       Text(
                         "Hapus",
-                        style: kRedText.copyWith(fontWeight: light, fontSize: 12),
+                        style:
+                            kRedText.copyWith(fontWeight: light, fontSize: 12),
                       )
                     ],
                   ),
@@ -71,7 +100,10 @@ class CardCheckoutProduct extends StatelessWidget {
               ],
             ),
           ),
-          Image.asset("assets/ic_dummy_img.png",height: 85,)
+          Image.asset(
+            "assets/ic_dummy_img.png",
+            height: 85,
+          )
         ],
       ),
     );

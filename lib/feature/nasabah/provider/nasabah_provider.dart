@@ -72,6 +72,18 @@ class NasabahProvider extends ChangeNotifier {
     });
   }
 
+  String _statusOjekSampah = "berlangganan";
+  String get statusOjekSampah => _statusOjekSampah;
+
+  void selectStatusOjekSampah(bool isBerlangganan) {
+    if (isBerlangganan) {
+      _statusOjekSampah = "berlangganan";
+    } else {
+      _statusOjekSampah = "tidak berlangganan";
+    }
+    notifyListeners();
+  }
+
   Future<List<DistrictModel>> updateListDistricts(String param) async {
     final result = await service.getDistrict(param);
     result.fold((failure) {

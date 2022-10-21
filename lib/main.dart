@@ -5,6 +5,7 @@ import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.da
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
 import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
@@ -22,6 +23,7 @@ import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_bsu_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
@@ -79,7 +81,20 @@ class MyApp extends StatelessWidget {
             create: (_) => AddressProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(create: (_) => OjekProvider()),
-        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
+        ChangeNotifierProvider(
+          create: (_) => CheckoutProvider(
+            PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CalculatorProvider(
+            PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
         ChangeNotifierProvider(
           create: (_) => NasabahProvider(
             helper: PreferencesHelper(
@@ -173,6 +188,11 @@ class MyApp extends StatelessWidget {
           path: EditProfileScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
             return const EditProfileScreen();
+          }),
+      GoRoute(
+          path: EditProfileBSUScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const EditProfileBSUScreen();
           }),
       GoRoute(
           path: PrivacyPolicyScreen.routeName,

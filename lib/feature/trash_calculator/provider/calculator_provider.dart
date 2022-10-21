@@ -1,10 +1,13 @@
 import 'package:bank_sampah/feature/trash_calculator/model/trash_model.dart';
 import 'package:bank_sampah/feature/trash_calculator/service/calculator_service.dart';
+import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
 
 class CalculatorProvider extends ChangeNotifier {
   RequestState _state = RequestState.empty;
+
+  CalculatorProvider(this.helper);
   RequestState get state => _state;
 
   String _message = "";
@@ -14,12 +17,15 @@ class CalculatorProvider extends ChangeNotifier {
 
   List<TrashModel> _searchResult = [];
   List<TrashModel> get searchResult => _searchResult;
+  final PreferencesHelper helper;
+  bool _isBsu = false;
+  bool get isBsu => _isBsu;
   final CalculatorService service = CalculatorService();
 
   Future<void> getTrashList() async {
     _state = RequestState.loading;
     notifyListeners();
-
+    _isBsu = await helper.getLevel() == "Bank Sampah Unit";
     final result = await service.getListTrash();
     result.fold((failure) {
       _state = RequestState.error;
