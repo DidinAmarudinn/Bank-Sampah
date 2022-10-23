@@ -1,8 +1,14 @@
+import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
+import 'package:bank_sampah/feature/profile/model/update_data_bsu_request.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../themes/constants.dart';
@@ -23,6 +29,8 @@ class _EditProfileBSUScreenState extends State<EditProfileBSUScreen> {
   final TextEditingController controllerUnitName = TextEditingController();
   final TextEditingController controllerJumlahLK = TextEditingController();
   final TextEditingController controllerJumlahPR = TextEditingController();
+  final TextEditingController controllerNoTlp = TextEditingController();
+  final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerKetuaUnit = TextEditingController();
 
   @override
@@ -30,12 +38,23 @@ class _EditProfileBSUScreenState extends State<EditProfileBSUScreen> {
     super.initState();
     Future.microtask(() {
       Provider.of<NasabahProvider>(context, listen: false).getNasabahCategory();
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getDataBsu()
+          .then((value) {
+        controllerAddressName.text = value?.alamat ?? "";
+        controllerKetuaUnit.text = value?.ketuaUnit ?? "";
+        controllerUnitName.text = value?.namaUnit ?? "";
+        controllerJumlahPR.text = value?.jmlPr ?? "0";
+        controllerJumlahLK.text = value?.jmlLk ?? "0";
+        controllerNoTlp.text = value?.noKontak ?? "";
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProfileProvider>(context);
+    final nasabahProvider = Provider.of<NasabahProvider>(context);
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(56),
@@ -113,7 +132,7 @@ class _EditProfileBSUScreenState extends State<EditProfileBSUScreen> {
             style: kDarkGrayText.copyWith(fontWeight: semiBold),
           ),
           TBTextFieldWithBorder(
-            controller: controllerAddressName,
+            controller: controllerEmail,
             hintText: "Masukan Email",
           ),
           const SizedBox(
@@ -135,7 +154,7 @@ class _EditProfileBSUScreenState extends State<EditProfileBSUScreen> {
             style: kDarkGrayText.copyWith(fontWeight: semiBold),
           ),
           TBTextFieldWithBorder(
-            controller: controllerAddressName,
+            controller: controllerNoTlp,
             hintText: "Masukan No Telepon",
           ),
           const SizedBox(
@@ -232,11 +251,65 @@ class _EditProfileBSUScreenState extends State<EditProfileBSUScreen> {
           const SizedBox(
             height: kDefaultPadding,
           ),
-          TBButtonPrimaryWidget(
-              buttonName: "Perbarui Data",
-              onPressed: () {},
-              height: 40,
-              width: double.infinity)
+          provider.state == RequestState.loading
+              ? const LoadingButton(height: 40, width: double.infinity)
+              : TBButtonPrimaryWidget(
+                  buttonName: "Perbarui Data",
+                  onPressed: () async {
+                    String email = controllerEmail.text;
+                    String noTlp = controllerNoTlp.text;
+                    String namaUnit = controllerUnitName.text;
+                    String ketuaUnit = controllerKetuaUnit.text;
+                    String? idKecamatan = nasabahProvider.selectedDistrict?.id;
+                    String? idKelurahan = nasabahProvider.selectedVilage?.id;
+                    String jumlahLK = controllerJumlahLK.text;
+                    String jumlahPR = controllerJumlahPR.text;
+                    String hariAngkut = provider.selectedDay;
+                    String alamat = controllerAddressName.text;
+                    String tanggalAngkut = provider.tanggalAngkut.toString();
+                    String status = provider.isActive ? "Aktif" : "Tidak Aktif";
+                    if (email.isNotEmpty &&
+                        noTlp.isNotEmpty &&
+                        namaUnit.isNotEmpty &&
+                        ketuaUnit.isNotEmpty &&
+                        idKecamatan != null &&
+                        idKelurahan != null &&
+                        jumlahPR.isNotEmpty &&
+                        jumlahLK.isNotEmpty &&
+                        hariAngkut.isNotEmpty &&
+                        alamat.isNotEmpty) {
+                      var request = UpdateDataBSURequest(
+                          idKecamatan: idKecamatan,
+                          idKelurahan: idKelurahan,
+                          namaUnit: namaUnit,
+                          noKontak: noTlp,
+                          email: email,
+                          alamat: alamat,
+                          priodeAngkut: "harian",
+                          tanggalAngkut: tanggalAngkut,
+                          hariAngkut: hariAngkut,
+                          jumlahLK: jumlahLK,
+                          jumlahPR: jumlahPR,
+                          ketuaUnit: ketuaUnit,
+                          status: status);
+                      await provider.updateProfileBsu(request);
+                      if (!mounted) return;
+                      if (provider.state == RequestState.loaded) {
+                        SnackbarMessage.showSnackbar(
+                            context, "Berhasil update profile");
+                        context.read<HomePageProvider>().getUserData();
+                        context.pop();
+                      }
+                      if (provider.state == RequestState.error) {
+                        SnackbarMessage.showSnackbar(context, provider.message);
+                      }
+                    } else {
+                      SnackbarMessage.showSnackbar(
+                          context, "Isi semua field diatas");
+                    }
+                  },
+                  height: 40,
+                  width: double.infinity)
         ],
       ),
     );

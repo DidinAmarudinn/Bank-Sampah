@@ -29,6 +29,7 @@ import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/privacy_policy_screen.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
+import 'package:bank_sampah/feature/register/ui/tnc_screen.dart';
 import 'package:bank_sampah/feature/transaction/provider/transaction_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
@@ -127,6 +128,12 @@ class MyApp extends StatelessWidget {
         path: LoginPage.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
+        },
+      ),
+      GoRoute(
+        path: TNCScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const TNCScreen();
         },
       ),
       GoRoute(

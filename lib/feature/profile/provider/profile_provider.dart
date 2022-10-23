@@ -1,4 +1,7 @@
+import 'package:bank_sampah/feature/login/model/bsu_model.dart';
+import 'package:bank_sampah/feature/nasabah/model/nasabah_model.dart';
 import 'package:bank_sampah/feature/profile/model/others_info_model.dart';
+import 'package:bank_sampah/feature/profile/model/update_data_bsu_request.dart';
 import 'package:bank_sampah/feature/profile/model/update_data_request.dart';
 import 'package:bank_sampah/feature/profile/service/profile_service.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
@@ -19,11 +22,81 @@ class ProfileProvider extends ChangeNotifier {
   OthersInfoModel? _othersInfoModel;
   OthersInfoModel? get othersInfoModel => _othersInfoModel;
 
+  BSUModel? _bsuModel;
+  BSUModel? get bsuModel => _bsuModel;
+
+  NasabahModel? _nasabahModel;
+  NasabahModel? get nasabahModel => _nasabahModel;
+
   Future<void> updateProfile(UpdateDataRequest request) async {
     _state = RequestState.loading;
     notifyListeners();
     final idNasabah = await helper.getId() ?? 0;
     final result = await service.updateProfile(request, idNasabah.toString());
+    result.fold((failure) {
+      _message = failure.message;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (data) {
+      _state = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  Future<NasabahModel?> getDataNasabah() async {
+    _state = RequestState.loading;
+    int id = await helper.getId() ?? 0;
+    final nasabahData = await service.getDataNsabah(id);
+    nasabahData.fold((l) {
+      _state = RequestState.error;
+      _message = l.message;
+      notifyListeners();
+    }, (r) {
+      _state = RequestState.loaded;
+      helper.setPhoneNumber(r?.noKontak ?? "");
+      helper.setFullName(r?.namaNasabah ?? "");
+      _nasabahModel = r;
+      selectStatusOjekSampah(r?.statusOjekSampah == "berlangganan");
+      notifyListeners();
+    });
+    return _nasabahModel;
+  }
+
+  Future<BSUModel?> getDataBsu() async {
+    _state = RequestState.loading;
+    int id = await helper.getId() ?? 0;
+    final bsuData = await service.getDataBsu(id.toString());
+    bsuData.fold((failure) {
+      _state = RequestState.error;
+      _message = failure.message;
+      notifyListeners();
+    }, (result) {
+      if (result == null) {
+        _state = RequestState.error;
+        _message = "Error Silahkan Coba Kembali";
+      } else {
+        _bsuModel = result;
+        helper.setIdBsu(result.id ?? "0");
+        helper.setPhoneNumber(result.noKontak ?? "");
+        helper.setFullName(result.namaUnit ?? "");
+        _selectedDay = result.hariAngkut ?? "";
+        _isActive = result.status == "Aktif";
+        if (result.tglAngkut != "0") {
+          _tanggalAngkut = int.parse(result.tglAngkut ?? "1");
+        }
+        _state = RequestState.loaded;
+      }
+      notifyListeners();
+    });
+    return _bsuModel;
+  }
+
+  Future<void> updateProfileBsu(UpdateDataBSURequest request) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final idBsu = await helper.getIdBsu() ?? 0;
+    final result =
+        await service.updateProfileBSU(request, idBsu.toString());
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
@@ -133,10 +206,23 @@ class ProfileProvider extends ChangeNotifier {
     _isActive = newVal;
     notifyListeners();
   }
+
   int _tanggalAngkut = 1;
   int get tanggalAngkut => _tanggalAngkut;
   void changeSlider(int newVal) {
     _tanggalAngkut = newVal;
+    notifyListeners();
+  }
+
+    String _statusOjekSampah = "berlangganan";
+  String get statusOjekSampah => _statusOjekSampah;
+
+  void selectStatusOjekSampah(bool isBerlangganan) {
+    if (isBerlangganan) {
+      _statusOjekSampah = "berlangganan";
+    } else {
+      _statusOjekSampah = "tidak berlangganan";
+    }
     notifyListeners();
   }
 }

@@ -21,6 +21,7 @@ NasabahModel _$NasabahModelFromJson(Map<String, dynamic> json) => NasabahModel(
       email: json['email'] as String?,
       alamat: json['alamat'] as String?,
       status: json['status'] as String?,
+      statusOjekSampah: json['status_ojek_sampah'] as String?,
     );
 
 Map<String, dynamic> _$NasabahModelToJson(NasabahModel instance) =>
@@ -39,4 +40,5 @@ Map<String, dynamic> _$NasabahModelToJson(NasabahModel instance) =>
       'email': instance.email,
       'alamat': instance.alamat,
       'status': instance.status,
+      'status_ojek_sampah': instance.statusOjekSampah,
     };

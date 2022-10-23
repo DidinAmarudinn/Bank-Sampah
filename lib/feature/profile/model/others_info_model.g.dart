@@ -23,6 +23,7 @@ OthersInfoModel _$OthersInfoModelFromJson(Map<String, dynamic> json) =>
       userFax: json['user_fax'] as String?,
       kebijakanPrivasi: json['kebijakan_privasi'] as String?,
       bantuan: json['bantuan'] as String?,
+      syaratKetentuan: json['syarat_ketentuan'] as String?,
     );
 
 Map<String, dynamic> _$OthersInfoModelToJson(OthersInfoModel instance) =>
@@ -42,4 +43,5 @@ Map<String, dynamic> _$OthersInfoModelToJson(OthersInfoModel instance) =>
       'user_fax': instance.userFax,
       'kebijakan_privasi': instance.kebijakanPrivasi,
       'bantuan': instance.bantuan,
+      'syarat_ketentuan': instance.syaratKetentuan,
     };

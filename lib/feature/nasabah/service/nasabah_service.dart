@@ -22,7 +22,6 @@ class NasabahService {
     try {
       final response = await http.get(Uri.parse("$getDataNsabahUrl$userId"));
       var data = json.decode(response.body);
-      print(data);
       if (response.statusCode == 200) {
         if (data["status"] == "true") {
           final result = BaseResponseList<NasabahModel>.fromJson(data, (data) {

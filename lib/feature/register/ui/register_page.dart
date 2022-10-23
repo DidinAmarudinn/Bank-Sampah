@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/register/provider/register_provider.dart';
+import 'package:bank_sampah/feature/register/ui/tnc_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
@@ -183,7 +184,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                     "Syarat dan Ketentuan Bank Sampah Sorong Raya",
                                 style: kGreenText.copyWith(fontSize: 11),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {}),
+                                  ..onTap = () {
+                                   
+                                    context.push(TNCScreen.routeName);
+                                  }),
                           ],
                         ),
                       ),

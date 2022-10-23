@@ -53,10 +53,12 @@ class LoginProvider extends ChangeNotifier {
       _loginModel = result?.data;
       _state = RequestState.loaded;
       int id = int.parse(result?.data?.id ?? "0");
-      preferencesHelper.setFullName(_loginModel?.namaUser ?? "");
       preferencesHelper.setId(id);
       preferencesHelper.setLevel(_loginModel?.level ?? "");
       preferencesHelper.setUsername(_loginModel?.username ?? "");
+      if (_loginModel?.level != "Nasabah") {
+        preferencesHelper.setFullName(loginModel?.namaUser ?? "");
+      }
       preferencesHelper.setImageProfileUrl(_loginModel?.filefotoprofile ?? "");
       _isBsu = _loginModel?.level == "Bank Sampah Unit";
       notifyListeners();
@@ -64,7 +66,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> checkNasabahData() async {
-     _stateChecDataNasabah = RequestState.loading;
+    _stateChecDataNasabah = RequestState.loading;
     int id = int.parse(_loginModel?.id ?? "0");
     final nasabahData = await nasabahService.getDataNsabah(id);
     nasabahData.fold((l) {
@@ -74,6 +76,9 @@ class LoginProvider extends ChangeNotifier {
     }, (r) {
       _stateChecDataNasabah = RequestState.loaded;
       _checkIsUserHasCompletedProfile = r != null;
+
+      preferencesHelper.setFullName(r?.namaNasabah ?? "");
+      preferencesHelper.setEmail(r?.email ?? "");
       preferencesHelper.setPhoneNumber(r?.noKontak ?? "");
       notifyListeners();
     });

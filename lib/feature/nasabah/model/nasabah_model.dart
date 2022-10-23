@@ -31,6 +31,8 @@ class NasabahModel {
   String? alamat;
   @JsonKey(name: "status")
   String? status;
+  @JsonKey(name: "status_ojek_sampah")
+  String? statusOjekSampah;
 
   NasabahModel({
     this.id,
@@ -47,6 +49,7 @@ class NasabahModel {
     this.email,
     this.alamat,
     this.status,
+    this.statusOjekSampah
   });
 
    factory NasabahModel.fromJson(Map<String, dynamic> json) =>

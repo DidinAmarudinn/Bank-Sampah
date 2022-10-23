@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../feature/nasabah/provider/nasabah_provider.dart';
 
 class DropdownVilage extends StatelessWidget {
-  const DropdownVilage({super.key});
+  final String? vilageName;
+  const DropdownVilage({super.key, this.vilageName});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class DropdownVilage extends StatelessWidget {
                 child: DropdownSearch<VilageModel>(
                   items: value.vilages,
                   
-                  itemAsString: (item) => item.vilageName ?? "",
+                  itemAsString: (item) => vilageName ??  (item.vilageName  ?? ""),
                   popupProps: PopupProps.menu(
                     errorBuilder: (context, searchEntry, exception) {
                       return Center(child: Text(value.message));

@@ -6,8 +6,7 @@ class UpdateDataRequest {
   String noKontak;
   String email;
   String alamat;
-  String addBukualamat;
-  String namaAlamat;
+  String statusOjekSampah;
   UpdateDataRequest({
     required this.idJenis,
     required this.idKecamatan,
@@ -16,7 +15,6 @@ class UpdateDataRequest {
     required this.noKontak,
     required this.email,
     required this.alamat,
-    required this.addBukualamat,
-    required this.namaAlamat,
+    required this.statusOjekSampah
   });
 }

@@ -1,6 +1,7 @@
 import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
+import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_bsu_screen.dart';
@@ -205,6 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (!mounted) return;
                     context.read<MainPageProvider>().changeTabIndex(0);
                     context.read<CheckoutProvider>().clearCart();
+                    context.read<NasabahProvider>().clear();
                     context.go(LoginPage.routeName);
                   },
                   splashColor: Colors.amber,

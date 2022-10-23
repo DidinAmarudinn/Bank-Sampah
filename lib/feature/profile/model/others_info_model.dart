@@ -34,6 +34,8 @@ class OthersInfoModel {
   String? kebijakanPrivasi;
   @JsonKey(name: "bantuan")
   String? bantuan;
+  @JsonKey(name: "syarat_ketentuan")
+  String? syaratKetentuan;
 
   OthersInfoModel(
       {this.id,
@@ -50,7 +52,8 @@ class OthersInfoModel {
       this.passEmail,
       this.userFax,
       this.kebijakanPrivasi,
-      this.bantuan});
+      this.bantuan,
+      this.syaratKetentuan});
 
   factory OthersInfoModel.fromJson(Map<String, dynamic> json) =>
       _$OthersInfoModelFromJson(json);

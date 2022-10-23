@@ -177,4 +177,10 @@ class NasabahProvider extends ChangeNotifier {
     _isAddToAddressBook = newVal;
     notifyListeners();
   }
+
+  void clear() {
+    _selectedDistrict = null;
+    _selectedVilage = null;
+    notifyListeners();
+  }
 }

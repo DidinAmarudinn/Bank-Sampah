@@ -7,7 +7,8 @@ import '../feature/nasabah/model/district_model.dart';
 import '../feature/nasabah/provider/nasabah_provider.dart';
 
 class DropdownDistrict extends StatelessWidget {
-  const DropdownDistrict({super.key});
+  final String? disctrictName;
+  const DropdownDistrict({super.key, this.disctrictName});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class DropdownDistrict extends StatelessWidget {
                   asyncItems: (text) async {
                     return await value.updateListDistricts(text);
                   },
-                  itemAsString: (item) => item.districtName ?? "",
+                  itemAsString: (item) => disctrictName ?? (item.districtName ?? ""),
                   popupProps: PopupProps.menu(
                     errorBuilder: (context, searchEntry, exception) {
                       return Center(child: Text(value.message));
