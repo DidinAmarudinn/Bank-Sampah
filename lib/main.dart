@@ -15,6 +15,7 @@ import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
+import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
@@ -37,6 +38,7 @@ import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/splash_screen.dart';
+import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -111,6 +113,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          colorScheme: const ColorScheme.light(primary: kDarkGreen),
         ),
       ),
     );
@@ -169,12 +172,18 @@ class MyApp extends StatelessWidget {
       GoRoute(
           path: TrashCalculatorPage.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const TrashCalculatorPage();
+            NasabahBSUModel? data = state.extra as NasabahBSUModel?;
+            return TrashCalculatorPage(
+              nasabahBSUModel: data,
+            );
           }),
       GoRoute(
           path: CheckoutScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const CheckoutScreen();
+            NasabahBSUModel? data = state.extra as NasabahBSUModel?;
+            return CheckoutScreen(
+              nasabahBSUModel: data,
+            );
           }),
       GoRoute(
           path: WithdrawPointScreen.routeName,

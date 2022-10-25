@@ -1,4 +1,5 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
+import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
@@ -14,8 +15,8 @@ import 'package:provider/provider.dart';
 import '../../../themes/constants.dart';
 import '../../../widget/card_last_transaction.dart';
 import '../provider/home_page_provider.dart';
+import '../provider/main_page_provider.dart';
 import 'bottom_sheet_others_menu.dart';
-
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home-page';
@@ -163,13 +164,19 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleMenuWidget(
-                            color: kPastelColor,
-                            iconName: kIcCalculator,
-                            menuName: "Kalkulator Sampah",
-                            onTap: () {
-                              context.push(TrashCalculatorPage.routeName);
-                            },
+                          Consumer<MainPageProvider>(
+                            builder: (context, provider, _) => CircleMenuWidget(
+                              color: kPastelColor,
+                              iconName: kIcCalculator,
+                              menuName: "Kalkulator Sampah",
+                              onTap: () {
+                                if (provider.isBsu) {
+                                  context.push(NasabahScreen.routeName);
+                                } else {
+                                  context.push(TrashCalculatorPage.routeName);
+                                }
+                              },
+                            ),
                           ),
                           const CircleMenuWidget(
                             color: kDarkGreen,

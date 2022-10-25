@@ -34,7 +34,6 @@ class ProfileService {
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
-        print(response.body);
         var res = json.decode(response.body);
         if (res["status"] == "true") {
           return const Right(true);

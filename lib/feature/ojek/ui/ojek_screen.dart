@@ -1,9 +1,11 @@
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/ojek/model/ojek_model.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
+import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/item_day_pickup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +28,7 @@ class _OjekScreenState extends State<OjekScreen> {
     Provider.of<OjekProvider>(context, listen: false).clearData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +72,7 @@ class _OjekScreenState extends State<OjekScreen> {
                   children: [
                     Text(
                       widget.isDaily
-                          ? "Ojek Sampah Harian"
+                          ? "Ojek Sampah"
                           : "Ojek Sampah Berlangganan ",
                       style: kGreenText.copyWith(fontWeight: semiBold),
                     ),
@@ -92,25 +95,50 @@ class _OjekScreenState extends State<OjekScreen> {
                 horizontal: kDefaultPadding / 2, vertical: kDefaultPadding / 2),
             color: kBorderGray,
             child: Text(
-              "Pilih hari penjemputan",
+              widget.isDaily
+                  ? "Pilih Tanggal Penjemputan"
+                  : "Pilih hari penjemputan",
               style: kBlackText.copyWith(fontSize: 12, fontWeight: bold),
             ),
           ),
           Expanded(
             child: widget.isDaily
-                ? Consumer<OjekProvider>(
-                    builder: (context, value, _) => ListView.builder(
-                      itemCount: dayPickUpData.length,
-                      itemBuilder: (context, index) {
-                        String day = dayPickUpData[index];
-                        return ItemDayPickup(
-                            titile: day,
-                            isChecked: value.isChecked(day),
-                            onCheck: (newVal) {
-                              value.selectDay(day);
-                            });
-                      },
-                    ),
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        child: Consumer<OjekProvider>(
+                          builder: (context, provider, _) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${FormatterExt().dateFormat.format(provider.time)}, ${FormatterExt().weekdayName[provider.time.weekday]}",
+                                style:
+                                    kBlackText.copyWith(fontWeight: semiBold),
+                              ),
+                              TBButtonPrimaryWidget(
+                                  buttonName: "Pilih Tanggal",
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      cancelText: "Tutup",
+                                      helpText: "Pilih Tanggal Penjemputan",
+                                      confirmText: "Pilih",
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2099),
+                                    ).then((value) {
+                                      provider.selectedTime(value ?? DateTime.now());
+                                    });
+                                  },
+                                  height: 40,
+                                  width: 120)
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Spacer()
+                    ],
                   )
                 : Consumer<OjekProvider>(
                     builder: (context, value, _) => ListView.builder(

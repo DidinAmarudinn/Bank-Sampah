@@ -1,4 +1,6 @@
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
+import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/dialog_add_trash.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
@@ -13,7 +15,8 @@ import '../../../widget/tb_button_primary_widget.dart';
 
 class TrashCalculatorPage extends StatefulWidget {
   static const routeName = '/trash-calculator-page';
-  const TrashCalculatorPage({Key? key}) : super(key: key);
+  final NasabahBSUModel? nasabahBSUModel;
+  const TrashCalculatorPage({Key? key, this.nasabahBSUModel}) : super(key: key);
 
   @override
   State<TrashCalculatorPage> createState() => _TrashCalculatorPageState();
@@ -160,12 +163,13 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding * 2,
+                horizontal: kDefaultPadding,
                   vertical: kDefaultPadding / 2),
               child: TBButtonPrimaryWidget(
                 buttonName: "Hitung",
                 onPressed: () {
-                  context.push(CheckoutScreen.routeName);
+                  context.read<CheckoutProvider>().checkRole();
+                  context.push(CheckoutScreen.routeName, extra: widget.nasabahBSUModel);
                 },
                 height: 40,
                 width: double.infinity,

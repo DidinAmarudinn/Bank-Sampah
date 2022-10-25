@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
+import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
@@ -62,25 +63,30 @@ class _NasabahScreenState extends State<NasabahScreen> {
                     return ListView.builder(
                       itemCount: provider.nasabaBsuList.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(
-                              bottom: kDefaultPadding / 2),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                              vertical: kDefaultPadding / 2),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(6),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 2))
-                              ]),
-                          child: Text(
-                            provider.nasabaBsuList[index].namaNasabah ?? "",
-                            style: kDarkGrayText.copyWith(
-                                fontWeight: semiBold, fontSize: 12),
+                        return InkWell(
+                          onTap: (){
+                            context.push(TrashCalculatorPage.routeName, extra: provider.nasabaBsuList[index]);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                bottom: kDefaultPadding / 2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kDefaultPadding,
+                                vertical: kDefaultPadding / 2),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 2))
+                                ]),
+                            child: Text(
+                              provider.nasabaBsuList[index].namaNasabah ?? "",
+                              style: kDarkGrayText.copyWith(
+                                  fontWeight: semiBold, fontSize: 12),
+                            ),
                           ),
                         );
                       },

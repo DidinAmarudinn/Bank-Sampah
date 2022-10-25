@@ -43,7 +43,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
             Column(
               children: [
                 CardOjekSampah(
-                  titile: "Ojek Sampah Harian",
+                  titile: "Ojek Sampah",
                   color: kDarkGreen,
                   onTap: () {
                     Navigator.of(context).pop();
@@ -54,8 +54,8 @@ class BottomSheetOjekSampah extends StatelessWidget {
                 CardOjekSampah(
                   titile: "Ojek Sampah Berlangganan",
                   onTap: () {
-                    Navigator.of(context).pop();
-                    context.push(OjekScreen.routeName, extra: false);
+                    // Navigator.of(context).pop();
+                    // context.push(OjekScreen.routeName, extra: false);
                   },
                   color: kGreen,
                   subTitle: "Pelayanan Ojek Jemput Berkala Sesuai Jadwal",

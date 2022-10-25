@@ -27,4 +27,12 @@ class OjekProvider extends ChangeNotifier {
     bool isCheck = _selectedDays.where((e) => e == day).toList().isNotEmpty;
     return isCheck;
   }
+
+  DateTime _time = DateTime.now();
+  DateTime get time => _time;
+
+  void  selectedTime(DateTime time) {
+    _time  = time;
+    notifyListeners();
+  }
 }

@@ -22,7 +22,7 @@ class TBButtonPrimaryWidget extends StatelessWidget {
       height: height,
       width: width,
       child: TextButton(
-        onPressed: onPressed,
+        onPressed: isDisable ?? false ? null : onPressed,
         style: TextButton.styleFrom(
           backgroundColor: isDisable ?? false ? kGreyDivider : kDarkGreen,
           shape: RoundedRectangleBorder(
