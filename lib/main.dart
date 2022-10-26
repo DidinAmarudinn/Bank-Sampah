@@ -36,11 +36,16 @@ import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provide
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/provider/pulsa_provider.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/success_page.dart';
 import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/splash_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +53,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id_ID', null).then((_) => runApp(MyApp()));
+  await initializeDateFormatting('id_ID', null).then((_) => runApp(
+        Phoenix(
+          child: MyApp(),
+        ),
+      ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -67,6 +76,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
+        ChangeNotifierProvider(create: (_) => PulsaProvider()),
         ChangeNotifierProvider(
             create: (_) => MainPageProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
@@ -134,6 +144,18 @@ class MyApp extends StatelessWidget {
         },
       ),
       GoRoute(
+        path: SuccessPage.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const SuccessPage();
+        },
+      ),
+      GoRoute(
+        path: PaymentMethodPage.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const PaymentMethodPage();
+        },
+      ),
+      GoRoute(
         path: TNCScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const TNCScreen();
@@ -194,6 +216,11 @@ class MyApp extends StatelessWidget {
           path: HelpScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
             return const HelpScreen();
+          }),
+      GoRoute(
+          path: PulsaScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const PulsaScreen();
           }),
       GoRoute(
           path: ChangePasswordScreen.routeName,

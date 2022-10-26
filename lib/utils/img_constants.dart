@@ -26,3 +26,4 @@ const String kIcCircleMarker = "assets/ic_circle_marker.png";
 const String kIcMap = "assets/ic_map.png";
 const String kIcMarker = "assets/ic_marker.png";
 const String kIcWhiteBank = "assets/ic_bank_white.png";
+const String kLottieAnimation = "assets/lottie_success.json";

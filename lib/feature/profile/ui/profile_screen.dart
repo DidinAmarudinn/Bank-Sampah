@@ -12,6 +12,7 @@ import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/widget/item_menu_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -201,6 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context.read<CheckoutProvider>().clearCart();
                     context.read<NasabahProvider>().clear();
                     context.go(LoginPage.routeName);
+                    Phoenix.rebirth(context);
                   },
                   splashColor: Colors.amber,
                   child: Row(

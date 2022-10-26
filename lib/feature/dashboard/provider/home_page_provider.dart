@@ -115,6 +115,9 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   void start() {
+    if (pagingController.itemList != null) {
+      pagingController.dispose();
+    }
     pagingController.addPageRequestListener((pageKey) {
       getListTransaction(pageKey);
     });

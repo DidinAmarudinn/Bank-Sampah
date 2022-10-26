@@ -1,4 +1,5 @@
 import 'package:bank_sampah/feature/activity/ui/activity_screen.dart';
+import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_ojek.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
@@ -21,7 +22,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage>
-    with AutomaticKeepAliveClientMixin {
+     {
   List<Widget> screens = const [
     HomePage(),
     TransactionScreen(),
@@ -33,17 +34,24 @@ class _MainPageState extends State<MainPage>
   @override
   void initState() {
     super.initState();
+    Provider.of<HomePageProvider>(context, listen: false).start();
     Future.microtask(() {
       Provider.of<MainPageProvider>(context, listen: false).getIsBsu();
     });
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
+
+  // @override
+  // void dispose() {
+  //   Provider.of<HomePageProvider>(context, listen: false).destroy();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+   
     final provider = Provider.of<MainPageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,

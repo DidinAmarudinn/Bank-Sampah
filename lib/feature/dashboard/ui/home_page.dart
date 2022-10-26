@@ -1,6 +1,7 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/circle_menu_widget.dart';
@@ -29,21 +30,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    getHomeData();
-    init();
     super.initState();
+    init();
   }
 
-  void getHomeData() {
-    Future.microtask(() {
-      Provider.of<HomePageProvider>(context, listen: false).getUserBalance();
-    });
-  }
 
   void init() {
-    Provider.of<HomePageProvider>(context, listen: false).start();
+    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).getListSlider();
+       Provider.of<HomePageProvider>(context, listen: false).getUserBalance();
     });
   }
 
@@ -178,10 +175,13 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ),
-                          const CircleMenuWidget(
+                          CircleMenuWidget(
                             color: kDarkGreen,
                             iconName: kIcPuls,
                             menuName: "Pulsa",
+                            onTap: () {
+                              context.push(PulsaScreen.routeName);
+                            },
                           ),
                           const CircleMenuWidget(
                             color: kDarkGreen,

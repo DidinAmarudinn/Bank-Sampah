@@ -50,6 +50,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   void getNasabahName() {
     helper.getFullName().then((value) {
+      print(value);
       controllerName.text = value ?? "";
     });
   }
@@ -297,10 +298,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
                               if (!mounted) return;
                               if (value.isBsu) {
-                                Provider.of<LoginProvider>(context)
+                                 context.read<LoginProvider>()
                                     .getDataBsu();
                               } else {
-                                Provider.of<LoginProvider>(context)
+                                context.read<LoginProvider>()
                                     .checkNasabahData();
                               }
                               if (value.state == RequestState.loaded) {

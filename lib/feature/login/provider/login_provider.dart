@@ -56,9 +56,7 @@ class LoginProvider extends ChangeNotifier {
       preferencesHelper.setId(id);
       preferencesHelper.setLevel(_loginModel?.level ?? "");
       preferencesHelper.setUsername(_loginModel?.username ?? "");
-      if (_loginModel?.level != "Nasabah") {
-        preferencesHelper.setFullName(loginModel?.namaUser ?? "");
-      }
+      preferencesHelper.setFullName(loginModel?.namaUser ?? "");
       preferencesHelper.setImageProfileUrl(_loginModel?.filefotoprofile ?? "");
       _isBsu = _loginModel?.level == "Bank Sampah Unit";
       notifyListeners();
