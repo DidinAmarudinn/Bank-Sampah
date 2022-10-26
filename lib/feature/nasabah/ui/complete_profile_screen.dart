@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/login/provider/login_provider.dart';
 import 'package:bank_sampah/feature/nasabah/model/complete_profile_request.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
@@ -215,7 +216,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: kDefaultPadding/2,),
+                            const SizedBox(
+                              width: kDefaultPadding / 2,
+                            ),
                             InkWell(
                               onTap: () {
                                 val.selectStatusOjekSampah(false);
@@ -291,7 +294,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                       namaAlamat: addressName,
                                       statusOjekSampah: statusOjekSampah);
                               await value.completeProfile(request);
+
                               if (!mounted) return;
+                              if (value.isBsu) {
+                                Provider.of<LoginProvider>(context)
+                                    .getDataBsu();
+                              } else {
+                                Provider.of<LoginProvider>(context)
+                                    .checkNasabahData();
+                              }
                               if (value.state == RequestState.loaded) {
                                 context.go(MainPage.routeName);
                               }

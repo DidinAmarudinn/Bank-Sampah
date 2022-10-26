@@ -40,7 +40,7 @@ class _OjekScreenState extends State<OjekScreen> {
                 vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
             child: CustomAppBar(
               titlePage: widget.isDaily
-                  ? "Ojek Sampah Harian"
+                  ? "Ojek Sampah"
                   : "Ojek Sampah Berlangganan",
               isHaveShadow: true,
             ),

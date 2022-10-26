@@ -4,6 +4,7 @@ import 'package:bank_sampah/feature/nasabah/model/district_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/vilage_model.dart';
 import 'package:bank_sampah/feature/nasabah/service/nasabah_service.dart';
+import 'package:bank_sampah/utils/api_constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -58,13 +59,16 @@ class NasabahProvider extends ChangeNotifier {
 
   String _messageNasabahType = "";
   String get messageNasabahType => _messageNasabahType;
+  bool _isBsu = false;
+  bool get isBsu => _isBsu;
   Future<void> completeProfile(CompleteProfileRequest request) async {
     _state = RequestState.loading;
     notifyListeners();
+    _isBsu = await helper.getLevel() == bsuCode;
     final result = await service.postCompleteProfile(request);
     result.fold((failure) {
       _state = RequestState.error;
-      _messageCompleteProfile = failure.message;
+      _messageCompleteProfile = failure.message;    
       notifyListeners();
     }, (success) {
       _state = RequestState.loaded;

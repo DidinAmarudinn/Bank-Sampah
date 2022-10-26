@@ -45,6 +45,8 @@ class TransactionResult {
   final String? tglTransaksi;
   @JsonKey(name: "total_tagihan")
   final String? totalTagihan;
+  @JsonKey(name: "status")
+  final String? status;
 
   TransactionResult(
       {this.idTransaksi,
@@ -52,7 +54,8 @@ class TransactionResult {
       this.tipe,
       this.nominalTransaksi,
       this.tglTransaksi,
-      this.totalTagihan});
+      this.totalTagihan,
+      this.status});
 
   factory TransactionResult.fromJson(Map<String, dynamic> json) =>
       _$TransactionResultFromJson(json);

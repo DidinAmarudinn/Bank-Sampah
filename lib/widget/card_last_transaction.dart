@@ -57,7 +57,7 @@ class CardLastTransaction extends StatelessWidget {
                 height: kDefaultPadding / 2,
               ),
               Text(
-                "Berhasil",
+                transactionResult?.status ?? "",
                 style: kPasterText.copyWith(fontWeight: bold, fontSize: 12),
               ),
             ],

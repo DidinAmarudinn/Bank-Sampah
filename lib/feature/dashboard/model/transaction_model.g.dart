@@ -36,6 +36,7 @@ TransactionResult _$TransactionResultFromJson(Map<String, dynamic> json) =>
       nominalTransaksi: json['nominal_transaksi'] as String?,
       tglTransaksi: json['tgl_transaksi'] as String?,
       totalTagihan: json['total_tagihan'] as String?,
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$TransactionResultToJson(TransactionResult instance) =>
@@ -46,4 +47,5 @@ Map<String, dynamic> _$TransactionResultToJson(TransactionResult instance) =>
       'nominal_transaksi': instance.nominalTransaksi,
       'tgl_transaksi': instance.tglTransaksi,
       'total_tagihan': instance.totalTagihan,
+      'status': instance.status,
     };

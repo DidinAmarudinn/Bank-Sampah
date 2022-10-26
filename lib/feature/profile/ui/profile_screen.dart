@@ -135,14 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 5,
                       thickness: 2,
                     ),
-                    ItemMenuProfile(
-                        iconName: Icons.check,
-                        title: "Verifikasi Data Diri",
-                        onTap: () {}),
-                    const Divider(
-                      height: 5,
-                      thickness: 2,
-                    ),
+                 
                     ItemMenuProfile(
                         iconName: Icons.lock,
                         title: "Ubah Password",
