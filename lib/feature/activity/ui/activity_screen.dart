@@ -1,6 +1,7 @@
 import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
+import 'package:bank_sampah/widget/card_item_article.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -80,78 +82,109 @@ class _ActivityScreenState extends State<ActivityScreen> {
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 72, left: kDefaultPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Consumer<ActivityProvider>(
-                            builder: ((context, value, child) {
-                              if (value.state == RequestState.loaded) {
-                                return CustomSliderWidget(
-                                  height: 180,
-                                  list: value.listSlider ?? [],
-                                );
-                              } else if (value.state == RequestState.loading) {
-                                return const SizedBox(
-                                  height: 180,
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: SpinKitFadingCircle(
-                                      size: 40,
-                                      color: kDarkGreen,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            }),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: kDefaultPadding),
-                            child: Text(
-                              "Kegiatan Kami",
-                              style: kGreenText.copyWith(
-                                  fontWeight: bold, fontSize: 16),
-                            ),
-                          ),
-                          Expanded(
-                            child: Consumer<ActivityProvider>(
-                              builder: (context, provider, _) =>
-                                  PagedListView<int, Activty>(
-                                pagingController: provider.pagingController,
-                                builderDelegate:
-                                    PagedChildBuilderDelegate<Activty>(
-                                  noItemsFoundIndicatorBuilder: (context) =>
-                                      Center(
-                                    child: Text(
-                                      "Belum Ada Transaksi",
-                                      style: kBlackText,
-                                    ),
-                                  ),
-                                  itemBuilder: (context, item, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        context.push(
-                                            DetailActivityScreen.routeName,
-                                            extra: item);
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: CachedNetworkImage(
-                                          imageUrl: item.pathImage ?? "",
-                                          height: 120,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                        ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Consumer<ActivityProvider>(
+                              builder: ((context, value, child) {
+                                if (value.state == RequestState.loaded) {
+                                  return CustomSliderWidget(
+                                    height: 180,
+                                    list: value.listSlider ?? [],
+                                  );
+                                } else if (value.state ==
+                                    RequestState.loading) {
+                                  return const SizedBox(
+                                    height: 180,
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: SpinKitFadingCircle(
+                                        size: 40,
+                                        color: kDarkGreen,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox();
+                                }
+                              }),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: kDefaultPadding),
+                              child: Text(
+                                "Kegiatan Kami",
+                                style: kGreenText.copyWith(
+                                    fontWeight: bold, fontSize: 16),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.width * 0.6,
+                              child: Consumer<ActivityProvider>(
+                                builder: (context, provider, _) =>
+                                    PagedListView<int, Activty>(
+                                  scrollDirection: Axis.horizontal,
+                                  pagingController: provider.pagingController,
+                                  builderDelegate:
+                                      PagedChildBuilderDelegate<Activty>(
+                                    noItemsFoundIndicatorBuilder: (context) =>
+                                        Center(
+                                      child: Text(
+                                        "Belum Ada Kegiatan",
+                                        style: kBlackText,
+                                      ),
+                                    ),
+                                    itemBuilder: (context, item, index) {
+                                      return CardItemArticle(
+                                        height: size.width * 0.6,
+                                        width: size.width * 0.7,
+                                        activityModel: item,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: kDefaultPadding),
+                              child: Text(
+                                "Artikel",
+                                style: kGreenText.copyWith(
+                                    fontWeight: bold, fontSize: 16),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.width * 0.6,
+                              child: Consumer<ActivityProvider>(
+                                builder: (context, provider, _) =>
+                                    PagedListView<int, Activty>(
+                                  scrollDirection: Axis.horizontal,
+                                  pagingController:
+                                      provider.pagingControllerArticle,
+                                  builderDelegate:
+                                      PagedChildBuilderDelegate<Activty>(
+                                    noItemsFoundIndicatorBuilder: (context) =>
+                                        Center(
+                                      child: Text(
+                                        "Belum Ada Artikel",
+                                        style: kBlackText,
+                                      ),
+                                    ),
+                                    itemBuilder: (context, item, index) {
+                                      return CardItemArticle(
+                                        height: size.width * 0.6,
+                                        width: size.width * 0.7,
+                                        activityModel: item,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

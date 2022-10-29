@@ -24,5 +24,6 @@ const String updateProfileUrl = "$baserUrl/api/v1/update_data_nasabah";
 const String updateProfileBsuUrl = "$baserUrl/api/v1/update_data_bsu";
 const String getOthersInfoUrl = "$baserUrl/api/v1/get_akun";
 const String checkoutUrl = "$baserUrl/api/v1/add_pembelian_sampah";
-
+const String checkoutBSUUrl = "$baserUrl/api/v1/add_kalkulator_sampah";
+const String getListGudangUrl = "$baserUrl/api/v1/get_gudang_penjemputan";
 const String bsuCode = "Bank Sampah Unit";

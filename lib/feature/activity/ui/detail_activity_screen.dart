@@ -96,8 +96,18 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                               )),
                           Expanded(
                               child: SingleChildScrollView(
-                            child: Html(
-                              data: widget.activty?.isiArtikel ?? "",
+                            child: Column(
+                              children: [
+                                 (widget.activty?.waktuKegiatan ?? "").isEmpty
+                      ? const SizedBox() : Text(
+                          "${widget.activty?.tempatKegiatan} (${widget.activty?.waktuKegiatan})",
+                          style: kDarkGrayText.copyWith(
+                              fontWeight: semiBold, fontSize: 12),
+                        ),
+                                Html(
+                                  data: widget.activty?.isiArtikel ?? "",
+                                ),
+                              ],
                             ),
                           )),
                         ],

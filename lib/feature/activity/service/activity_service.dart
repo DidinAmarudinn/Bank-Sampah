@@ -24,7 +24,6 @@ class ActivityService {
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
-
         if (res["status"] == "true") {
           try {
             final result = ActivityModel.fromJson(res);

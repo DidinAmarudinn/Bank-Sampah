@@ -109,8 +109,7 @@ class _DialogAddTrashState extends State<DialogAddTrash> {
                           trashModel: widget.trashModel,
                           weight: double.parse(controller.text));
                       val.addToCart(data);
-                      SnackbarMessage.showSnackbar(
-                          context, "Berhasil ditambahkan ke cart");
+                      SnackbarMessage.showToast("Berhasil ditambahkan");
                       Navigator.pop(context);
                     } else {
                       SnackbarMessage.showSnackbar(

@@ -22,6 +22,10 @@ class ActivityProvider extends ChangeNotifier {
   final PagingController<int, Activty> pagingController =
       PagingController(firstPageKey: 0);
 
+  final PagingController<int, Activty> pagingControllerArticle =
+      PagingController(firstPageKey: 0);
+
+
   bool _isLastPage = false;
   final int _numberOfTransactionPerRequest = 5;
 
@@ -68,14 +72,42 @@ class ActivityProvider extends ChangeNotifier {
       pagingController.error = e;
     }
   }
+  Future<void> getListArticle(int pageKey) async {
+    try {
+      final result = await activityService.getListArticle(
+          pageKey + 1, _numberOfTransactionPerRequest);
+      result.fold((failure) {
+        pagingControllerArticle.error = failure.message;
+      }, (activityModel) {
+        int transactionCount = activityModel?.result?.length ?? 0;
+        _isLastPage = transactionCount < _numberOfTransactionPerRequest;
+        if (_isLastPage) {
+          if (activityModel?.result != null) {
+            pagingControllerArticle.appendLastPage(activityModel!.result!);
+          }
+        } else {
+          if (activityModel?.result != null) {
+            final nextPage = pageKey + 1;
+            pagingControllerArticle.appendPage(activityModel!.result!, nextPage);
+          }
+        }
+      });
+    } catch (e) {
+      pagingControllerArticle.error = e;
+    }
+  }
 
   void start() {
     pagingController.addPageRequestListener((pageKey) {
       getListActivity(pageKey);
     });
+    pagingControllerArticle.addPageRequestListener((pageKey) {
+      getListArticle(pageKey);
+    });
   }
 
   void destroy() {
     pagingController.dispose();
+    pagingControllerArticle.dispose();
   }
 }

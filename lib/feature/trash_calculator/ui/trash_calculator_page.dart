@@ -11,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../themes/constants.dart';
+import '../../../utils/formatter_ext.dart';
 import '../../../widget/tb_button_primary_widget.dart';
 
 class TrashCalculatorPage extends StatefulWidget {
@@ -36,6 +37,60 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Consumer<CheckoutProvider>(
+        builder: (context, provider, _) => provider.list.isEmpty
+            ? const SizedBox()
+            : InkWell(
+              onTap: (){
+                context.push(CheckoutScreen.routeName);
+              },
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.all(kDefaultPadding),
+                  height: 55,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding / 2,
+                      vertical: kDefaultPadding / 3),
+                  decoration: BoxDecoration(
+                      color: kDarkGreen, borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: kDefaultPadding / 2),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${provider.list.length} Item",
+                                style: kWhiteText.copyWith(fontWeight: semiBold),
+                              ),
+                              Text(
+                                "Harga ${FormatterExt().currencyFormatter.format(provider.totalPrice)}",
+                                style: kWhiteText.copyWith(
+                                    fontWeight: light, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration:const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                        child:const Icon(
+                          Icons.arrow_forward,
+                          size: 25,
+                          color: kDarkGreen,
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: Column(
           children: [
@@ -160,20 +215,6 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
                   return const SizedBox();
                 }
               }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-              child: TBButtonPrimaryWidget(
-                buttonName: "Hitung",
-                onPressed: () {
-                  context.read<CheckoutProvider>().checkRole();
-                  context.push(CheckoutScreen.routeName,
-                      extra: widget.nasabahBSUModel);
-                },
-                height: 40,
-                width: double.infinity,
-              ),
             ),
           ],
         ),
