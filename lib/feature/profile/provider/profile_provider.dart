@@ -95,8 +95,7 @@ class ProfileProvider extends ChangeNotifier {
     _state = RequestState.loading;
     notifyListeners();
     final idBsu = await helper.getIdBsu() ?? 0;
-    final result =
-        await service.updateProfileBSU(request, idBsu.toString());
+    final result = await service.updateProfileBSU(request, idBsu.toString());
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
@@ -214,7 +213,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    String _statusOjekSampah = "berlangganan";
+  String _statusOjekSampah = "berlangganan";
   String get statusOjekSampah => _statusOjekSampah;
 
   void selectStatusOjekSampah(bool isBerlangganan) {

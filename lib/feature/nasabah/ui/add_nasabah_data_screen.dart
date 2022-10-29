@@ -187,8 +187,7 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                         checkColor: Colors.white,
                         activeColor: kDarkGreen,
                         onChanged: (newValue) {
-                          value
-                              .changeIsAddToAddressBook(newValue ?? true);
+                          value.changeIsAddToAddressBook(newValue ?? true);
                         },
                       ),
                     ],
@@ -250,8 +249,7 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                               horizontal: kDefaultPadding / 2,
                               vertical: kDefaultPadding / 3),
                           decoration: BoxDecoration(
-                            color: val.statusOjekSampah ==
-                                    "tidak berlangganan"
+                            color: val.statusOjekSampah == "tidak berlangganan"
                                 ? kDarkGreen
                                 : kGreyColor,
                             borderRadius: BorderRadius.circular(40),
@@ -268,79 +266,80 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                 const SizedBox(
                   height: kDefaultPadding,
                 ),
-                 Consumer<NasabahProvider>(
-          builder: (context, value, _) => value.state ==
-                  RequestState.loading
-              ? const LoadingButton(height: 40, width: double.infinity)
-              : Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: kDefaultPadding / 2),
-                  child: TBButtonPrimaryWidget(
-                    buttonName: "Tambah",
-                    onPressed: () async {
-                      String name = controllerName.text;
-                      String address = controllerAddress.text;
-                      String addressName = controllerAddressName.text;
-                      String username = controllerUsername.text;
-                      String password = controllerUsername.text;
-                      String noTelp = controllerNoTlp.text;
-                      String email = controllerEmail.text;
-                      String? id = await helper.getIdBsu();
-                      String? districsId = value.selectedDistrict?.id;
-                      String? vilageId = value.selectedVilage?.id;
-                      String? idType = value.selectedNasabahType?.id;
-                      String statusOjekSampah = value.statusOjekSampah;
-                      if (name.isNotEmpty &&
-                          username.isNotEmpty &&
-                          password.isNotEmpty &&
-                          address.isNotEmpty &&
-                          addressName.isNotEmpty &&
-                          noTelp.isNotEmpty &&
-                          email.isNotEmpty &&
-                          id != null &&
-                          districsId != null &&
-                          vilageId != null &&
-                          idType != null) {
-                        AddNasabahBsuRequest request =
-                            AddNasabahBsuRequest(
-                                userName: username,
-                                password: password,
-                                idBsu: id,
-                                idJenis: idType,
-                                idKecamatan: districsId,
-                                idKelurahan: vilageId,
-                                namaNasabah: name,
-                                noKontak: noTelp,
-                                email: email,
-                                alamat: address,
-                                addBukualamat:
-                                    value.isAddToAddressBook ? "Y" : "T",
-                                namaAlamat: addressName,
-                                statusOjekSampah: statusOjekSampah);
-                        await value.addNasabahBsu(request);
-                        if (!mounted) return;
-                        if (value.state == RequestState.loaded) {
-                          SnackbarMessage.showSnackbar(
-                              context, "Data nasabah berhasil disimpan");
-                          value.getListNasabahBSU();
-                          context.pop();
-                        }
-                        if (value.state == RequestState.error) {
-                          SnackbarMessage.showSnackbar(
-                              context, value.messageCompleteProfile);
-                        }
-                      } else {
-                        if (!mounted) return;
-                        SnackbarMessage.showSnackbar(
-                            context, value.messageCompleteProfile);
-                      }
-                    },
-                    height: 40,
-                    width: double.infinity,
-                  ),
+                Consumer<NasabahProvider>(
+                  builder: (context, value, _) => value.state ==
+                          RequestState.loading
+                      ? const LoadingButton(height: 40, width: double.infinity)
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2),
+                          child: TBButtonPrimaryWidget(
+                            buttonName: "Tambah",
+                            onPressed: () async {
+                              String name = controllerName.text;
+                              String address = controllerAddress.text;
+                              String addressName = controllerAddressName.text;
+                              String username = controllerUsername.text;
+                              String password = controllerUsername.text;
+                              String noTelp = controllerNoTlp.text;
+                              String email = controllerEmail.text;
+                              String? id = await helper.getIdBsu();
+                              String? districsId = value.selectedDistrict?.id;
+                              String? vilageId = value.selectedVilage?.id;
+                              String? idType = value.selectedNasabahType?.id;
+                              String statusOjekSampah = value.statusOjekSampah;
+                              if (name.isNotEmpty &&
+                                  username.isNotEmpty &&
+                                  password.isNotEmpty &&
+                                  address.isNotEmpty &&
+                                  addressName.isNotEmpty &&
+                                  noTelp.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  id != null &&
+                                  districsId != null &&
+                                  vilageId != null &&
+                                  idType != null) {
+                                AddNasabahBsuRequest request =
+                                    AddNasabahBsuRequest(
+                                        userName: username,
+                                        password: password,
+                                        idBsu: id,
+                                        idJenis: idType,
+                                        idKecamatan: districsId,
+                                        idKelurahan: vilageId,
+                                        namaNasabah: name,
+                                        noKontak: noTelp,
+                                        email: email,
+                                        alamat: address,
+                                        addBukualamat: value.isAddToAddressBook
+                                            ? "Y"
+                                            : "T",
+                                        namaAlamat: addressName,
+                                        statusOjekSampah: statusOjekSampah);
+                                await value.addNasabahBsu(request);
+                                if (!mounted) return;
+                                if (value.state == RequestState.loaded) {
+                                  SnackbarMessage.showSnackbar(context,
+                                      "Data nasabah berhasil disimpan");
+                                  value.getListNasabahBSU();
+                                  context.pop();
+                                }
+                                if (value.state == RequestState.error) {
+                                  SnackbarMessage.showSnackbar(
+                                      context, value.messageCompleteProfile);
+                                }
+                              } else {
+                                if (!mounted) return;
+                                SnackbarMessage.showSnackbar(
+                                    context, value.messageCompleteProfile);
+                              }
+                            },
+                            height: 40,
+                            width: double.infinity,
+                          ),
+                        ),
                 ),
-          ),
-           const SizedBox(
+                const SizedBox(
                   height: kDefaultPadding,
                 ),
               ],

@@ -62,23 +62,23 @@ class _DialogAddTrashState extends State<DialogAddTrash> {
                         widget.trashModel.jenisSampah ?? "",
                         style: kGreenText.copyWith(fontSize: 12),
                       ),
-                     Consumer<CalculatorProvider>(builder: (context, val, _) {
-                      if (val.isBsu) {
-                        return Text(
-                          "${FormatterExt().currencyFormatter.format(double.parse(widget.trashModel.hargaBeliUnit ?? "0.0"))} /Kg",
-                          style: kGreenText.copyWith(
-                            fontSize: 12,
-                          ),
-                        );
-                      } else {
-                        return Text(
-                          "${FormatterExt().currencyFormatter.format(double.parse(widget.trashModel.hargaBeliNasabah ?? "0.0"))} /Kg",
-                          style: kGreenText.copyWith(
-                            fontSize: 12,
-                          ),
-                        );
-                      }
-                    }),
+                      Consumer<CalculatorProvider>(builder: (context, val, _) {
+                        if (val.isBsu) {
+                          return Text(
+                            "${FormatterExt().currencyFormatter.format(double.parse(widget.trashModel.hargaBeliUnit ?? "0.0"))} /Kg",
+                            style: kGreenText.copyWith(
+                              fontSize: 12,
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            "${FormatterExt().currencyFormatter.format(double.parse(widget.trashModel.hargaBeliNasabah ?? "0.0"))} /Kg",
+                            style: kGreenText.copyWith(
+                              fontSize: 12,
+                            ),
+                          );
+                        }
+                      }),
                     ],
                   )
                 ],

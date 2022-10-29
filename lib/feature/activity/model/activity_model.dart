@@ -27,7 +27,7 @@ class ActivityModel {
       this.recordPerPage,
       this.totalRows,
       this.result});
- factory ActivityModel.fromJson(Map<String, dynamic> json) =>
+  factory ActivityModel.fromJson(Map<String, dynamic> json) =>
       _$ActivityModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ActivityModelToJson(this);
@@ -101,7 +101,7 @@ class Activty {
       this.idartikel,
       this.pathImage});
 
-   factory Activty.fromJson(Map<String, dynamic> json) =>
+  factory Activty.fromJson(Map<String, dynamic> json) =>
       _$ActivtyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ActivtyToJson(this);

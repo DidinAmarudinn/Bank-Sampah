@@ -149,7 +149,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                         String tlp = controllerNoTelp.text;
                         if (tlp.isNotEmpty &&
                             provider.selectePulsaModel != null) {
-                              context.push(PaymentMethodPage.routeName);
+                          context.push(PaymentMethodPage.routeName);
                         } else {
                           SnackbarMessage.showSnackbar(context,
                               "Masukan no telepon dan pilih nominal terlebih dahulu");

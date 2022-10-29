@@ -72,8 +72,8 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                         children: [
                           Center(
                             child: Text(
-                               widget.activty?.judulArtikel ?? "",
-                               style: kGreenText.copyWith(
+                              widget.activty?.judulArtikel ?? "",
+                              style: kGreenText.copyWith(
                                   fontSize: 16, fontWeight: bold),
                             ),
                           ),
@@ -98,7 +98,6 @@ class _DetailActivityScreenState extends State<DetailActivityScreen> {
                               child: SingleChildScrollView(
                             child: Html(
                               data: widget.activty?.isiArtikel ?? "",
-                             
                             ),
                           )),
                         ],

@@ -7,4 +7,3 @@ enum RequestState {
   moreFetching,
   noMoreData
 }
-

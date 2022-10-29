@@ -21,10 +21,10 @@ class DatabaseFailure extends Failure {
   DatabaseFailure(String message) : super(message);
 }
 
-class CacheFailure extends Failure{
-  CacheFailure(String message): super(message);
+class CacheFailure extends Failure {
+  CacheFailure(String message) : super(message);
 }
 
-class SSLFailure extends Failure{
+class SSLFailure extends Failure {
   SSLFailure(String message) : super(message);
 }

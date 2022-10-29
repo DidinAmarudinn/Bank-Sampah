@@ -7,14 +7,13 @@ class UpdateDataRequest {
   String email;
   String alamat;
   String statusOjekSampah;
-  UpdateDataRequest({
-    required this.idJenis,
-    required this.idKecamatan,
-    required this.idKelurahan,
-    required this.namaNasabah,
-    required this.noKontak,
-    required this.email,
-    required this.alamat,
-    required this.statusOjekSampah
-  });
+  UpdateDataRequest(
+      {required this.idJenis,
+      required this.idKecamatan,
+      required this.idKelurahan,
+      required this.namaNasabah,
+      required this.noKontak,
+      required this.email,
+      required this.alamat,
+      required this.statusOjekSampah});
 }

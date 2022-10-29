@@ -69,7 +69,6 @@ class ActivityProvider extends ChangeNotifier {
     }
   }
 
-
   void start() {
     pagingController.addPageRequestListener((pageKey) {
       getListActivity(pageKey);

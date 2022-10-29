@@ -13,5 +13,3 @@ class BaseResponse<T> {
         status: json["status"], data: fromJsonT(json["result"]));
   }
 }
-
-

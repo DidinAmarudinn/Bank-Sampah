@@ -25,7 +25,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          child: Column(  
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -64,7 +64,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: kDefaultPadding,),
+              const SizedBox(
+                height: kDefaultPadding,
+              ),
               Text(
                 provider.description,
                 style: kDarkGrayText.copyWith(fontWeight: semiBold),

@@ -27,7 +27,7 @@ class LoginModel {
       this.username,
       this.filefotoprofile,
       this.idGroup});
-  factory LoginModel.fromJson(Map<String, dynamic>json) =>
+  factory LoginModel.fromJson(Map<String, dynamic> json) =>
       _$LoginModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginModelToJson(this);

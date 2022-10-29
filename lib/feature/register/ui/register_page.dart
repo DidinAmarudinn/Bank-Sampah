@@ -185,7 +185,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 style: kGreenText.copyWith(fontSize: 11),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                   
                                     context.push(TNCScreen.routeName);
                                   }),
                           ],

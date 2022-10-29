@@ -28,5 +28,4 @@ class UpdateDataBSURequest {
     required this.ketuaUnit,
     required this.status,
   });
-
 }

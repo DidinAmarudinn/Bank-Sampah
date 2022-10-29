@@ -33,8 +33,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
       Provider.of<ActivityProvider>(context, listen: false).getListSlider();
     });
   }
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +132,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                   itemBuilder: (context, item, index) {
                                     return InkWell(
                                       onTap: () {
-                                        context.push(DetailActivityScreen.routeName, extra: item);
+                                        context.push(
+                                            DetailActivityScreen.routeName,
+                                            extra: item);
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),

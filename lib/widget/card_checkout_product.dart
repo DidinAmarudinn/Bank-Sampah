@@ -67,7 +67,7 @@ class CardCheckoutProduct extends StatelessWidget {
                       }
                     }),
                     Consumer<CalculatorProvider>(
-                      builder:(context, val, _) => Text(
+                      builder: (context, val, _) => Text(
                         "Total : ${productCheckout.getTotal(val.isBsu)}",
                         style: kGreenText.copyWith(fontWeight: semiBold),
                       ),

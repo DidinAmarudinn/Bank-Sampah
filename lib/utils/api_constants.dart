@@ -25,5 +25,4 @@ const String updateProfileBsuUrl = "$baserUrl/api/v1/update_data_bsu";
 const String getOthersInfoUrl = "$baserUrl/api/v1/get_akun";
 const String checkoutUrl = "$baserUrl/api/v1/add_pembelian_sampah";
 
-
 const String bsuCode = "Bank Sampah Unit";

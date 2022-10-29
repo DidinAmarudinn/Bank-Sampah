@@ -14,26 +14,28 @@ class DropdownVilage extends StatelessWidget {
     return Consumer<NasabahProvider>(
         builder: (context, value, _) => Container(
               decoration: BoxDecoration(
-                border: Border.all(color: kBorderGray, width: 1),
-                borderRadius: BorderRadius.circular(10)
-              ),
+                  border: Border.all(color: kBorderGray, width: 1),
+                  borderRadius: BorderRadius.circular(10)),
               child: Theme(
                 data: ThemeData(
                     textTheme: TextTheme(
                         subtitle1: kBlackText.copyWith(fontSize: 12))),
                 child: DropdownSearch<VilageModel>(
                   items: value.vilages,
-                  
-                  itemAsString: (item) => vilageName ??  (item.vilageName  ?? ""),
+                  itemAsString: (item) => vilageName ?? (item.vilageName ?? ""),
                   popupProps: PopupProps.menu(
                     errorBuilder: (context, searchEntry, exception) {
                       return Center(child: Text(value.message));
                     },
                     emptyBuilder: (context, searchEntry) {
-                      return Center(child: Text("Silahkan pilih kecamatan terlebih dahulu", style: kGreyText.copyWith(fontSize: 12),),);
+                      return Center(
+                        child: Text(
+                          "Silahkan pilih kecamatan terlebih dahulu",
+                          style: kGreyText.copyWith(fontSize: 12),
+                        ),
+                      );
                     },
                     constraints: const BoxConstraints(maxHeight: 200),
-                    
                     itemBuilder: ((context, item, isSelected) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -59,7 +61,6 @@ class DropdownVilage extends StatelessWidget {
                   ),
                   selectedItem: value.selectedVilage,
                   onChanged: (vilage) {
-                   
                     value.selectVilage(vilage);
                   },
                 ),

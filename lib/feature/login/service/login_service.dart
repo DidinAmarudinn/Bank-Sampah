@@ -43,10 +43,10 @@ class LoginService {
   }
 
   Future<Either<Failure, BSUModel?>> getDataBsu(String idBsu) async {
-     try {
+    try {
       final response = await http.get(Uri.parse("$getDataBsuUrl$idBsu"));
       var data = json.decode(response.body);
-     
+
       if (response.statusCode == 200) {
         if (data["status"] == "true") {
           final result = BaseResponseList<BSUModel>.fromJson(data, (data) {
@@ -67,5 +67,4 @@ class LoginService {
       return Left(ConnectionFailure("Failed to connect to the network"));
     }
   }
-  
 }

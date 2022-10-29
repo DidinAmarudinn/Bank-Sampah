@@ -23,7 +23,7 @@ class TBTextfieldWidget extends StatelessWidget {
     return Container(
       height: 40,
       width: double.infinity,
-      padding:const EdgeInsets.only(left: kDefaultPadding),
+      padding: const EdgeInsets.only(left: kDefaultPadding),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

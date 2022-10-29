@@ -21,11 +21,14 @@ const double kDefaultPadding = 24;
 
 final TextStyle kGreenText = GoogleFonts.poppins(color: kDarkGreen);
 final TextStyle kWhiteText = GoogleFonts.poppins(color: Colors.white);
-final TextStyle kHintText = GoogleFonts.poppins(color:const Color(0x7E7E7E85));
+final TextStyle kHintText = GoogleFonts.poppins(color: const Color(0x7E7E7E85));
 final TextStyle kGreyText = GoogleFonts.poppins(color: kGreyColor);
-final TextStyle kBlackText = GoogleFonts.poppins(color: Colors.black.withOpacity(0.7));
-final TextStyle kDarkGrayText = GoogleFonts.poppins(color:const Color(0xFF5E5E5E));
-final TextStyle kLightGrayText = GoogleFonts.poppins(color:const Color(0xFFC7C7C7));
+final TextStyle kBlackText =
+    GoogleFonts.poppins(color: Colors.black.withOpacity(0.7));
+final TextStyle kDarkGrayText =
+    GoogleFonts.poppins(color: const Color(0xFF5E5E5E));
+final TextStyle kLightGrayText =
+    GoogleFonts.poppins(color: const Color(0xFFC7C7C7));
 final TextStyle kRedText = GoogleFonts.poppins(color: const Color(0xFFFB674E));
 final TextStyle kPasterText = GoogleFonts.poppins(color: kPastelColor);
 FontWeight light = FontWeight.w300;

@@ -53,7 +53,7 @@ class PoinCardWidget extends StatelessWidget {
             width: kDefaultPadding / 2,
           ),
           InkWell(
-            onTap: (){
+            onTap: () {
               context.push(WithdrawPointScreen.routeName);
             },
             child: Column(
@@ -63,13 +63,13 @@ class PoinCardWidget extends StatelessWidget {
                   kIcPoin,
                   width: 24,
                 ),
-                 Text(
-                    "Tukar Saldo",
-                    style: kWhiteText.copyWith(
-                      fontWeight: light,
-                      fontSize: 12,
-                    ),
+                Text(
+                  "Tukar Saldo",
+                  style: kWhiteText.copyWith(
+                    fontWeight: light,
+                    fontSize: 12,
                   ),
+                ),
               ],
             ),
           )

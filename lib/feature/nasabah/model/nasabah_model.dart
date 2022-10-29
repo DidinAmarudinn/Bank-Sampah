@@ -34,25 +34,24 @@ class NasabahModel {
   @JsonKey(name: "status_ojek_sampah")
   String? statusOjekSampah;
 
-  NasabahModel({
-    this.id,
-    this.idUser,
-    this.idArea,
-    this.idBsu,
-    this.idJenis,
-    this.idUserNasabah,
-    this.idKecamatan,
-    this.idKelurahan,
-    this.kodeNasabah,
-    this.namaNasabah,
-    this.noKontak,
-    this.email,
-    this.alamat,
-    this.status,
-    this.statusOjekSampah
-  });
+  NasabahModel(
+      {this.id,
+      this.idUser,
+      this.idArea,
+      this.idBsu,
+      this.idJenis,
+      this.idUserNasabah,
+      this.idKecamatan,
+      this.idKelurahan,
+      this.kodeNasabah,
+      this.namaNasabah,
+      this.noKontak,
+      this.email,
+      this.alamat,
+      this.status,
+      this.statusOjekSampah});
 
-   factory NasabahModel.fromJson(Map<String, dynamic> json) =>
+  factory NasabahModel.fromJson(Map<String, dynamic> json) =>
       _$NasabahModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$NasabahModelToJson(this);

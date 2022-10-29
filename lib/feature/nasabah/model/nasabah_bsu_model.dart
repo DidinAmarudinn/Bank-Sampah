@@ -81,8 +81,8 @@ class NasabahBSUModel {
       this.namaUnit,
       this.kodeUnit,
       this.jenis});
-    
-    factory NasabahBSUModel.fromJson(Map<String, dynamic> json) =>
+
+  factory NasabahBSUModel.fromJson(Map<String, dynamic> json) =>
       _$NasabahBSUModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$NasabahBSUModelToJson(this);

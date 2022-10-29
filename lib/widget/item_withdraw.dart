@@ -48,7 +48,6 @@ class ItemWithdraw extends StatelessWidget {
               size: 40,
               color: kGreyColor,
             ),
-            
           ],
         ),
       ),

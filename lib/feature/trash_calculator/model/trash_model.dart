@@ -46,7 +46,7 @@ class TrashModel {
       this.satuan,
       this.kategori});
 
-      factory TrashModel.fromJson(Map<String, dynamic> json) =>
+  factory TrashModel.fromJson(Map<String, dynamic> json) =>
       _$TrashModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$TrashModelToJson(this);

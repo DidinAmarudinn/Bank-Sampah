@@ -109,7 +109,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           ],
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
@@ -156,8 +155,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 context, addressProvider.message);
                           }
                         } else {
-                            SnackbarMessage.showSnackbar(
-                                context, "Silahkan isi semua field di atas");
+                          SnackbarMessage.showSnackbar(
+                              context, "Silahkan isi semua field di atas");
                         }
                       },
                       height: 40,

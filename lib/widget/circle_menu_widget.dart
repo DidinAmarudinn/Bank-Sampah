@@ -44,7 +44,7 @@ class CircleMenuWidget extends StatelessWidget {
                 "$menuName\n",
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: kDarkGrayText.copyWith(fontSize: 11,fontWeight: bold),
+                style: kDarkGrayText.copyWith(fontSize: 11, fontWeight: bold),
               )
             ],
           ),

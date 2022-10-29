@@ -67,15 +67,15 @@ class DashboardService {
       String? page) async {
     try {
       var map = <String, String>{};
-      var request = http.MultipartRequest(
-          "POST", Uri.parse("$getListSliderUrl$page"));
+      var request =
+          http.MultipartRequest("POST", Uri.parse("$getListSliderUrl$page"));
       request.fields.addAll(map);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
         if (res["status"] == "true") {
-        final result = BaseResponseList<SliderModel>.fromJson(res, (data) {
+          final result = BaseResponseList<SliderModel>.fromJson(res, (data) {
             List<SliderModel> sliders =
                 data.map((e) => SliderModel.fromJson(e)).toList();
             return sliders;

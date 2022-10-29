@@ -29,7 +29,10 @@ class RegisterService {
         if (data["status"] == "true") {
           return const Right(true);
         } else {
-          return Left(ServerFailure(data["result"]["error_string"].toString().replaceAll("]", "").replaceAll("[", "")));
+          return Left(ServerFailure(data["result"]["error_string"]
+              .toString()
+              .replaceAll("]", "")
+              .replaceAll("[", "")));
         }
       } else {
         throw ServerException();

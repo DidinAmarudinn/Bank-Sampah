@@ -34,13 +34,10 @@ class _HomePageState extends State<HomePage> {
     init();
   }
 
-
   void init() {
-    
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).getListSlider();
-       Provider.of<HomePageProvider>(context, listen: false).getUserBalance();
+      Provider.of<HomePageProvider>(context, listen: false).getUserBalance();
     });
   }
 

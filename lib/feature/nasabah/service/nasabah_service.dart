@@ -195,8 +195,7 @@ class NasabahService {
   Future<Either<Failure, bool>> addNasabahBsu(
       AddNasabahBsuRequest addRequest) async {
     try {
-      var request =
-          http.MultipartRequest("POST", Uri.parse(addNasabahBsuUrl));
+      var request = http.MultipartRequest("POST", Uri.parse(addNasabahBsuUrl));
       request.fields.addAll({
         'username': addRequest.userName,
         'password': addRequest.password,
@@ -220,7 +219,8 @@ class NasabahService {
         if (res["status"] == "true") {
           return const Right(true);
         } else {
-          return Left(ServerFailure(res["result"]["error_string"][0].toString()));
+          return Left(
+              ServerFailure(res["result"]["error_string"][0].toString()));
         }
       } else {
         throw ServerException();

@@ -37,8 +37,8 @@ class ItemFilter extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
-         SizedBox(
-          width:iconName != null? kDefaultPadding: 0,
+        SizedBox(
+          width: iconName != null ? kDefaultPadding : 0,
         ),
         Expanded(
           child: Text(

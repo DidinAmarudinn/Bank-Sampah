@@ -53,11 +53,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id_ID', null).then((_) => runApp(
-        Phoenix(
-          child: MyApp(),
-        ),
-      ),);
+  await initializeDateFormatting('id_ID', null).then(
+    (_) => runApp(
+      Phoenix(
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

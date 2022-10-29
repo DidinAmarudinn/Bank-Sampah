@@ -326,61 +326,52 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               provider.additional;
                                           double discount = provider.discount;
                                           var date = DateTime.now();
-                                          if (note.isNotEmpty) {
-                                            final f = DateFormat('yyyy-MM-dd');
-                                            String transactionDate =
-                                                f.format(date);
-                                            String transactionEndDate =
-                                                f.format(DateTime(date.year,
-                                                    date.month + 1, date.day));
-                                            var request = CheckoutRequest(
-                                                transactionDate:
-                                                    transactionDate,
-                                                transactionEndDate:
-                                                    transactionEndDate,
-                                                note: note,
-                                                pemotongan:
-                                                    isHaveDiscount ? "Y" : "T",
-                                                diskonPemotongan: isHaveDiscount
-                                                    ? discount.toString()
-                                                    : "0",
-                                                penambahan: isHaveAdditional
-                                                    ? "Y"
-                                                    : "T",
-                                                biayaPenambahan:
-                                                    isHaveAdditional
-                                                        ? additionalVal
-                                                            .toString()
-                                                        : "0",
-                                                totalTagihan: provider
-                                                    .totalPayment
-                                                    .toString(),
-                                                idSampah: provider.ids,
-                                                kuantitas: provider.quantities,
-                                                harga: provider.prices);
-                                            await provider.checkout(
-                                                request,
-                                                widget.nasabahBSUModel
-                                                        ?.idUserNasabah ??
-                                                    "0");
-                                            if (!mounted) return;
-                                            if (provider.state ==
-                                                RequestState.loaded) {
-                                              SnackbarMessage.showToast(
-                                                  "Data berhasil disimpan");
-                                              provider.clearCart();
-                                              context.go(MainPage.routeName);
-                                            }
-                                            if (provider.state ==
-                                                RequestState.error) {
-                                              SnackbarMessage.showToast(
-                                                  provider.message);
-                                              context.go(MainPage.routeName);
-                                            }
-                                          } else {
-                                            SnackbarMessage.showSnackbar(
-                                                context,
-                                                "silahkan isi keterangan terlebih dahulu");
+
+                                          final f = DateFormat('yyyy-MM-dd');
+                                          String transactionDate =
+                                              f.format(date);
+                                          String transactionEndDate = f.format(
+                                              DateTime(date.year,
+                                                  date.month + 1, date.day));
+                                          var request = CheckoutRequest(
+                                              transactionDate: transactionDate,
+                                              transactionEndDate:
+                                                  transactionEndDate,
+                                              note: note,
+                                              pemotongan:
+                                                  isHaveDiscount ? "Y" : "T",
+                                              diskonPemotongan: isHaveDiscount
+                                                  ? discount.toString()
+                                                  : "0",
+                                              penambahan:
+                                                  isHaveAdditional ? "Y" : "T",
+                                              biayaPenambahan: isHaveAdditional
+                                                  ? additionalVal.toString()
+                                                  : "0",
+                                              totalTagihan: provider
+                                                  .totalPayment
+                                                  .toString(),
+                                              idSampah: provider.ids,
+                                              kuantitas: provider.quantities,
+                                              harga: provider.prices);
+                                          await provider.checkout(
+                                              request,
+                                              widget.nasabahBSUModel
+                                                      ?.idUserNasabah ??
+                                                  "0");
+                                          if (!mounted) return;
+                                          if (provider.state ==
+                                              RequestState.loaded) {
+                                            SnackbarMessage.showToast(
+                                                "Data berhasil disimpan");
+                                            provider.clearCart();
+                                            context.go(MainPage.routeName);
+                                          }
+                                          if (provider.state ==
+                                              RequestState.error) {
+                                            SnackbarMessage.showToast(
+                                                provider.message);
+                                            context.go(MainPage.routeName);
                                           }
                                         } else {
                                           context.pop();

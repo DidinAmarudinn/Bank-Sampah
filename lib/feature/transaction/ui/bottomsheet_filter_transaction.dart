@@ -117,7 +117,6 @@ class _BottomSheetFilterTransactionState
                     onPressed: () {
                       provider.resetFilter();
                       Navigator.pop(context);
-                     
                     },
                     height: 40,
                     width: double.infinity,

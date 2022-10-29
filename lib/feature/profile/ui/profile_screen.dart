@@ -136,7 +136,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 5,
                       thickness: 2,
                     ),
-                 
                     ItemMenuProfile(
                         iconName: Icons.lock,
                         title: "Ubah Password",

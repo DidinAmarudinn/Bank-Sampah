@@ -9,8 +9,9 @@ import 'package:http/http.dart' as http;
 import '../../../core/base_response_list.dart';
 import '../../../utils/exception.dart';
 import '../../../utils/failure.dart';
+
 class CalculatorService {
-   Future<Either<Failure, BaseResponseList<TrashModel>?>> getListTrash() async {
+  Future<Either<Failure, BaseResponseList<TrashModel>?>> getListTrash() async {
     try {
       final response = await http.get(Uri.parse(getTrashListUrl));
       var data = json.decode(response.body);

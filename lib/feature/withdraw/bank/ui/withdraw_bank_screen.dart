@@ -59,8 +59,8 @@ class _WithdarwBankScreenState extends State<WithdarwBankScreen> {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: kDefaultPadding / 2),
+                padding:
+                    const EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
                 child: TBButtonPrimaryWidget(
                   buttonName: "Cek Rekening",
                   onPressed: () {},

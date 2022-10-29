@@ -8,13 +8,17 @@ class TBTextFieldWithBorder extends StatelessWidget {
   final IconData? iconName;
   final int? maxLines;
   const TBTextFieldWithBorder(
-      {Key? key, required this.controller, this.hintText, this.iconName, this.maxLines})
+      {Key? key,
+      required this.controller,
+      this.hintText,
+      this.iconName,
+      this.maxLines})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: kDefaultPadding/2),
+      margin: const EdgeInsets.only(top: kDefaultPadding / 2),
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       decoration: BoxDecoration(
           border: Border.all(color: kBorderGray, width: 1),
@@ -23,13 +27,13 @@ class TBTextFieldWithBorder extends StatelessWidget {
         children: [
           iconName != null
               ? Padding(
-                padding: const EdgeInsets.only(right: kDefaultPadding/4),
-                child: Icon(
+                  padding: const EdgeInsets.only(right: kDefaultPadding / 4),
+                  child: Icon(
                     iconName!,
                     size: 20,
                     color: Colors.grey[400],
                   ),
-              )
+                )
               : const SizedBox(),
           Expanded(
             child: TextField(

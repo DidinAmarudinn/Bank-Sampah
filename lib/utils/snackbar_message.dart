@@ -8,7 +8,10 @@ class SnackbarMessage {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.black,
-        content: Text(message,style: kWhiteText,),
+        content: Text(
+          message,
+          style: kWhiteText,
+        ),
       ),
     );
   }
@@ -21,7 +24,6 @@ class SnackbarMessage {
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey,
         textColor: Colors.white,
-        fontSize: 14.0
-    );
+        fontSize: 14.0);
   }
 }

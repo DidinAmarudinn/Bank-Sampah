@@ -58,8 +58,7 @@ class HelpScreen extends StatelessWidget {
                     child: Consumer<ProfileProvider>(
                       builder: (context, provider, _) {
                         return Html(
-                          data:
-                              provider.othersInfoModel?.bantuan ?? "",
+                          data: provider.othersInfoModel?.bantuan ?? "",
                         );
                       },
                     ),

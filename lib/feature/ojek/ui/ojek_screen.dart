@@ -39,9 +39,8 @@ class _OjekScreenState extends State<OjekScreen> {
             padding: const EdgeInsets.symmetric(
                 vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
             child: CustomAppBar(
-              titlePage: widget.isDaily
-                  ? "Ojek Sampah"
-                  : "Ojek Sampah Berlangganan",
+              titlePage:
+                  widget.isDaily ? "Ojek Sampah" : "Ojek Sampah Berlangganan",
               isHaveShadow: true,
             ),
           ),
@@ -128,7 +127,8 @@ class _OjekScreenState extends State<OjekScreen> {
                                       firstDate: DateTime.now(),
                                       lastDate: DateTime(2099),
                                     ).then((value) {
-                                      provider.selectedTime(value ?? DateTime.now());
+                                      provider.selectedTime(
+                                          value ?? DateTime.now());
                                     });
                                   },
                                   height: 40,

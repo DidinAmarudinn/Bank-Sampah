@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class OjekProvider extends ChangeNotifier {
-   List<String> _selectedDays = [];
+  List<String> _selectedDays = [];
   List<String> get selectedDays => _selectedDays;
 
   void selectDays(String day) {
@@ -19,6 +19,7 @@ class OjekProvider extends ChangeNotifier {
     _selectedDays.removeWhere((e) => e == day);
     notifyListeners();
   }
+
   void clearData() {
     _selectedDays = [];
   }
@@ -31,8 +32,8 @@ class OjekProvider extends ChangeNotifier {
   DateTime _time = DateTime.now();
   DateTime get time => _time;
 
-  void  selectedTime(DateTime time) {
-    _time  = time;
+  void selectedTime(DateTime time) {
+    _time = time;
     notifyListeners();
   }
 }

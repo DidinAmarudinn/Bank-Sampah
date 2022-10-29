@@ -10,7 +10,9 @@ class TransactionDone extends StatelessWidget {
     return ListView.builder(
       itemCount: 4,
       itemBuilder: (context, index) {
-        return const CardLastTransaction(transactionResult: null,);
+        return const CardLastTransaction(
+          transactionResult: null,
+        );
       },
     );
   }

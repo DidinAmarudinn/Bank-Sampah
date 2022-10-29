@@ -21,7 +21,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:const EdgeInsets.all(kDefaultPadding),
+          padding: const EdgeInsets.all(kDefaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,7 +46,8 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(kDefaultPadding / 2),
-                          margin:const EdgeInsets.symmetric(vertical: kDefaultPadding/3),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 3),
                           decoration: BoxDecoration(
                             color: provider.selectedPaymentMethod ==
                                     dummyPayment[index]
@@ -72,7 +73,9 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: kDefaultPadding,),
+              const SizedBox(
+                height: kDefaultPadding,
+              ),
               TBButtonPrimaryWidget(
                 buttonName: "Bayar",
                 onPressed: () {

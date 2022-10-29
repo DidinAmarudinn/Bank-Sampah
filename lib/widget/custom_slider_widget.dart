@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-
 class CustomSliderWidget extends StatelessWidget {
   final double height;
   final bool? isFullFraction;
@@ -29,14 +28,16 @@ class CustomSliderWidget extends StatelessWidget {
           CarouselSlider(
             items: list
                 .map((e) => InkWell(
-                  onTap: (){
-                    context.push(DetailSliderActiviyScreen.routeName, extra: e);
-                  },
-                  child: Container(
+                      onTap: () {
+                        context.push(DetailSliderActiviyScreen.routeName,
+                            extra: e);
+                      },
+                      child: Container(
                         height: height,
                         margin: EdgeInsets.only(
-                            right:
-                                isFullFraction ?? true ? 0 : kDefaultPadding / 2),
+                            right: isFullFraction ?? true
+                                ? 0
+                                : kDefaultPadding / 2),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -46,7 +47,7 @@ class CustomSliderWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           child: CachedNetworkImage(
                             imageUrl: e?.pathImage ?? "",
-                            fit: BoxFit.cover ,
+                            fit: BoxFit.cover,
                             errorWidget: (context, url, error) {
                               return Center(
                                 child: Text(error.toString()),
@@ -55,7 +56,7 @@ class CustomSliderWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                ))
+                    ))
                 .toList(),
             options: CarouselOptions(
                 autoPlay: true,

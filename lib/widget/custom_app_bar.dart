@@ -22,14 +22,14 @@ class CustomAppBar extends StatelessWidget {
                   ? Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(2),
-                        boxShadow: [BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 18,
-                          offset: const Offset(2, 2)
-                        )]
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(2),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 18,
+                                offset: const Offset(2, 2))
+                          ]),
                       child: Image.asset(kIcBack, width: 16),
                     )
                   : Image.asset(kIcBack, width: 16)),

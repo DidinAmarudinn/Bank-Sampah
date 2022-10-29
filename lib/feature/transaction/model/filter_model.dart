@@ -1,4 +1,4 @@
-class FilterModel  {
+class FilterModel {
   final bool? isOjekHarian;
   final bool? isOjekBerlanggan;
   final bool? isPulsa;
@@ -35,6 +35,4 @@ class FilterModel  {
       isCancelled: isCancelled ?? this.isCancelled,
     );
   }
-
-
 }

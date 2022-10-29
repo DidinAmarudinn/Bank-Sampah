@@ -31,7 +31,7 @@ class TransactionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetFilter(){
+  void resetFilter() {
     _filterModel = null;
     notifyListeners();
   }

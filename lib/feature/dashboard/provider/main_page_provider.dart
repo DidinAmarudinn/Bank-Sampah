@@ -17,10 +17,9 @@ class MainPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getIsBsu()async {
+  Future<void> getIsBsu() async {
     String? level = await helper.getLevel();
     _isBsu = level == "Bank Sampah Unit";
     notifyListeners();
   }
-
 }

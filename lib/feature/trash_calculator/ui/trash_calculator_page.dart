@@ -163,13 +163,13 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: kDefaultPadding,
-                  vertical: kDefaultPadding / 2),
+                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
               child: TBButtonPrimaryWidget(
                 buttonName: "Hitung",
                 onPressed: () {
                   context.read<CheckoutProvider>().checkRole();
-                  context.push(CheckoutScreen.routeName, extra: widget.nasabahBSUModel);
+                  context.push(CheckoutScreen.routeName,
+                      extra: widget.nasabahBSUModel);
                 },
                 height: 40,
                 width: double.infinity,

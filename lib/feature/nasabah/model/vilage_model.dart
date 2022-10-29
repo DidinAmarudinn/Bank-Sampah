@@ -14,13 +14,8 @@ class VilageModel {
   String? type;
   @JsonKey(name: "kodepos")
   String? postalCode;
-  VilageModel({
-    this.id,
-    this.vilageName,
-    this.cityName,
-    this.type,
-    this.postalCode
-  });
+  VilageModel(
+      {this.id, this.vilageName, this.cityName, this.type, this.postalCode});
   factory VilageModel.fromJson(Map<String, dynamic> json) =>
       _$VilageModelFromJson(json);
 

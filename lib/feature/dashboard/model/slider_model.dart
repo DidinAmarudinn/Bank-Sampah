@@ -39,7 +39,7 @@ class SliderModel {
   @JsonKey(name: "path_image")
   final String? pathImage;
 
-   factory SliderModel.fromJson(Map<String, dynamic> json) =>
+  factory SliderModel.fromJson(Map<String, dynamic> json) =>
       _$SliderModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SliderModelToJson(this);

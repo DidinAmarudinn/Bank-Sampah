@@ -15,16 +15,18 @@ class DropdownDistrict extends StatelessWidget {
     return Consumer<NasabahProvider>(
         builder: (context, value, _) => Container(
               decoration: BoxDecoration(
-                border: Border.all(color: kBorderGray, width: 1),
-                 borderRadius: BorderRadius.circular(10)
-              ),
+                  border: Border.all(color: kBorderGray, width: 1),
+                  borderRadius: BorderRadius.circular(10)),
               child: Theme(
-                data: ThemeData(textTheme: TextTheme(subtitle1: kBlackText.copyWith(fontSize: 12))),
+                data: ThemeData(
+                    textTheme: TextTheme(
+                        subtitle1: kBlackText.copyWith(fontSize: 12))),
                 child: DropdownSearch<DistrictModel>(
                   asyncItems: (text) async {
                     return await value.updateListDistricts(text);
                   },
-                  itemAsString: (item) => disctrictName ?? (item.districtName ?? ""),
+                  itemAsString: (item) =>
+                      disctrictName ?? (item.districtName ?? ""),
                   popupProps: PopupProps.menu(
                     errorBuilder: (context, searchEntry, exception) {
                       return Center(child: Text(value.message));
@@ -35,7 +37,10 @@ class DropdownDistrict extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding / 2,
                             vertical: kDefaultPadding / 3),
-                        child: Text(item.districtName ?? "",style: kBlackText.copyWith(fontSize: 12),),
+                        child: Text(
+                          item.districtName ?? "",
+                          style: kBlackText.copyWith(fontSize: 12),
+                        ),
                       );
                     }),
                     searchDelay: const Duration(milliseconds: 500),
@@ -66,7 +71,7 @@ class DropdownDistrict extends StatelessWidget {
                   selectedItem: value.selectedDistrict,
                   onChanged: (district) {
                     value.selectDistrict(district);
-                   
+
                     value.getVilagesData();
                   },
                 ),

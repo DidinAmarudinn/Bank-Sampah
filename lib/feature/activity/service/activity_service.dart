@@ -51,8 +51,7 @@ class ActivityService {
       var map = <String, String>{};
       map['record'] = "$record";
       map["recordPerPage"] = "$recordPerPage";
-      var request =
-          http.MultipartRequest("POST", Uri.parse(getListArticleUrl));
+      var request = http.MultipartRequest("POST", Uri.parse(getListArticleUrl));
       request.fields.addAll(map);
       var reqResponse = await request.send();
 

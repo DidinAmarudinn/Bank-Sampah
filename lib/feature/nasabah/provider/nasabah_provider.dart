@@ -68,7 +68,7 @@ class NasabahProvider extends ChangeNotifier {
     final result = await service.postCompleteProfile(request);
     result.fold((failure) {
       _state = RequestState.error;
-      _messageCompleteProfile = failure.message;    
+      _messageCompleteProfile = failure.message;
       notifyListeners();
     }, (success) {
       _state = RequestState.loaded;

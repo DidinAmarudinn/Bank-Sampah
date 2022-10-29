@@ -298,12 +298,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
                               if (!mounted) return;
                               if (value.isBsu) {
-                                 context.read<LoginProvider>()
+                                await context
+                                    .read<LoginProvider>()
                                     .getDataBsu();
                               } else {
-                                context.read<LoginProvider>()
+                                await context
+                                    .read<LoginProvider>()
                                     .checkNasabahData();
                               }
+                              if (!mounted) return;
                               if (value.state == RequestState.loaded) {
                                 context.go(MainPage.routeName);
                               }

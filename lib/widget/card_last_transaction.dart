@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 
 class CardLastTransaction extends StatelessWidget {
   final TransactionResult? transactionResult;
-  const CardLastTransaction({Key? key, required this.transactionResult}) : super(key: key);
+  const CardLastTransaction({Key? key, required this.transactionResult})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 85,
-      padding:const EdgeInsets.all(kDefaultPadding/3),
+      padding: const EdgeInsets.all(kDefaultPadding / 3),
       margin: const EdgeInsets.symmetric(
           horizontal: kDefaultPadding / 2, vertical: kDefaultPadding / 4),
       width: double.infinity,
@@ -26,7 +27,9 @@ class CardLastTransaction extends StatelessWidget {
             kIcCircleMotor,
             width: 22,
           ),
-          const SizedBox(width: kDefaultPadding/2,),
+          const SizedBox(
+            width: kDefaultPadding / 2,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

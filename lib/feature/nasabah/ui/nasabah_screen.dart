@@ -20,7 +20,6 @@ class NasabahScreen extends StatefulWidget {
 }
 
 class _NasabahScreenState extends State<NasabahScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -64,8 +63,9 @@ class _NasabahScreenState extends State<NasabahScreen> {
                       itemCount: provider.nasabaBsuList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: (){
-                            context.push(TrashCalculatorPage.routeName, extra: provider.nasabaBsuList[index]);
+                          onTap: () {
+                            context.push(TrashCalculatorPage.routeName,
+                                extra: provider.nasabaBsuList[index]);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(

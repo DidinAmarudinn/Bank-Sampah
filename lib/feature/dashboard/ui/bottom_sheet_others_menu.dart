@@ -43,22 +43,22 @@ class BottomSheetOthersMenu extends StatelessWidget {
               height: kDefaultPadding,
             ),
             Row(
-              children:  [
+              children: [
                 CircleMenuWidget(
                   color: kPastelColor,
                   iconName: kIcCalculator,
-                  onTap: (){
+                  onTap: () {
                     Navigator.of(context).pop();
                     context.push(TrashCalculatorPage.routeName);
                   },
                   menuName: "Kalkulator\nSampah",
                 ),
-             const   CircleMenuWidget(
+                const CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcPuls,
                   menuName: "Pulsa",
                 ),
-              const  CircleMenuWidget(
+                const CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcCalculator,
                   menuName: "Listrik",
@@ -69,22 +69,22 @@ class BottomSheetOthersMenu extends StatelessWidget {
               height: kDefaultPadding,
             ),
             Row(
-              children:  [
-               const CircleMenuWidget(
+              children: [
+                const CircleMenuWidget(
                   color: kDarkGreen,
                   iconName: kIcPdam,
                   menuName: "Pdam",
                 ),
                 CircleMenuWidget(
-                  onTap: (){
-                     Navigator.of(context).pop();
+                  onTap: () {
+                    Navigator.of(context).pop();
                     context.push(WithdrawPointScreen.routeName);
                   },
                   color: kYellowColor,
                   iconName: kIcPoin,
                   menuName: "Tuker Poin",
                 ),
-               const Expanded(
+                const Expanded(
                     child: SizedBox(
                   width: 20,
                 ))

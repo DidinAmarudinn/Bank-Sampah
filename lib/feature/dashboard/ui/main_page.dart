@@ -21,8 +21,7 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>
-     {
+class _MainPageState extends State<MainPage> {
   List<Widget> screens = const [
     HomePage(),
     TransactionScreen(),
@@ -51,7 +50,6 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
-   
     final provider = Provider.of<MainPageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,

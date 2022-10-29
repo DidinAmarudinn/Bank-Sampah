@@ -74,7 +74,6 @@ class _DetailActiviyScreenState extends State<DetailSliderActiviyScreen> {
                                 child: CachedNetworkImage(
                                   width: double.infinity,
                                   height: 130,
-                                
                                   imageUrl: widget.sliderModel?.pathImage ?? "",
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) {

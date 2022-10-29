@@ -10,12 +10,8 @@ class NasabahCategoryModel {
   String? type;
   @JsonKey(name: "status")
   String? status;
- 
-  NasabahCategoryModel({
-    this.id,
-    this.type,
-    this.status
-  });
+
+  NasabahCategoryModel({this.id, this.type, this.status});
   factory NasabahCategoryModel.fromJson(Map<String, dynamic> json) =>
       _$NasabahCategoryModelFromJson(json);
 
