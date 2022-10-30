@@ -1,12 +1,9 @@
 import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
-import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
 import 'package:bank_sampah/widget/card_item_article.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -183,6 +180,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: kDefaultPadding,)
                           ],
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ui/bottom_sheet_ewallet.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
@@ -73,8 +74,10 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
                 ),
                 ItemWithdraw(
                     imageName: kIcCircleBank,
-                    itemName: "Pulsa dan Paket Data",
-                    onTap: () {}),
+                    itemName: "Pulsa",
+                    onTap: () {
+                      context.push(PulsaScreen.routeName);
+                    }),
               ],
             )
           ],

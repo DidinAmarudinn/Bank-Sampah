@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bank_sampah/feature/activity/model/activity_model.dart';
 import 'package:bank_sampah/feature/activity/provider/activity_provider.dart';
 import 'package:bank_sampah/feature/activity/ui/detail_activity_screen.dart';
@@ -50,9 +52,18 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   await initializeDateFormatting('id_ID', null).then(
     (_) => runApp(
       Phoenix(

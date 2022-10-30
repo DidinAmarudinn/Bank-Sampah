@@ -37,7 +37,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(56),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding,vertical: kDefaultPadding/2),
           child: CustomAppBar(
             isHaveShadow: true,
             titlePage: "Atur Lokasi Penjemputan",
@@ -48,85 +48,82 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
         child: Column(
           children: [
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Consumer<AddressProvider>(
-                        builder: (context, provider, _) {
-                      if (provider.state == RequestState.loading) {
-                        return const Center(
-                          child: SpinKitFadingCircle(
-                            size: 50,
-                            color: kDarkGreen,
-                          ),
-                        );
-                      } else if (provider.state == RequestState.loaded) {
-                        return ListView.builder(
-                          itemCount: provider.listUserAddress.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == provider.listUserAddress.length) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 3),
-                                child: CardItemUserAddress(
-                                  imageName: kIcCircleMarker,
-                                  title: "Gunakan Lokasi Lain",
-                                  onTap: () {
-                                    context.push(AddAddressScreen.routeName);
-                                  },
-                                  desc:
-                                      "Pilih Lokasi Lain Atau Tambah Lokasi Baru",
-                                ),
-                              );
-                            } else {
-                              var data = provider.listUserAddress[index];
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: kDefaultPadding / 3),
-                                child: CardItemUserAddress(
-                                  imageName: kIcMap,
-                                  onTap: () {
-                                    provider.selectAddress(index);
-                                  },
-                                  isSelected: provider.selectedIndex == index,
-                                  title: data.namaAlamat ?? "",
-                                  desc: data.alamatLengkap ?? "",
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      } else if (provider.state == RequestState.error) {
-                        return Center(
-                          child: TBButtonPrimaryWidget(
-                            buttonName: "Coba Lagi",
-                            height: 40,
-                            width: double.infinity,
-                            onPressed: () {
-                              provider.getUserAddress();
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Consumer<AddressProvider>(
+                          builder: (context, provider, _) {
+                        if (provider.state == RequestState.loading) {
+                          return const Center(
+                            child: SpinKitFadingCircle(
+                              size: 50,
+                              color: kDarkGreen,
+                            ),
+                          );
+                        } else if (provider.state == RequestState.loaded) {
+                          return ListView.builder(
+                            itemCount: provider.listUserAddress.length + 1,
+                            padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                            itemBuilder: (context, index) {
+                              if (index == provider.listUserAddress.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: kDefaultPadding / 3),
+                                  child: CardItemUserAddress(
+                                    imageName: kIcCircleMarker,
+                                    title: "Gunakan Lokasi Lain",
+                                    onTap: () {
+                                      context.push(AddAddressScreen.routeName);
+                                    },
+                                    desc:
+                                        "Pilih Lokasi Lain Atau Tambah Lokasi Baru",
+                                  ),
+                                );
+                              } else {
+                                var data = provider.listUserAddress[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: kDefaultPadding / 3),
+                                  child: CardItemUserAddress(
+                                    imageName: kIcMap,
+                                    onTap: () {
+                                      provider.selectAddress(index);
+                                    },
+                                    isSelected: provider.selectedIndex == index,
+                                    title: data.namaAlamat ?? "",
+                                    desc: data.alamatLengkap ?? "",
+                                  ),
+                                );
+                              }
                             },
-                          ),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
-                  ),
-                  const SizedBox(
-                    height: kDefaultPadding,
-                  ),
-                  TBButtonPrimaryWidget(
-                    buttonName: "Cari Ojek",
-                    onPressed: () {},
-                    height: 40,
-                    width: double.infinity,
-                  ),
-                ],
-              ),
-            ))
+                          );
+                        } else if (provider.state == RequestState.error) {
+                          return Center(
+                            child: TBButtonPrimaryWidget(
+                              buttonName: "Coba Lagi",
+                              height: 40,
+                              width: double.infinity,
+                              onPressed: () {
+                                provider.getUserAddress();
+                              },
+                            ),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      child: TBButtonPrimaryWidget(
+                        buttonName: "Cari Ojek",
+                        onPressed: () {},
+                        height: 40,
+                        width: double.infinity,
+                      ),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

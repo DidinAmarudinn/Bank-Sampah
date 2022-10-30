@@ -61,7 +61,7 @@ class _TNCScreenState extends State<TNCScreen> {
                 left: kDefaultPadding,
                 top: kDefaultPadding,
                 child: CustomAppBar(
-                  titlePage: "Bantuan",
+                  titlePage: "Syarat dan Ketentuan",
                   isHaveShadow: true,
                 ),
               ),

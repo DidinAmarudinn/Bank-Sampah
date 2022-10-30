@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         child: RefreshIndicator(
           onRefresh: () async {
             provider.pagingController.refresh();
+            provider.getUserBalance();
           },
           child: CustomScrollView(slivers: [
             SliverToBoxAdapter(
