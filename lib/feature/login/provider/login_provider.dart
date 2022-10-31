@@ -78,6 +78,7 @@ class LoginProvider extends ChangeNotifier {
       preferencesHelper.setFullName(r?.namaNasabah ?? "");
       preferencesHelper.setEmail(r?.email ?? "");
       preferencesHelper.setPhoneNumber(r?.noKontak ?? "");
+      preferencesHelper.setIdNasabah(r?.id ?? "0");
       notifyListeners();
     });
   }

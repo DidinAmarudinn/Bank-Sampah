@@ -12,6 +12,7 @@ class PreferencesHelper {
   static const idBSU = "IDBSU";
   static const phoneNumber = "NoHp";
   static const email = "EMAIL";
+  static const idNasabah = "ID_NASABAH";
 
   void setFullName(String value) async {
     final prefs = await sharedPreference;
@@ -51,6 +52,16 @@ class PreferencesHelper {
   Future<String?> getEmail() async {
     final prefs = await sharedPreference;
     return prefs.getString(email);
+  }
+
+  void setIdNasabah(String value) async {
+    final prefs = await sharedPreference;
+    prefs.setString(idNasabah, value);
+  }
+
+  Future<String?> getIdNasabah() async {
+    final prefs = await sharedPreference;
+    return prefs.getString(idNasabah);
   }
 
   void setId(int value) async {

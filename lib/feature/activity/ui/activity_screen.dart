@@ -180,7 +180,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: kDefaultPadding,)
+                            const SizedBox(
+                              height: kDefaultPadding,
+                            )
                           ],
                         ),
                       ),

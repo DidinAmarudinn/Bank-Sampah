@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
+import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
+import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/card_item_user_address.dart';
@@ -37,7 +39,8 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(56),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding,vertical: kDefaultPadding/2),
+          padding: EdgeInsets.symmetric(
+              horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
           child: CustomAppBar(
             isHaveShadow: true,
             titlePage: "Atur Lokasi Penjemputan",
@@ -49,24 +52,43 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
           children: [
             Expanded(
                 child: Column(
-                  children: [
-                    Expanded(
-                      child: Consumer<AddressProvider>(
-                          builder: (context, provider, _) {
-                        if (provider.state == RequestState.loading) {
-                          return const Center(
-                            child: SpinKitFadingCircle(
-                              size: 50,
-                              color: kDarkGreen,
-                            ),
-                          );
-                        } else if (provider.state == RequestState.loaded) {
-                          return ListView.builder(
-                            itemCount: provider.listUserAddress.length + 1,
-                            padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                            itemBuilder: (context, index) {
-                              if (index == provider.listUserAddress.length) {
-                                return Padding(
+              children: [
+                Expanded(
+                  child:
+                      Consumer<OjekProvider>(builder: (context, provider, _) {
+                    if (provider.state == RequestState.loading) {
+                      return const Center(
+                        child: SpinKitFadingCircle(
+                          size: 50,
+                          color: kDarkGreen,
+                        ),
+                      );
+                    } else if (provider.state == RequestState.loaded) {
+                      return ListView.builder(
+                        itemCount:
+                            (provider.dataBukuAlamat?.result?.length ?? 0) + 1,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding),
+                        itemBuilder: (context, index) {
+                          if (index ==
+                              provider.dataBukuAlamat?.result?.length) {
+                            return Column(
+                              children: [
+                                (provider.dataBukuAlamat?.result?.isEmpty ??
+                                        false)
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(
+                                            kDefaultPadding),
+                                        child: Text(
+                                          "Tidak ada alamat yang tersedia",
+                                          style: kBlackText.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: semiBold,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: kDefaultPadding / 3),
                                   child: CardItemUserAddress(
@@ -78,52 +100,58 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                     desc:
                                         "Pilih Lokasi Lain Atau Tambah Lokasi Baru",
                                   ),
-                                );
-                              } else {
-                                var data = provider.listUserAddress[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: kDefaultPadding / 3),
-                                  child: CardItemUserAddress(
-                                    imageName: kIcMap,
-                                    onTap: () {
-                                      provider.selectAddress(index);
-                                    },
-                                    isSelected: provider.selectedIndex == index,
-                                    title: data.namaAlamat ?? "",
-                                    desc: data.alamatLengkap ?? "",
-                                  ),
-                                );
-                              }
-                            },
-                          );
-                        } else if (provider.state == RequestState.error) {
-                          return Center(
-                            child: TBButtonPrimaryWidget(
-                              buttonName: "Coba Lagi",
-                              height: 40,
-                              width: double.infinity,
-                              onPressed: () {
-                                provider.getUserAddress();
-                              },
-                            ),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      }),
+                                ),
+                              ],
+                            );
+                          } else {
+                            var data = provider.dataBukuAlamat?.result?[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: kDefaultPadding / 3),
+                              child: CardItemUserAddress(
+                                imageName: kIcMap,
+                                onTap: () {
+                                  provider.selectAddress(index);
+                                },
+                                isSelected: provider.selectedIndex == index,
+                                title: data?.namaAlamat ?? "",
+                                desc: data?.alamatLengkap ?? "",
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  }),
+                ),
+                Consumer<OjekProvider>(
+                  builder: (context, provider, _) => Padding(
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Harga: ${FormatterExt().currencyFormatter.format(double.parse(provider.ojekPrice))}",
+                          style: kBlackText.copyWith(
+                              fontSize: 14, fontWeight: semiBold),
+                        ),
+                        const SizedBox(
+                          height: kDefaultPadding / 2,
+                        ),
+                        TBButtonPrimaryWidget(
+                          buttonName: "Pesan Ojek",
+                          onPressed: () {},
+                          height: 40,
+                          width: double.infinity,
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(kDefaultPadding),
-                      child: TBButtonPrimaryWidget(
-                        buttonName: "Cari Ojek",
-                        onPressed: () {},
-                        height: 40,
-                        width: double.infinity,
-                      ),
-                    ),
-                  ],
-                ))
+                  ),
+                ),
+              ],
+            ))
           ],
         ),
       ),

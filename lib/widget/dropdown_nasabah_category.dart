@@ -27,7 +27,7 @@ class DropdownNasabahType extends StatelessWidget {
                 return Center(child: Text(value.message));
               },
               constraints: const BoxConstraints(
-                maxHeight: 200,
+                maxHeight: 150,
               ),
               itemBuilder: ((context, item, isSelected) {
                 return Padding(

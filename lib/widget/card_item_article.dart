@@ -35,9 +35,9 @@ class CardItemArticle extends StatelessWidget {
           width: width,
           padding: const EdgeInsets.all(kDefaultPadding / 3),
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,8 +73,8 @@ class CardItemArticle extends StatelessWidget {
                     ),
                     Text(
                       parseHtmlString(activityModel?.isiArtikel ?? ""),
-                      style:
-                          kDarkGrayText.copyWith(fontWeight: light, fontSize: 12),
+                      style: kDarkGrayText.copyWith(
+                          fontWeight: light, fontSize: 12),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

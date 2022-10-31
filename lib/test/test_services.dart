@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bank_sampah/test/checkout_bsu_request.dart';
-import 'package:bank_sampah/test/gudang_model/gudang_model.dart';
+import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/utils/api_constants.dart';
 import 'package:dartz/dartz.dart';
-
-import '../core/base_response_list.dart';
 import '../utils/exception.dart';
 import '../utils/failure.dart';
 import 'package:http/http.dart' as http;
@@ -53,21 +51,21 @@ class TestServices {
     }
   }
 
-  Future<Either<Failure, BaseResponseList<GudangModel>?>>
-      getListGudang() async {
+  Future<Either<Failure, bool>> orderOjek(
+      OrderOjekRequest orderOjekRequest) async {
     try {
-      final response = await http.get(Uri.parse(getListGudangUrl));
-      var data = json.decode(response.body);
-      if (response.statusCode == 200) {
-        if (data["status"] == "true") {
-          final result = BaseResponseList<GudangModel>.fromJson(data, (data) {
-            List<GudangModel> nasabahCategory =
-                data.map((e) => GudangModel.fromJson(e)).toList();
-            return nasabahCategory;
-          });
-          return Right(result);
+      var request = http.MultipartRequest("POST", Uri.parse(addOjekSampahUrl));
+      Map<String, String> body = {};
+
+      request.fields.addAll(body);
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        if (res["status"] == "true") {
+          return const Right(true);
         } else {
-          return Left(ServerFailure(data["result"].toString()));
+          return Left(ServerFailure(res["result"].toString()));
         }
       } else {
         throw ServerException();

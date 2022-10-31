@@ -60,4 +60,12 @@ class AddressProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  bool _isDaily = false;
+  bool get isDaily => _isDaily;
+
+  void selectOjekType(bool val) {
+    _isDaily = val;
+    notifyListeners();
+  }
 }

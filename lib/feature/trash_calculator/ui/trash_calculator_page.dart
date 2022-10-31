@@ -41,56 +41,59 @@ class _TrashCalculatorPageState extends State<TrashCalculatorPage> {
         builder: (context, provider, _) => provider.list.isEmpty
             ? const SizedBox()
             : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              child: InkWell(
-                onTap: (){
-                  context.push(CheckoutScreen.routeName);
-                },
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 55,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kDefaultPadding / 2,
-                        vertical: kDefaultPadding / 3),
-                    decoration: BoxDecoration(
-                        color: kDarkGreen, borderRadius: BorderRadius.circular(30)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: kDefaultPadding / 2),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${provider.list.length} Item",
-                                  style: kWhiteText.copyWith(fontWeight: semiBold),
-                                ),
-                                Text(
-                                  "Harga ${FormatterExt().currencyFormatter.format(provider.totalPrice)}",
-                                  style: kWhiteText.copyWith(
-                                      fontWeight: light, fontSize: 12),
-                                ),
-                              ],
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                child: InkWell(
+                  onTap: () {
+                    context.push(CheckoutScreen.routeName);
+                  },
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 55,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding / 2,
+                          vertical: kDefaultPadding / 3),
+                      decoration: BoxDecoration(
+                          color: kDarkGreen,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: kDefaultPadding / 2),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${provider.list.length} Item",
+                                    style: kWhiteText.copyWith(
+                                        fontWeight: semiBold),
+                                  ),
+                                  Text(
+                                    "Harga ${FormatterExt().currencyFormatter.format(provider.totalPrice)}",
+                                    style: kWhiteText.copyWith(
+                                        fontWeight: light, fontSize: 12),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration:const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child:const Icon(
-                            Icons.arrow_forward,
-                            size: 25,
-                            color: kDarkGreen,
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              size: 25,
+                              color: kDarkGreen,
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
+                        ],
+                      )),
+                ),
               ),
-            ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(

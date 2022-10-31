@@ -52,6 +52,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -106,7 +107,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => AddressProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
-        ChangeNotifierProvider(create: (_) => OjekProvider()),
+        ChangeNotifierProvider(
+            create: (_) => OjekProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
           create: (_) => CheckoutProvider(
             PreferencesHelper(

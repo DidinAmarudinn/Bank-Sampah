@@ -1,17 +1,17 @@
-import 'package:bank_sampah/feature/nasabah/model/vilage_model.dart';
+import 'package:bank_sampah/feature/ojek/model/vilage_available_model.dart';
+import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../feature/nasabah/provider/nasabah_provider.dart';
 
-class DropdownVilage extends StatelessWidget {
+class DropdownVilageAvailable extends StatelessWidget {
   final String? vilageName;
-  const DropdownVilage({super.key, this.vilageName});
+  const DropdownVilageAvailable({super.key, this.vilageName});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NasabahProvider>(
+    return Consumer<OjekProvider>(
       builder: (context, value, _) => Container(
         decoration: BoxDecoration(
             border: Border.all(color: kBorderGray, width: 1),
@@ -20,9 +20,9 @@ class DropdownVilage extends StatelessWidget {
           data: ThemeData(
               textTheme:
                   TextTheme(subtitle1: kBlackText.copyWith(fontSize: 12))),
-          child: DropdownSearch<VilageModel>(
-            items: value.vilages,
-            itemAsString: (item) => vilageName ?? (item.vilageName ?? ""),
+          child: DropdownSearch<VilageAvailableModel>(
+            items: value.listVilage,
+            itemAsString: (item) => item.text ?? "",
             popupProps: PopupProps.menu(
               errorBuilder: (context, searchEntry, exception) {
                 return Center(child: Text(value.message));
@@ -30,7 +30,7 @@ class DropdownVilage extends StatelessWidget {
               emptyBuilder: (context, searchEntry) {
                 return Center(
                   child: Text(
-                    "Silahkan pilih kecamatan terlebih dahulu",
+                    "Data tidak tersedia",
                     style: kGreyText.copyWith(fontSize: 12),
                   ),
                 );
@@ -42,7 +42,7 @@ class DropdownVilage extends StatelessWidget {
                       horizontal: kDefaultPadding / 2,
                       vertical: kDefaultPadding / 3),
                   child: Text(
-                    item.vilageName ?? "",
+                    item.text ?? "",
                     style: kBlackText.copyWith(fontSize: 12),
                   ),
                 );

@@ -22,8 +22,15 @@ OthersInfoModel _$OthersInfoModelFromJson(Map<String, dynamic> json) =>
       passEmail: json['pass_email'] as String?,
       userFax: json['user_fax'] as String?,
       kebijakanPrivasi: json['kebijakan_privasi'] as String?,
-      bantuan: json['bantuan'] as String?,
       syaratKetentuan: json['syarat_ketentuan'] as String?,
+      bantuan: json['bantuan'] as String?,
+      bankSettings: (json['bank_settings'] as List<dynamic>?)
+          ?.map((e) => BankSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transaksiSettings: json['transaksi_settings'] == null
+          ? null
+          : TransaksiSettings.fromJson(
+              json['transaksi_settings'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OthersInfoModelToJson(OthersInfoModel instance) =>
@@ -42,6 +49,8 @@ Map<String, dynamic> _$OthersInfoModelToJson(OthersInfoModel instance) =>
       'pass_email': instance.passEmail,
       'user_fax': instance.userFax,
       'kebijakan_privasi': instance.kebijakanPrivasi,
-      'bantuan': instance.bantuan,
       'syarat_ketentuan': instance.syaratKetentuan,
+      'bantuan': instance.bantuan,
+      'bank_settings': instance.bankSettings,
+      'transaksi_settings': instance.transaksiSettings,
     };

@@ -111,10 +111,6 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              Image.asset(
-                                kIcNotification,
-                                width: 40,
-                              )
                             ],
                           ),
                           PoinCardWidget(

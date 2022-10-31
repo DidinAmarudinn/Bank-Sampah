@@ -25,7 +25,6 @@ class ActivityProvider extends ChangeNotifier {
   final PagingController<int, Activty> pagingControllerArticle =
       PagingController(firstPageKey: 0);
 
-
   bool _isLastPage = false;
   final int _numberOfTransactionPerRequest = 5;
 
@@ -72,6 +71,7 @@ class ActivityProvider extends ChangeNotifier {
       pagingController.error = e;
     }
   }
+
   Future<void> getListArticle(int pageKey) async {
     try {
       final result = await activityService.getListArticle(
@@ -88,7 +88,8 @@ class ActivityProvider extends ChangeNotifier {
         } else {
           if (activityModel?.result != null) {
             final nextPage = pageKey + 1;
-            pagingControllerArticle.appendPage(activityModel!.result!, nextPage);
+            pagingControllerArticle.appendPage(
+                activityModel!.result!, nextPage);
           }
         }
       });
