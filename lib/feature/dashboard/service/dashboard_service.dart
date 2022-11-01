@@ -35,13 +35,21 @@ class DashboardService {
   }
 
   Future<Either<Failure, TransactionModel?>> getListTransaction(
-      String id, int record, int recordPerPage) async {
+      String id, int record, int recordPerPage, bool isBsu) async {
     try {
+      String url = "";
+      if (isBsu) {
+        url = "${getListTransactionDashboardUrl}list_transaksi_bsu/$id";
+      } else {
+         url = "${getListTransactionDashboardUrl}list_transaksi_nasabah/$id";
+      }
       var map = <String, String>{};
       map['record'] = "$record";
       map["recordPerPage"] = "$recordPerPage";
+       print(url);
       var request = http.MultipartRequest(
-          "POST", Uri.parse("$getListTransactionDashboardUrl$id"));
+       
+          "POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {

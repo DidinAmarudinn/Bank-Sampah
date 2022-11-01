@@ -7,6 +7,8 @@ import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../utils/api_constants.dart';
+
 class HomePageProvider extends ChangeNotifier {
   int _currentIndex = 0;
 
@@ -75,9 +77,20 @@ class HomePageProvider extends ChangeNotifier {
 
   Future<void> getListTransaction(int pageKey) async {
     try {
-      String id = await helper.getIdNasabah() ?? "";
+      String id = "";
+      bool type = await helper.getLevel() == bsuCode;
+      if (type) {
+        id = await helper.getIdBsu() ?? "";
+      } else {
+         id = await helper.getIdNasabah() ?? "";
+       
+      }
       final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest);
+        id,
+        pageKey + 1,
+        _numberOfTransactionPerRequest,
+        type,
+      );
       result.fold((failure) {
         pagingController.error = failure.message;
       }, (transaction) {

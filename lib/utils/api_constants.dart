@@ -9,7 +9,7 @@ const String getNsabahCategoryUrl = "$baserUrl/api/v1/get_jenis_nasabah";
 const String postCompleteProfileUrl = "$baserUrl/api/v1/add_data_nasabah";
 const String getUserBalanceUrl = "$baserUrl/api/v1/cek_transaksi_user/";
 const String getListTransactionDashboardUrl =
-    "$baserUrl/api/v1/list_transaksi_nasabah/";
+    "$baserUrl/api/v1/";
 const String getListSliderUrl = "$baserUrl/api/v1/get_slide/";
 const String getListActivityUrl = "$baserUrl/api/v1/list_kegiatan";
 const String getListArticleUrl = "$baserUrl/api/v1/list_artikel";

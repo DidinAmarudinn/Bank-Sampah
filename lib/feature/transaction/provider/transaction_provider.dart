@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/transaction/model/filter_model.dart';
 import 'package:bank_sampah/feature/transaction/service/transaction_service.dart';
+import 'package:bank_sampah/utils/api_constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
@@ -81,9 +82,15 @@ class TransactionProvider extends ChangeNotifier {
   final int _numberOfTransactionPerRequest = 5;
   Future<void> getListTransaction(int pageKey, FilterModel? filterModel) async {
     try {
-      String id = await helper.getIdNasabah() ?? "";
+      String id = "";
+      bool type = await helper.getLevel() == bsuCode;
+      if (type) {
+        id = await helper.getIdBsu() ?? "";
+      } else {
+        id = await helper.getIdNasabah() ?? "";
+      }
       final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel);
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel, type);
       result.fold((failure) {
         pagingController.error = failure.message;
       }, (transaction) {
@@ -108,9 +115,20 @@ class TransactionProvider extends ChangeNotifier {
   Future<void> getListTransactionOnProgress(
       int pageKey, FilterModel? filterModel) async {
     try {
-      String id = await helper.getIdNasabah() ?? "";
+      String id = "";
+      bool type = await helper.getLevel() == bsuCode;
+      if (type) {
+        id = await helper.getIdBsu() ?? "";
+      } else {
+        id = await helper.getIdNasabah() ?? "";
+      }
       final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel);
+        id,
+        pageKey + 1,
+        _numberOfTransactionPerRequest,
+        filterModel,
+        type,
+      );
       result.fold((failure) {
         pagingControllerOnProgress.error = failure.message;
       }, (transaction) {
