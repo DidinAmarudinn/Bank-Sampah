@@ -24,8 +24,11 @@ class AddressProvider extends ChangeNotifier {
   List<UserAddressModel> _listUserAddress = [];
   List<UserAddressModel> get listUserAddress => _listUserAddress;
 
-  void selectAddress(int index) {
+  UserAddressModel? _userAddressModel;
+  UserAddressModel? get userAddressModel => _userAddressModel;
+  void selectAddress(int index, UserAddressModel? userAddressModel) {
     _selectedIndex = index;
+    _userAddressModel = userAddressModel;
     notifyListeners();
   }
 

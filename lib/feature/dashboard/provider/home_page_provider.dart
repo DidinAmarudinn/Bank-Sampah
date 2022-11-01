@@ -75,7 +75,7 @@ class HomePageProvider extends ChangeNotifier {
 
   Future<void> getListTransaction(int pageKey) async {
     try {
-      int id = await helper.getId() ?? 0;
+      String id = await helper.getIdNasabah() ?? "";
       final result = await service.getListTransaction(
           id, pageKey + 1, _numberOfTransactionPerRequest);
       result.fold((failure) {

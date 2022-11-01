@@ -1,18 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class OrderOjekRequest {
-  String idUser;
-  String idNasabah;
-  String idGudang;
-  String tanggalTransaksi;
-  String tanggalJatuhTempo;
-  String kategoriPenyesuaian;
-  String jmlAngkutBerlangganan;
-  String keterangan;
-  String idKelurahan;
-  String idJenisNasabah;
-  String idBukuAlamat;
-  String detailAlamat;
-  String harga;
+  String? idUser;
+  String? idNasabah;
+  String? idGudang;
+  String? tanggalTransaksi;
+  String? tanggalJatuhTempo;
+  String? kategoriPenyesuaian;
+  String? jmlAngkutBerlangganan;
+  String? keterangan;
+  String? idKelurahan;
+  String? idJenisNasabah;
+  String? idBukuAlamat;
+  String? detailAlamat;
+  String? harga;
   OrderOjekRequest({
     required this.idUser,
     required this.idNasabah,

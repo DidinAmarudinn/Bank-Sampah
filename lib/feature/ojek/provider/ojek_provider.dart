@@ -1,10 +1,13 @@
+import 'package:bank_sampah/feature/ojek/model/give_rating_request.dart';
 import 'package:bank_sampah/feature/ojek/model/gudang_model.dart';
+import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/model/vilage_available_model.dart';
 import 'package:bank_sampah/feature/ojek/service/ojek_service.dart';
 import 'package:bank_sampah/feature/user_available_address/data_buku_alamat.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import '../../user_available_address/data_jenis_nasabah.dart';
 
@@ -46,8 +49,23 @@ class OjekProvider extends ChangeNotifier {
 
   final PreferencesHelper helper;
 
+  String _transactionTime = "";
+  String get transactionTime => _transactionTime;
+
+  String _endTransactionTime = "";
+  String get endTransactionTime => _endTransactionTime;
+
   void selectedTime(DateTime time) {
     _time = time;
+    final f = DateFormat('yyyy-MM-dd');
+    _transactionTime = f.format(_time);
+    _endTransactionTime = f.format(
+      DateTime(
+        _time.year,
+        _time.month,
+        _time.day + 7,
+      ),
+    );
     notifyListeners();
   }
 
@@ -73,10 +91,13 @@ class OjekProvider extends ChangeNotifier {
 
   String? _idNasabah;
   String? get idNasabah => _idNasabah;
+  int? _id;
+  int? get idUser => _id;
   List<VilageAvailableModel> _listVilage = [];
   List<VilageAvailableModel> get listVilage => _listVilage;
   Future<void> getListVilagesAvail(String id) async {
     _idNasabah = await helper.getIdNasabah();
+    _id = await helper.getId();
     final result = await service.getListVilageAvailable(id);
     result.fold((failure) {
       _message = failure.message;
@@ -162,5 +183,61 @@ class OjekProvider extends ChangeNotifier {
   void selectAddress(int index) {
     _selectedIndex = index;
     notifyListeners();
+  }
+
+  Future<void> orderOjek(OrderOjekRequest? request) async {
+    _idNasabah = await helper.getIdNasabah();
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.orderOjek(request);
+    result.fold((failure) {
+      _message = failure.message;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (result) {
+      if (result) {
+        _state = RequestState.loaded;
+      } else {
+        _state = RequestState.error;
+        _message = "Gagal memesan ojek";
+      }
+      notifyListeners();
+    });
+  }
+
+  void initialDate() {
+    final f = DateFormat('yyyy-MM-dd');
+    _transactionTime = f.format(_time);
+    _endTransactionTime = f.format(
+      DateTime(
+        _time.year,
+        _time.month,
+        _time.day + 7,
+      ),
+    );
+    notifyListeners();
+  }
+
+  double _rating = 1.0;
+  double get rating => _rating;
+
+  void changeRating(double newVal) {
+    _rating = newVal;
+    notifyListeners();
+  }
+
+  Future<void> giveRating(GiveRatingRequest request) async {
+    _idNasabah = await helper.getIdNasabah();
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.giveRating(request);
+    result.fold((failure) {
+      _message = failure.message;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (result) {
+      _state = RequestState.loaded;
+      notifyListeners();
+    });
   }
 }

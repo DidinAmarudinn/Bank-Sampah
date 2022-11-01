@@ -35,7 +35,7 @@ class DashboardService {
   }
 
   Future<Either<Failure, TransactionModel?>> getListTransaction(
-      int id, int record, int recordPerPage) async {
+      String id, int record, int recordPerPage) async {
     try {
       var map = <String, String>{};
       map['record'] = "$record";

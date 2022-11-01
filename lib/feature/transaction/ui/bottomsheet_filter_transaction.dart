@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import '../../../widget/tb_button_primary_widget.dart';
 
 class BottomSheetFilterTransaction extends StatefulWidget {
-  const BottomSheetFilterTransaction({Key? key}) : super(key: key);
+  final bool isOnProgress;
+  const BottomSheetFilterTransaction({Key? key, required this.isOnProgress})
+      : super(key: key);
 
   @override
   State<BottomSheetFilterTransaction> createState() =>
@@ -35,48 +37,78 @@ class _BottomSheetFilterTransactionState
             ),
             ItemFilter(
               iconName: kIcMotor,
-              title: "Ojek Sampah Harian",
+              title: "Ojek Sampah",
               color: kDarkGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isOjekHarian: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isOjekHarian: newVal);
+                } else {
+                  provider.saveFilterDone(isOjekHarian: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isOjekHarian ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isOjekHarian ?? false)
+                  : (provider.filterModelDone?.isOjekHarian ?? false),
             ),
-            ItemFilter(
-              iconName: kIcMotor,
-              title: "Ojek Sampah Berlangganan",
-              color: kGreen,
-              onCheck: (newVal) {
-                provider.saveFilter(isOjekBerlanggan: newVal);
-              },
-              isChecked: provider.filterModel?.isOjekBerlanggan ?? false,
-            ),
+            // ItemFilter(
+            //   iconName: kIcMotor,
+            //   title: "Ojek Sampah Berlangganan",
+            //   color: kGreen,
+            //   onCheck: (newVal) {
+            //     if (widget.isOnProgress) {
+            //       provider.saveFilterOnProgress(isOjekBerlanggan: newVal);
+            //     } else {
+            //       provider.saveFilterDone(isOjekBerlanggan: newVal);
+            //     }
+            //   },
+            //   isChecked: widget.isOnProgress
+            //       ? (provider.filterModel?.isOjekBerlanggan ?? false)
+            //       : (provider.filterModelDone?.isOjekBerlanggan ?? false),
+            // ),
             ItemFilter(
               iconName: kIcPuls,
               title: "Pulsa",
               color: kDarkGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isPulsa: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isPulsa: newVal);
+                } else {
+                  provider.saveFilterDone(isPulsa: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isPulsa ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isPulsa ?? false)
+                  : (provider.filterModelDone?.isPulsa ?? false),
             ),
             ItemFilter(
               iconName: kIcListrik,
               title: "Listrik",
               color: kDarkGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isListrik: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isListrik: newVal);
+                } else {
+                  provider.saveFilterDone(isListrik: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isListrik ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isListrik ?? false)
+                  : (provider.filterModelDone?.isListrik ?? false),
             ),
             ItemFilter(
               iconName: kIcPdam,
               title: "Pdam",
               color: kDarkGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isPdam: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isPdam: newVal);
+                } else {
+                  provider.saveFilterDone(isPdam: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isPdam ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isPdam ?? false)
+                  : (provider.filterModelDone?.isPdam ?? false),
             ),
             const SizedBox(
               height: kDefaultPadding * 2,
@@ -93,18 +125,30 @@ class _BottomSheetFilterTransactionState
               title: "Berhasil",
               color: kDarkGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isSuccess: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isSuccess: newVal);
+                } else {
+                  provider.saveFilterDone(isSuccess: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isSuccess ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isSuccess ?? false)
+                  : (provider.filterModelDone?.isSuccess ?? false),
             ),
             ItemFilter(
               iconName: null,
               title: "Dibatalkan",
               color: kGreen,
               onCheck: (newVal) {
-                provider.saveFilter(isCancelled: newVal);
+                if (widget.isOnProgress) {
+                  provider.saveFilterOnProgress(isCancelled: newVal);
+                } else {
+                  provider.saveFilterDone(isCancelled: newVal);
+                }
               },
-              isChecked: provider.filterModel?.isCancelled ?? false,
+              isChecked: widget.isOnProgress
+                  ? (provider.filterModel?.isCancelled ?? false)
+                  : (provider.filterModelDone?.isCancelled ?? false),
             ),
             const SizedBox(
               height: kDefaultPadding,
@@ -128,7 +172,14 @@ class _BottomSheetFilterTransactionState
                 Expanded(
                   child: TBButtonPrimaryWidget(
                     buttonName: "Masukan",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                      if (widget.isOnProgress) {
+                        provider.pagingControllerOnProgress.refresh();
+                      } else {
+                        provider.pagingController.refresh();
+                      }
+                    },
                     height: 40,
                     width: double.infinity,
                   ),

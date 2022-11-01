@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
+import 'package:bank_sampah/feature/login/ui/forgot_password_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
@@ -145,12 +146,17 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: kDefaultPadding,
                       ),
-                      Text(
-                        "Lupa Password?",
-                        style: kGreenText.copyWith(
-                          fontSize: 10,
+                      InkWell(
+                        onTap: () {
+                          context.push(ForgotPasswordScreen.routeName);
+                        },
+                        child: Text(
+                          "Lupa Password?",
+                          style: kGreenText.copyWith(
+                            fontSize: 10,
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                        textAlign: TextAlign.right,
                       ),
                       const SizedBox(
                         height: kDefaultPadding * 2,

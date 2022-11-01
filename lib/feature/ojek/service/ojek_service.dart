@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bank_sampah/feature/ojek/model/give_rating_request.dart';
 import 'package:bank_sampah/feature/ojek/model/vilage_available_model.dart';
 import 'package:dartz/dartz.dart';
 
@@ -95,25 +96,56 @@ class OjekService {
   }
 
   Future<Either<Failure, bool>> orderOjek(
-      OrderOjekRequest orderOjekRequest) async {
+      OrderOjekRequest? orderOjekRequest) async {
     try {
       var request = http.MultipartRequest("POST", Uri.parse(addOjekSampahUrl));
       Map<String, String> body = {
-        "id_user": orderOjekRequest.idUser ?? "",
-        "id_nasabah": orderOjekRequest.idNasabah ?? "",
-        "id_gudang": orderOjekRequest.idGudang ?? "",
-        "tgl_transaksi": orderOjekRequest.tanggalTransaksi ?? "",
-        "tgl_jatuh_tempo": orderOjekRequest.tanggalJatuhTempo ?? "",
-        "kategori_penyesuaian": orderOjekRequest.kategoriPenyesuaian ?? "",
-        "jml_angkut_berlangganan": orderOjekRequest.jmlAngkutBerlangganan ?? "",
-        "keterangan": orderOjekRequest.keterangan ?? "",
-        "id_kelurahan": orderOjekRequest.idKelurahan ?? "",
-        "id_jenis_nasabah": orderOjekRequest.idJenisNasabah ?? "",
-        "id_buku_alamat": orderOjekRequest.idBukuAlamat ?? "",
-        "detail_alamat": orderOjekRequest.detailAlamat ?? "",
-        "harga": orderOjekRequest.harga ?? "",
+        "id_user": orderOjekRequest?.idUser ?? "",
+        "id_nasabah": orderOjekRequest?.idNasabah ?? "",
+        "id_gudang": orderOjekRequest?.idGudang ?? "",
+        "tgl_transaksi": orderOjekRequest?.tanggalTransaksi ?? "",
+        "tgl_jatuh_tempo": orderOjekRequest?.tanggalJatuhTempo ?? "",
+        "kategori_penyesuaian": orderOjekRequest?.kategoriPenyesuaian ?? "",
+        "jml_angkut_berlangganan":
+            orderOjekRequest?.jmlAngkutBerlangganan ?? "",
+        "keterangan": orderOjekRequest?.keterangan ?? "",
+        "id_kelurahan": orderOjekRequest?.idKelurahan ?? "",
+        "id_jenis_nasabah": orderOjekRequest?.idJenisNasabah ?? "",
+        "id_buku_alamat": orderOjekRequest?.idBukuAlamat ?? "",
+        "detail_alamat": orderOjekRequest?.detailAlamat ?? "",
+        "harga": orderOjekRequest?.harga ?? "",
+        "total_tagihan": orderOjekRequest?.harga ?? ""
       };
+      request.fields.addAll(body);
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        if (res["status"] == "true") {
+          return const Right(true);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
 
+  Future<Either<Failure, bool>> giveRating(
+      GiveRatingRequest? giveRatingRequest) async {
+    try {
+      var request = http.MultipartRequest("POST", Uri.parse(giveRatingUrl));
+      Map<String, String> body = {
+        "id_transaksi": giveRatingRequest?.idTransaksi ?? "",
+        "id_nasabah": giveRatingRequest?.idNasabah ?? "",
+        "nilai": giveRatingRequest?.nilai ?? "",
+        "komentar": giveRatingRequest?.komentar ?? ""
+      };
       request.fields.addAll(body);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {

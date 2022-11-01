@@ -42,6 +42,31 @@ class LoginService {
     }
   }
 
+  Future<Either<Failure, bool>> forgotPassword(String email) async {
+    try {
+      var map = <String, String>{};
+      map['email'] = email;
+      var request = http.MultipartRequest("POST", Uri.parse(forgotPasswordUrl));
+      request.fields.addAll(map);
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        if (res["status"] == "true") {
+          return const Right(true);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
   Future<Either<Failure, BSUModel?>> getDataBsu(String idBsu) async {
     try {
       final response = await http.get(Uri.parse("$getDataBsuUrl$idBsu"));

@@ -16,6 +16,16 @@ class TransactionScreen extends StatefulWidget {
 class _TransactionScreenState extends State<TransactionScreen> {
   final TextEditingController searchController = TextEditingController();
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<TransactionProvider>(context, listen: false).start();
+      Provider.of<TransactionProvider>(context, listen: false)
+          .changeTabBar(true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransactionProvider>(context);
     return Scaffold(
@@ -89,9 +99,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: kDefaultPadding),
                                         width: double.infinity,
-                                        color: provider.isOnProgress
-                                            ? kDarkGreen
-                                            : Colors.white.withOpacity(0),
+                                        color: provider.isOnProgress == null
+                                            ? Colors.white
+                                            : provider.isOnProgress == true
+                                                ? kDarkGreen
+                                                : Colors.white.withOpacity(0),
                                       ),
                                     ],
                                   ),
@@ -116,9 +128,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: kDefaultPadding),
                                         width: double.infinity,
-                                        color: provider.isOnProgress
-                                            ? Colors.white.withOpacity(0)
-                                            : kDarkGreen,
+                                        color: provider.isOnProgress == null
+                                            ? Colors.white
+                                            : provider.isOnProgress == true
+                                                ? Colors.white.withOpacity(0)
+                                                : kDarkGreen,
                                       ),
                                     ],
                                   ),
@@ -176,8 +190,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         ),
                                         context: context,
                                         builder: (context) {
-                                          return Wrap(children: const [
-                                            BottomSheetFilterTransaction()
+                                          return Wrap(children: [
+                                            BottomSheetFilterTransaction(
+                                              isOnProgress:
+                                                  provider.isOnProgress ?? true,
+                                            )
                                           ]);
                                         });
                                   },
@@ -220,7 +237,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                             height: kDefaultPadding,
                           ),
                           Expanded(
-                              child: provider.isOnProgress
+                              child: provider.isOnProgress == true
                                   ? const TransactionOnProgress()
                                   : const TransactionDone()),
                         ],

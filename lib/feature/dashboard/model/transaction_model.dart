@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'detail_ppob.dart';
 part 'transaction_model.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
@@ -33,29 +35,33 @@ class TransactionModel {
 
 @JsonSerializable(genericArgumentFactories: true)
 class TransactionResult {
-  @JsonKey(name: "id_transaksi")
-  final String? idTransaksi;
-  @JsonKey(name: "no_transaksi")
-  final String? noTransaksi;
-  @JsonKey(name: "tipe")
-  final String? tipe;
-  @JsonKey(name: "nominal_transaksi")
-  final String? nominalTransaksi;
-  @JsonKey(name: "tgl_transaksi")
-  final String? tglTransaksi;
-  @JsonKey(name: "total_tagihan")
-  final String? totalTagihan;
-  @JsonKey(name: "status")
-  final String? status;
+   @JsonKey(name: 'id_transaksi')
+  String? idTransaksi;
+  @JsonKey(name: 'no_transaksi')
+  String? noTransaksi;
+  String? tipe;
+  String? jenis;
+  @JsonKey(name: 'nominal_transaksi')
+  String? nominalTransaksi;
+  @JsonKey(name: 'tgl_transaksi')
+  String? tglTransaksi;
+  @JsonKey(name: 'total_tagihan')
+  String? totalTagihan;
+  String? status;
+  @JsonKey(name: 'detail_ppob')
+  DetailPpob? detailPpob;
 
-  TransactionResult(
-      {this.idTransaksi,
-      this.noTransaksi,
-      this.tipe,
-      this.nominalTransaksi,
-      this.tglTransaksi,
-      this.totalTagihan,
-      this.status});
+  TransactionResult({
+    this.idTransaksi,
+    this.noTransaksi,
+    this.tipe,
+    this.jenis,
+    this.nominalTransaksi,
+    this.tglTransaksi,
+    this.totalTagihan,
+    this.status,
+    this.detailPpob,
+  });
 
   factory TransactionResult.fromJson(Map<String, dynamic> json) =>
       _$TransactionResultFromJson(json);
@@ -68,6 +74,8 @@ class TransactionResult {
         return "Ojek Sampah";
       case "pembelian":
         return "Pembelian";
+      case "ppob":
+        return jenis?.toUpperCase() ?? "";
       default:
         return "";
     }

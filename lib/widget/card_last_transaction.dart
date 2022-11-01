@@ -23,10 +23,7 @@ class CardLastTransaction extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            kIcCircleMotor,
-            width: 22,
-          ),
+          buildIcon(),
           const SizedBox(
             width: kDefaultPadding / 2,
           ),
@@ -36,7 +33,7 @@ class CardLastTransaction extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  transactionResult?.noTransaksi ?? "",
+                  transactionResult?.idTransaksi ?? "",
                   style: kDarkGrayText.copyWith(fontWeight: bold, fontSize: 12),
                 ),
                 Text(
@@ -68,5 +65,59 @@ class CardLastTransaction extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget buildIcon() {
+    if (transactionResult?.tipe == "ojek_sampah") {
+       return Container(
+        padding:const EdgeInsets.all(7),
+        decoration: const BoxDecoration(
+          color: kDarkGreen,
+          shape: BoxShape.circle
+        ),
+        child: Image.asset(
+          kIcMotor,
+          width: 15,
+        ),
+      );
+    } else if (transactionResult?.getTransactionType().toLowerCase() == "pulsa") {
+      return Container(
+        padding:const EdgeInsets.all(7),
+        decoration: const BoxDecoration(
+          color: kDarkGreen,
+          shape: BoxShape.circle
+        ),
+        child: Image.asset(
+          kIcPuls,
+          width: 15,
+        ),
+      );
+    } else if (transactionResult?.getTransactionType().toLowerCase() == "listrik") {
+       return Container(
+        padding:const EdgeInsets.all(7),
+        decoration: const BoxDecoration(
+          color: kDarkGreen,
+          shape: BoxShape.circle
+        ),
+        child: Image.asset(
+          kIcListrik,
+          width: 15,
+        ),
+      );
+    } else if (transactionResult?.getTransactionType() == "PDAM") {
+       return Container(
+        padding:const EdgeInsets.all(7),
+        decoration: const BoxDecoration(
+          color: kDarkGreen,
+          shape: BoxShape.circle
+        ),
+        child: Image.asset(
+          kIcPdam,
+          width: 15,
+        ),
+      );
+    } else {
+      return const SizedBox(width: 25,);
+    }
   }
 }

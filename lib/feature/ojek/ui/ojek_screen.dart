@@ -1,6 +1,6 @@
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
-import 'package:bank_sampah/feature/ojek/model/ojek_model.dart';
+import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
@@ -9,7 +9,6 @@ import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/dropdown_gudang.dart';
 import 'package:bank_sampah/widget/dropdown_nasabah_category.dart';
 import 'package:bank_sampah/widget/dropdown_vilage_available.dart';
-import 'package:bank_sampah/widget/item_day_pickup.dart';
 import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +17,7 @@ import 'package:provider/provider.dart';
 import '../../../themes/constants.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../../../widget/tb_button_primary_widget.dart';
+import '../../profile/provider/profile_provider.dart';
 
 class OjekScreen extends StatefulWidget {
   static const routeName = '/ojek-page';
@@ -35,6 +35,8 @@ class _OjekScreenState extends State<OjekScreen> {
     Future.microtask(() {
       Provider.of<OjekProvider>(context, listen: false).getListGudang();
       Provider.of<NasabahProvider>(context, listen: false).getNasabahCategory();
+      Provider.of<ProfileProvider>(context, listen: false).getOthersInfo();
+      Provider.of<OjekProvider>(context, listen: false).initialDate();
     });
     super.initState();
   }
@@ -111,93 +113,91 @@ class _OjekScreenState extends State<OjekScreen> {
             ),
           ),
           Expanded(
-            child: widget.isDaily
-                ? Column(
+              child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Consumer2<OjekProvider, ProfileProvider>(
+                  builder: (context, provider, val, _) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Consumer<OjekProvider>(
-                          builder: (context, provider, _) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${FormatterExt().dateFormat.format(provider.time)}, ${FormatterExt().weekdayName[provider.time.weekday]}",
-                                    style: kBlackText.copyWith(
-                                        fontWeight: semiBold),
-                                  ),
-                                  TBButtonPrimaryWidget(
-                                      buttonName: "Pilih Tanggal",
-                                      onPressed: () {
-                                        showDatePicker(
-                                          context: context,
-                                          cancelText: "Tutup",
-                                          helpText: "Pilih Tanggal Penjemputan",
-                                          confirmText: "Pilih",
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2099),
-                                        ).then((value) {
-                                          provider.selectedTime(
-                                              value ?? DateTime.now());
-                                        });
-                                      },
-                                      height: 40,
-                                      width: 120)
-                                ],
-                              ),
-                              const Text("Pilih Gudang Penjemputan"),
-                              const SizedBox(
-                                height: kDefaultPadding / 2,
-                              ),
-                              const DropdownGudang(),
-                              const SizedBox(
-                                height: kDefaultPadding / 2,
-                              ),
-                              const Text("Pilih Kelurahan Tersedia"),
-                              const SizedBox(
-                                height: kDefaultPadding / 2,
-                              ),
-                              const DropdownVilageAvailable(),
-                              const SizedBox(
-                                height: kDefaultPadding / 2,
-                              ),
-                              const Text("Pilih Jenis Nasabah"),
-                              const SizedBox(
-                                height: kDefaultPadding / 2,
-                              ),
-                              const DropdownNasabahType(),
-                            ],
-                          ),
-                        ),
+                      widget.isDaily
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${FormatterExt().dateFormat.format(provider.time)}, ${FormatterExt().weekdayName[provider.time.weekday]}",
+                                  style:
+                                      kBlackText.copyWith(fontWeight: semiBold),
+                                ),
+                                TBButtonPrimaryWidget(
+                                    buttonName: "Pilih Tanggal",
+                                    onPressed: () {
+                                      showDatePicker(
+                                        context: context,
+                                        cancelText: "Tutup",
+                                        helpText: "Pilih Tanggal Penjemputan",
+                                        confirmText: "Pilih",
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2099),
+                                      ).then((value) {
+                                        provider.selectedTime(
+                                            value ?? DateTime.now());
+                                      });
+                                    },
+                                    height: 40,
+                                    width: 120)
+                              ],
+                            )
+                          : const SizedBox(),
+                      const Text("Pilih Gudang Penjemputan"),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
                       ),
-                      const Spacer()
+                      const DropdownGudang(),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
+                      ),
+                      const Text("Pilih Kelurahan Tersedia"),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
+                      ),
+                      const DropdownVilageAvailable(),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
+                      ),
+                      const Text("Pilih Jenis Nasabah"),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
+                      ),
+                      const DropdownNasabahType(),
+                      const SizedBox(
+                        height: kDefaultPadding / 2,
+                      ),
+                      widget.isDaily
+                          ? const SizedBox()
+                          : Column(
+                              children: [
+                                const SizedBox(
+                                  height: kDefaultPadding / 2,
+                                ),
+                                Text(
+                                  "Jumlah hari berlangganan dalam sebulan ${val.othersInfoModel?.transaksiSettings?.jmlAngkutBerlangganan}",
+                                  style: kBlackText.copyWith(
+                                      fontSize: 12, fontWeight: semiBold),
+                                ),
+                              ],
+                            )
                     ],
-                  )
-                : Consumer<OjekProvider>(
-                    builder: (context, value, _) => ListView.builder(
-                      itemCount: dayPickUpData.length,
-                      itemBuilder: (context, index) {
-                        String day = dayPickUpData[index];
-                        return ItemDayPickup(
-                            titile: day,
-                            isChecked: value.isChecked(day),
-                            onCheck: (newVal) {
-                              if (newVal == true) {
-                                value.selectDays(day);
-                              } else {
-                                value.removeDays(day);
-                              }
-                            });
-                      },
-                    ),
                   ),
-          ),
-          Consumer2<OjekProvider, NasabahProvider>(
-            builder: (context, val, provider, _) =>
+                ),
+              ),
+              const Spacer()
+            ],
+          )),
+          Consumer3<OjekProvider, NasabahProvider, ProfileProvider>(
+            builder: (context, val, provider, profileProvider, _) =>
                 val.state == RequestState.loading
                     ? const Padding(
                         padding: EdgeInsets.symmetric(
@@ -220,7 +220,30 @@ class _OjekScreenState extends State<OjekScreen> {
                                 widget.isDaily);
                             if (!mounted) return;
                             if (val.state == RequestState.loaded) {
-                              context.push(SelectAddressScreen.routeName);
+                              OrderOjekRequest request = OrderOjekRequest(
+                                  idUser: val.idUser.toString(),
+                                  idNasabah: val.idNasabah,
+                                  idGudang: val.selectedGudang?.id,
+                                  tanggalTransaksi: val.transactionTime,
+                                  tanggalJatuhTempo: val.endTransactionTime,
+                                  kategoriPenyesuaian: widget.isDaily
+                                      ? "sekali_pesan"
+                                      : "berlangganan",
+                                  jmlAngkutBerlangganan: widget.isDaily
+                                      ? "0"
+                                      : profileProvider
+                                          .othersInfoModel
+                                          ?.transaksiSettings
+                                          ?.jmlAngkutBerlangganan,
+                                  keterangan: "",
+                                  idKelurahan: val.selectedVilage?.idKelurahan,
+                                  idJenisNasabah:
+                                      provider.selectedNasabahType?.id,
+                                  idBukuAlamat: null,
+                                  detailAlamat: null,
+                                  harga: val.ojekPrice);
+                              context.push(SelectAddressScreen.routeName,
+                                  extra: request);
                             } else {
                               SnackbarMessage.showToast(val.message);
                             }

@@ -1,17 +1,32 @@
 import 'package:bank_sampah/feature/transaction/model/filter_model.dart';
+import 'package:bank_sampah/feature/transaction/service/transaction_service.dart';
+import 'package:bank_sampah/utils/preference_helper.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../dashboard/model/transaction_model.dart';
 
 class TransactionProvider extends ChangeNotifier {
-  bool _isOnProgress = true;
-  bool get isOnProgress => _isOnProgress;
+  bool? _isOnProgress;
+
+  TransactionProvider(this.helper);
+  bool? get isOnProgress => _isOnProgress;
   FilterModel? _filterModel;
   FilterModel? get filterModel => _filterModel;
+
+  FilterModel? _filterModelDone;
+  FilterModel? get filterModelDone => _filterModelDone;
   void changeTabBar(bool newValue) {
     _isOnProgress = newValue;
     notifyListeners();
   }
 
-  void saveFilter(
+  final PreferencesHelper helper;
+
+  final TransactionService service = TransactionService();
+
+  void saveFilterOnProgress(
       {bool? isOjekHarian,
       bool? isOjekBerlanggan,
       bool? isPulsa,
@@ -29,6 +44,102 @@ class TransactionProvider extends ChangeNotifier {
         isSuccess: isSuccess ?? _filterModel?.isSuccess);
     _filterModel = tempFilterModel;
     notifyListeners();
+  }
+
+  void saveFilterDone(
+      {bool? isOjekHarian,
+      bool? isOjekBerlanggan,
+      bool? isPulsa,
+      bool? isPdam,
+      bool? isListrik,
+      bool? isSuccess,
+      bool? isCancelled}) {
+    FilterModel tempFilterModel = const FilterModel().copyWith(
+        isCancelled: isCancelled ?? _filterModelDone?.isCancelled,
+        isListrik: isListrik ?? _filterModelDone?.isListrik,
+        isOjekBerlanggan:
+            isOjekBerlanggan ?? _filterModelDone?.isOjekBerlanggan,
+        isOjekHarian: isOjekHarian ?? _filterModelDone?.isOjekHarian,
+        isPdam: isPdam ?? _filterModelDone?.isPdam,
+        isPulsa: isPulsa ?? _filterModelDone?.isPulsa,
+        isSuccess: isSuccess ?? _filterModelDone?.isSuccess);
+    _filterModelDone = tempFilterModel;
+    notifyListeners();
+  }
+
+  RequestState _state = RequestState.empty;
+  RequestState get state => _state;
+
+  String _message = "";
+  String get message => _message;
+  final PagingController<int, TransactionResult> pagingControllerOnProgress =
+      PagingController(firstPageKey: 0);
+  final PagingController<int, TransactionResult> pagingController =
+      PagingController(firstPageKey: 0);
+
+  bool _isLastPage = false;
+  final int _numberOfTransactionPerRequest = 5;
+  Future<void> getListTransaction(int pageKey, FilterModel? filterModel) async {
+    try {
+      String id = await helper.getIdNasabah() ?? "";
+      final result = await service.getListTransaction(
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel);
+      result.fold((failure) {
+        pagingController.error = failure.message;
+      }, (transaction) {
+        int transactionCount = transaction?.result?.length ?? 0;
+        _isLastPage = transactionCount < _numberOfTransactionPerRequest;
+        if (_isLastPage) {
+          if (transaction?.result != null) {
+            pagingController.appendLastPage(transaction!.result!);
+          }
+        } else {
+          if (transaction?.result != null) {
+            final nextPage = pageKey + 1;
+            pagingController.appendPage(transaction!.result!, nextPage);
+          }
+        }
+      });
+    } catch (e) {
+      pagingController.error = e;
+    }
+  }
+
+  Future<void> getListTransactionOnProgress(
+      int pageKey, FilterModel? filterModel) async {
+    try {
+      String id = await helper.getIdNasabah() ?? "";
+      final result = await service.getListTransaction(
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel);
+      result.fold((failure) {
+        pagingControllerOnProgress.error = failure.message;
+      }, (transaction) {
+        int transactionCount = transaction?.result?.length ?? 0;
+        _isLastPage = transactionCount < _numberOfTransactionPerRequest;
+        if (_isLastPage) {
+          if (transaction?.result != null) {
+            pagingControllerOnProgress.appendLastPage(transaction!.result!);
+          }
+        } else {
+          if (transaction?.result != null) {
+            final nextPage = pageKey + 1;
+            pagingControllerOnProgress.appendPage(
+                transaction!.result!, nextPage);
+          }
+        }
+      });
+    } catch (e) {
+      pagingControllerOnProgress.error = e;
+    }
+  }
+
+  void start() {
+    pagingControllerOnProgress.addPageRequestListener((pageKey) {
+      getListTransactionOnProgress(pageKey, _filterModel);
+    });
+    pagingController.addPageRequestListener((pageKey) {
+      getListTransaction(pageKey, _filterModelDone);
+    });
   }
 
   void resetFilter() {

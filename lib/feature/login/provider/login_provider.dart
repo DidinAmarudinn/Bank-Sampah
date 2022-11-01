@@ -63,6 +63,20 @@ class LoginProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> forgotPassword(String email) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.forgotPassword(email);
+    result.fold((failure) {
+      _state = RequestState.error;
+      _message = failure.message;
+      notifyListeners();
+    }, (result) async {
+      _state = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
   Future<void> checkNasabahData() async {
     _stateChecDataNasabah = RequestState.loading;
     int id = int.parse(_loginModel?.id ?? "0");

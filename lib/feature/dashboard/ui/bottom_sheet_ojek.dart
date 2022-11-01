@@ -57,9 +57,9 @@ class BottomSheetOjekSampah extends StatelessWidget {
                 CardOjekSampah(
                   titile: "Ojek Sampah Berlangganan",
                   onTap: () {
+                    Navigator.of(context).pop();
                     context.read<AddressProvider>().selectOjekType(false);
-                    // Navigator.of(context).pop();
-                    // context.push(OjekScreen.routeName, extra: false);
+                    context.push(OjekScreen.routeName, extra: false);
                   },
                   color: kGreen,
                   subTitle: "Pelayanan Ojek Jemput Berkala Sesuai Jadwal",

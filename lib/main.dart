@@ -16,13 +16,16 @@ import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/login/provider/login_provider.dart';
+import 'package:bank_sampah/feature/login/ui/forgot_password_screen.dart';
 import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
+import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
+import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
@@ -46,6 +49,7 @@ import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/splash_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -103,7 +107,9 @@ class MyApp extends StatelessWidget {
                 PreferencesHelper(
                     sharedPreference: SharedPreferences.getInstance()),
                 DashboardService())),
-        ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(
+            create: (_) => TransactionProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
             create: (_) => AddressProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
@@ -160,6 +166,18 @@ class MyApp extends StatelessWidget {
         },
       ),
       GoRoute(
+        path: ForgotPasswordScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const ForgotPasswordScreen();
+        },
+      ),
+      GoRoute(
+        path: GiveRatingScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const GiveRatingScreen();
+        },
+      ),
+      GoRoute(
         path: SuccessPage.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const SuccessPage();
@@ -204,7 +222,9 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: SelectAddressScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
-          return const SelectAddressScreen();
+          final OrderOjekRequest? ojekRequest =
+              state.extra as OrderOjekRequest?;
+          return SelectAddressScreen(orderOjekRequest: ojekRequest);
         },
       ),
       GoRoute(

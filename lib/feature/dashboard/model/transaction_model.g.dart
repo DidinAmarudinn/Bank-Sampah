@@ -33,10 +33,14 @@ TransactionResult _$TransactionResultFromJson(Map<String, dynamic> json) =>
       idTransaksi: json['id_transaksi'] as String?,
       noTransaksi: json['no_transaksi'] as String?,
       tipe: json['tipe'] as String?,
+      jenis: json['jenis'] as String?,
       nominalTransaksi: json['nominal_transaksi'] as String?,
       tglTransaksi: json['tgl_transaksi'] as String?,
       totalTagihan: json['total_tagihan'] as String?,
       status: json['status'] as String?,
+      detailPpob: json['detail_ppob'] == null
+          ? null
+          : DetailPpob.fromJson(json['detail_ppob'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TransactionResultToJson(TransactionResult instance) =>
@@ -44,8 +48,10 @@ Map<String, dynamic> _$TransactionResultToJson(TransactionResult instance) =>
       'id_transaksi': instance.idTransaksi,
       'no_transaksi': instance.noTransaksi,
       'tipe': instance.tipe,
+      'jenis': instance.jenis,
       'nominal_transaksi': instance.nominalTransaksi,
       'tgl_transaksi': instance.tglTransaksi,
       'total_tagihan': instance.totalTagihan,
       'status': instance.status,
+      'detail_ppob': instance.detailPpob,
     };
