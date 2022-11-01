@@ -4,6 +4,7 @@ import 'package:bank_sampah/feature/login/ui/login_page.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/detail_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_bsu_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
@@ -131,7 +132,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ItemMenuProfile(
                         iconName: Icons.person,
                         title: "Data Pribadi",
-                        onTap: () {}),
+                        onTap: () {
+                          context.push(DetailProfileScreen.routeName);
+                        }),
                     const Divider(
                       height: 5,
                       thickness: 2,

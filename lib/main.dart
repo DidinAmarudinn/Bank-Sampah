@@ -29,6 +29,7 @@ import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/change_password_screen.dart';
+import 'package:bank_sampah/feature/profile/ui/submenu/detail_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_bsu_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/edit_profile_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/submenu/help_screen.dart';
@@ -175,6 +176,12 @@ class MyApp extends StatelessWidget {
         path: GiveRatingScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const GiveRatingScreen();
+        },
+      ),
+      GoRoute(
+        path: DetailProfileScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const DetailProfileScreen();
         },
       ),
       GoRoute(

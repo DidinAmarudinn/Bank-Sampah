@@ -4,6 +4,7 @@ import 'package:bank_sampah/feature/profile/model/others_info_model.dart';
 import 'package:bank_sampah/feature/profile/model/update_data_bsu_request.dart';
 import 'package:bank_sampah/feature/profile/model/update_data_request.dart';
 import 'package:bank_sampah/feature/profile/service/profile_service.dart';
+import 'package:bank_sampah/utils/api_constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
@@ -24,9 +25,22 @@ class ProfileProvider extends ChangeNotifier {
 
   BSUModel? _bsuModel;
   BSUModel? get bsuModel => _bsuModel;
-
+  String _email = "";
+  String get email => _email;
   NasabahModel? _nasabahModel;
   NasabahModel? get nasabahModel => _nasabahModel;
+  bool _isBsu = false;
+  bool get isBsu => _isBsu;
+  Future<void> getLevel() async {
+    _isBsu = await helper.getLevel() == bsuCode;
+    _email = await helper.getEmail() ?? "";
+    notifyListeners();
+    if (_isBsu) {
+      getDataBsu();
+    } else {
+      getDataNasabah();
+    }
+  }
 
   Future<void> updateProfile(UpdateDataRequest request) async {
     _state = RequestState.loading;
