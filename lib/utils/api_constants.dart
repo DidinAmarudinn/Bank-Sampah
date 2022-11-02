@@ -8,8 +8,7 @@ const String getVilageUrl = "$baserUrl/api/v1/get_kelurahan";
 const String getNsabahCategoryUrl = "$baserUrl/api/v1/get_jenis_nasabah";
 const String postCompleteProfileUrl = "$baserUrl/api/v1/add_data_nasabah";
 const String getUserBalanceUrl = "$baserUrl/api/v1/cek_transaksi_user/";
-const String getListTransactionDashboardUrl =
-    "$baserUrl/api/v1/";
+const String getListTransactionDashboardUrl = "$baserUrl/api/v1/";
 const String getListSliderUrl = "$baserUrl/api/v1/get_slide/";
 const String getListActivityUrl = "$baserUrl/api/v1/list_kegiatan";
 const String getListArticleUrl = "$baserUrl/api/v1/list_artikel";
@@ -33,4 +32,9 @@ const String getUserAvailableAddress =
     "$baserUrl/api/v1/get_jenis_alamat_tersedia/";
 const String forgotPasswordUrl = "$baserUrl/api/v1/get_lupa_password";
 const String giveRatingUrl = "$baserUrl/api/v1/add_penilaian_ojek_sampah";
+const String ppobUrl = "$baserUrl/api/v1/add_ppob";
+const String getPriceListPulsaUrl =
+    "https://testprepaid.mobilepulsa.net/v1/legacy/index/pulsa/telkomsel";
+const String getTokenPriceListUrl =
+    "https://testprepaid.mobilepulsa.net/v1/legacy/index/pln/pln";
 const String bsuCode = "Bank Sampah Unit";

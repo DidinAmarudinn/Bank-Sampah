@@ -35,7 +35,7 @@ class TransactionModel {
 
 @JsonSerializable(genericArgumentFactories: true)
 class TransactionResult {
-   @JsonKey(name: 'id_transaksi')
+  @JsonKey(name: 'id_transaksi')
   String? idTransaksi;
   @JsonKey(name: 'no_transaksi')
   String? noTransaksi;

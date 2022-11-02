@@ -42,6 +42,7 @@ import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provide
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
+import 'package:bank_sampah/feature/withdraw/provider/ppob_provider.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/provider/pulsa_provider.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
@@ -95,7 +96,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
-        ChangeNotifierProvider(create: (_) => PulsaProvider()),
+        ChangeNotifierProvider(create: (_) => PulsaProvider(PreferencesHelper(sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
             create: (_) => MainPageProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
@@ -126,6 +127,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => CalculatorProvider(
+            PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PPOBProvider(
             PreferencesHelper(
               sharedPreference: SharedPreferences.getInstance(),
             ),

@@ -1,5 +1,4 @@
 import 'package:bank_sampah/feature/login/model/bsu_model.dart';
-import 'package:bank_sampah/feature/nasabah/model/nasabah_bsu_model.dart';
 import 'package:bank_sampah/feature/nasabah/model/nasabah_model.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
@@ -38,7 +37,7 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
                 ),
               )
             : provider.isBsu
-                ? SafeArea(child: _buildBsu(provider.bsuModel,provider.email))
+                ? SafeArea(child: _buildBsu(provider.bsuModel, provider.email))
                 : SafeArea(child: _buildNasabah(provider.nasabahModel)));
   }
 
@@ -93,7 +92,7 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
     );
   }
 
-   Widget _buildBsu(BSUModel? data, String email) {
+  Widget _buildBsu(BSUModel? data, String email) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

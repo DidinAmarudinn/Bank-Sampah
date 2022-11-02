@@ -11,14 +11,18 @@ import '../../dashboard/model/transaction_model.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionService {
-  Future<Either<Failure, TransactionModel?>> getListTransaction(String id,
-      int record, int recordPerPage, FilterModel? filterModel, bool isBsu) async {
+  Future<Either<Failure, TransactionModel?>> getListTransaction(
+      String id,
+      int record,
+      int recordPerPage,
+      FilterModel? filterModel,
+      bool isBsu) async {
     try {
       String url = "";
       if (isBsu) {
         url = "${getListTransactionDashboardUrl}list_transaksi_bsu/$id";
       } else {
-         url = "${getListTransactionDashboardUrl}list_transaksi_nasabah/$id";
+        url = "${getListTransactionDashboardUrl}list_transaksi_nasabah/$id";
       }
       var map = <String, String>{};
       var index = 0;
@@ -52,8 +56,7 @@ class TransactionService {
         map["filter_status[${indexStatus + 2}]"] = "lunas";
       }
       print(map);
-      var request = http.MultipartRequest(
-          "POST", Uri.parse(url));
+      var request = http.MultipartRequest("POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {

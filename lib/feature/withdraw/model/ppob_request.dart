@@ -1,0 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+class PPOBRequest {
+  String? idUser;
+  String? tglTransaksi;
+  String? totalTagihan;
+  String? jenis;
+  String? nomerTelepon;
+  String? nominalPulsa;
+  String? jenisProduct;
+  String? nomerMeter;
+  String? nomerRegistrasi;
+  String? nominalToken;
+  String? wilayah;
+  String? nominalPelanggan;
+  PPOBRequest({
+    this.idUser,
+    this.tglTransaksi,
+    this.totalTagihan,
+    this.jenis,
+    this.nomerTelepon,
+    this.nominalPulsa,
+    this.jenisProduct,
+    this.nomerMeter,
+    this.nomerRegistrasi,
+    this.nominalToken,
+    this.wilayah,
+    this.nominalPelanggan,
+  });
+}

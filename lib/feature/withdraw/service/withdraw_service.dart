@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/model/pulsa_model.dart';
 import 'package:bank_sampah/utils/api_constants.dart';
 import 'package:dartz/dartz.dart';
 
@@ -37,6 +38,54 @@ class WithdrawService {
         } else {
           return Left(ServerFailure(res["result"].toString()));
         }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, PulsaModel?>> getPriceListPulsa() async {
+    try {
+      var request = http.Request('POST', Uri.parse(getPriceListPulsaUrl));
+      request.body = json.encode({
+        "commands": "pricelist",
+        "username": "6281910532804",
+        "sign": "7edccf37170af1dc3e70e5ddedbb77b1",
+        "status": "active"
+      });
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        return Right(PulsaModel.fromJson(res));
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, PulsaModel?>> getPriceListToken() async {
+    try {
+      var request = http.Request('POST', Uri.parse(getTokenPriceListUrl));
+      request.body = json.encode({
+        "commands": "pricelist",
+        "username": "6281910532804",
+        "sign": "7edccf37170af1dc3e70e5ddedbb77b1",
+        "status": "active"
+      });
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        return Right(PulsaModel.fromJson(res));
       } else {
         throw ServerException();
       }

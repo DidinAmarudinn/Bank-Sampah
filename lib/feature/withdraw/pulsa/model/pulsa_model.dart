@@ -1,23 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class PulsaModel {
-  String? price;
-  String? nominal;
-  PulsaModel({
-    this.price,
-    this.nominal,
-  });
-}
+import 'package:json_annotation/json_annotation.dart';
 
-List<PulsaModel> dummyPulsa = [
-  PulsaModel(nominal: "5K", price: "Rp 6.500"),
-  PulsaModel(nominal: "10K", price: "Rp 11.000"),
-  PulsaModel(nominal: "15K", price: "Rp 16.000"),
-  PulsaModel(nominal: "20K", price: "Rp 21.000"),
-  PulsaModel(nominal: "25K", price: "Rp 26.000"),
-  PulsaModel(nominal: "30K", price: "Rp 31.000"),
-  PulsaModel(nominal: "50K", price: "Rp 50.000"),
-  PulsaModel(nominal: "100K", price: "Rp 100.000"),
-];
+import 'datum.dart';
+
+part 'pulsa_model.g.dart';
+
+@JsonSerializable()
+class PulsaModel {
+  List<Datum>? data;
+
+  PulsaModel({this.data});
+
+  factory PulsaModel.fromJson(Map<String, dynamic> json) {
+    return _$PulsaModelFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$PulsaModelToJson(this);
+}
 
 class PaymentMethodModel {
   String? name;

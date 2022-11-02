@@ -63,6 +63,7 @@ class HomePageProvider extends ChangeNotifier {
       notifyListeners();
     }, (userBalance) {
       _userBalance = userBalance;
+      helper.setPoint(userBalance?.result?.belumDibayar ?? "");
       _state = RequestState.loaded;
       notifyListeners();
     });
@@ -82,8 +83,7 @@ class HomePageProvider extends ChangeNotifier {
       if (type) {
         id = await helper.getIdBsu() ?? "";
       } else {
-         id = await helper.getIdNasabah() ?? "";
-       
+        id = await helper.getIdNasabah() ?? "";
       }
       final result = await service.getListTransaction(
         id,
