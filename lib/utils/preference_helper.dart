@@ -74,6 +74,7 @@ class PreferencesHelper {
     final prefs = await sharedPreference;
     return prefs.getInt(id);
   }
+
   void setPoint(String value) async {
     final prefs = await sharedPreference;
     prefs.setString(point, value);

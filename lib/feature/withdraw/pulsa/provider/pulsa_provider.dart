@@ -19,6 +19,7 @@ class PulsaProvider extends ChangeNotifier {
     _selectedPulsaModel = pulsaModel;
     notifyListeners();
   }
+
   final PreferencesHelper helper;
 
   PaymentMethodModel? _selectedPaymentMethod;
@@ -28,6 +29,7 @@ class PulsaProvider extends ChangeNotifier {
     _selectedPaymentMethod = paymentMethodModel;
     notifyListeners();
   }
+
   String _point = "0";
   String get point => _point;
   RequestState _state = RequestState.empty;
@@ -48,7 +50,8 @@ class PulsaProvider extends ChangeNotifier {
     }, (data) {
       _list = data?.data ?? [];
       if (_list.isNotEmpty) {
-        _list.sort((a, b) => (a.pulsaPrice ?? 0).compareTo((b.pulsaPrice ?? 0)));
+        _list
+            .sort((a, b) => (a.pulsaPrice ?? 0).compareTo((b.pulsaPrice ?? 0)));
       }
       _state = RequestState.loaded;
       notifyListeners();

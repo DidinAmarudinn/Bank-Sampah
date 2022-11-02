@@ -1,6 +1,8 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
@@ -177,15 +179,21 @@ class _HomePageState extends State<HomePage> {
                               context.push(PulsaScreen.routeName);
                             },
                           ),
-                          const CircleMenuWidget(
+                          CircleMenuWidget(
                             color: kDarkGreen,
                             iconName: kIcListrik,
                             menuName: "Listrik",
+                            onTap: () {
+                              context.push(ListrikScreen.routeName);
+                            },
                           ),
-                          const CircleMenuWidget(
+                           CircleMenuWidget(
                             color: kDarkGreen,
                             iconName: kIcPdam,
                             menuName: "Pdam",
+                            onTap: (){
+                              context.push(PDAMScreen.routeName);
+                            },
                           ),
                           CircleMenuWidget(
                             color: kLightGray,

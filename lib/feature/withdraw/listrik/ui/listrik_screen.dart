@@ -1,7 +1,6 @@
-import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
-import 'package:bank_sampah/utils/formatter_ext.dart';
-import 'package:bank_sampah/utils/request_state_enum.dart';
-import 'package:bank_sampah/utils/snackbar_message.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/provider/listrik_provider.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/ui/checkout_listrik_screen.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,33 +8,34 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../themes/constants.dart';
+import '../../../../utils/formatter_ext.dart';
+import '../../../../utils/request_state_enum.dart';
+import '../../../../utils/snackbar_message.dart';
 import '../../../../widget/custom_app_bar.dart';
 import '../../../../widget/tb_button_primary_widget.dart';
 import '../../../../widget/tb_textfield_border.dart';
-import '../provider/pulsa_provider.dart';
 
-class PulsaScreen extends StatefulWidget {
-  static const routeName = '/withdraw-pulsa-page';
-  const PulsaScreen({super.key});
+class ListrikScreen extends StatefulWidget {
+  static const routeName = "/listrik-page";
+  const ListrikScreen({super.key});
 
   @override
-  State<PulsaScreen> createState() => _PulsaScreenState();
+  State<ListrikScreen> createState() => _ListrikScreenState();
 }
 
-class _PulsaScreenState extends State<PulsaScreen> {
+class _ListrikScreenState extends State<ListrikScreen> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<PulsaProvider>(context, listen: false).getPriceListPulsa();
+      Provider.of<ListrikProvider>(context, listen: false).getPriceListToken();
     });
   }
 
-  final TextEditingController controllerNoTelp = TextEditingController();
-  final TextEditingController controllerNominal = TextEditingController();
+  final TextEditingController controllerNoId = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PulsaProvider>(context);
+    final provider = Provider.of<ListrikProvider>(context);
     return Scaffold(
       body: provider.state == RequestState.loading
           ? const Center(
@@ -51,7 +51,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                       vertical: kDefaultPadding / 2,
                       horizontal: kDefaultPadding),
                   child: CustomAppBar(
-                    titlePage: "Pulsa",
+                    titlePage: "Listrik",
                     isHaveShadow: true,
                   ),
                 ),
@@ -66,7 +66,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding),
                         child: Text(
-                          "No. Telepon",
+                          "No. Pelanggan",
                           style: kDarkGrayText.copyWith(fontWeight: semiBold),
                         ),
                       ),
@@ -74,8 +74,8 @@ class _PulsaScreenState extends State<PulsaScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding),
                         child: TBTextFieldWithBorder(
-                          controller: controllerNoTelp,
-                          hintText: "Masukan Nomor Telepon ",
+                          controller: controllerNoId,
+                          hintText: "Masukan Nomor Pelanggan ",
                           iconName: Icons.phone_android,
                         ),
                       ),
@@ -104,13 +104,13 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                   vertical: kDefaultPadding / 3,
                                 ),
                                 decoration: BoxDecoration(
-                                    color: provider.selectePulsaModel ==
+                                    color: provider.selectToken ==
                                             provider.list[index]
                                         ? kDarkGreen.withOpacity(0.2)
                                         : Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                        color: provider.selectePulsaModel ==
+                                        color: provider.selectToken ==
                                                 provider.list[index]
                                             ? kDarkGreen
                                             : Colors.white),
@@ -186,23 +186,37 @@ class _PulsaScreenState extends State<PulsaScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: kDefaultPadding / 2,
                             horizontal: kDefaultPadding),
-                        child: Consumer<PulsaProvider>(
-                          builder: (context, provider, _) =>
-                              TBButtonPrimaryWidget(
-                            buttonName: "Tukarkan",
-                            onPressed: () {
-                              String tlp = controllerNoTelp.text;
-                              if (tlp.isNotEmpty &&
-                                  provider.selectePulsaModel != null) {
-                                context.push(PaymentMethodPage.routeName);
-                              } else {
-                                SnackbarMessage.showSnackbar(context,
-                                    "Masukan no telepon dan pilih nominal terlebih dahulu");
-                              }
-                            },
-                            height: 40,
-                            width: double.infinity,
-                          ),
+                        child: Consumer<ListrikProvider>(
+                          builder: (context, provider, _) => provider
+                                      .btnState ==
+                                  RequestState.loading
+                              ? const LoadingButton(
+                                  height: 40, width: double.infinity)
+                              : TBButtonPrimaryWidget(
+                                  buttonName: "Selanjutnya",
+                                  onPressed: () async {
+                                    String customerId = controllerNoId.text;
+                                    if (customerId.isNotEmpty &&
+                                        provider.selectToken != null) {
+                                      await provider
+                                          .getSubscriberData(customerId);
+                                      if (!mounted) return;
+                                      if (provider.btnState ==
+                                          RequestState.loaded) {
+                                        context.push(
+                                            CheckoutListrikScreen.routeName);
+                                      } else {
+                                        SnackbarMessage.showSnackbar(
+                                            context, provider.message);
+                                      }
+                                    } else {
+                                      SnackbarMessage.showSnackbar(context,
+                                          "Masukan no pelanggan dan pilih nominal terlebih dahulu");
+                                    }
+                                  },
+                                  height: 40,
+                                  width: double.infinity,
+                                ),
                         ),
                       ),
                     ],
