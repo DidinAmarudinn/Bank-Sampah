@@ -8,12 +8,14 @@ class CardOjekSampah extends StatelessWidget {
   final String subTitle;
   final Color color;
   final VoidCallback? onTap;
+  final bool? isBsu;
   const CardOjekSampah(
       {Key? key,
       required this.titile,
       required this.subTitle,
       required this.color,
-      this.onTap})
+      this.onTap,
+      this.isBsu})
       : super(key: key);
 
   @override
@@ -33,20 +35,21 @@ class CardOjekSampah extends StatelessWidget {
             borderRadius: BorderRadius.circular(6)),
         child: Row(
           children: [
-            Container(
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              child: Center(
-                child: Image.asset(
-                  kIcMotor,
-                  width: 20,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: kDefaultPadding / 2,
-            ),
+            isBsu != null
+                ? const SizedBox()
+                : Container(
+                    height: 35,
+                    width: 35,
+                    margin: const EdgeInsets.only(right: kDefaultPadding / 2),
+                    decoration:
+                        BoxDecoration(color: color, shape: BoxShape.circle),
+                    child: Center(
+                      child: Image.asset(
+                        kIcMotor,
+                        width: 20,
+                      ),
+                    ),
+                  ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,

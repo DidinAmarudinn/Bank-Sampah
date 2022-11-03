@@ -37,4 +37,5 @@ const String getPriceListPulsaUrl =
     "https://testprepaid.mobilepulsa.net/v1/legacy/index/pulsa/telkomsel";
 const String getTokenPriceListUrl =
     "https://testprepaid.mobilepulsa.net/v1/legacy/index/pln/pln";
+    const String getListPenjualanBSUUrl = "$baserUrl/api/v1/list_transaksi_penjualan/";
 const String bsuCode = "Bank Sampah Unit";

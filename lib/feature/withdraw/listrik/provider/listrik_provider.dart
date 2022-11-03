@@ -81,7 +81,8 @@ class ListrikProvider extends ChangeNotifier {
     int idUser = await helper.getId() ?? 0;
     String idBsu = await helper.getIdBsu() ?? "";
     String idNasabah = await helper.getIdNasabah() ?? "";
-    final result = await service.checkout(request, idUser.toString(), idNasabah, idBsu);
+    final result =
+        await service.checkout(request, idUser.toString(), idNasabah, idBsu);
     result.fold((failure) {
       _message = failure.message;
       _btnState = RequestState.error;

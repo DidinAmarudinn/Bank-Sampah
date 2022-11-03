@@ -7,6 +7,8 @@ import 'package:bank_sampah/feature/activity/ui/detail_slider_activity_screen.da
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
+import 'package:bank_sampah/feature/bsu/provider/bsu_provider.dart';
+import 'package:bank_sampah/feature/bsu/ui/bsu_screen.dart';
 import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
 import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
@@ -125,6 +127,13 @@ class MyApp extends StatelessWidget {
             create: (_) => OjekProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
+          create: (_) => BSUProvider(
+            PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (_) => CheckoutProvider(
             PreferencesHelper(
               sharedPreference: SharedPreferences.getInstance(),
@@ -191,6 +200,12 @@ class MyApp extends StatelessWidget {
         path: ForgotPasswordScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const ForgotPasswordScreen();
+        },
+      ),
+      GoRoute(
+        path: BSUScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const BSUScreen();
         },
       ),
       GoRoute(

@@ -15,7 +15,6 @@ class TransactionDone extends StatefulWidget {
 }
 
 class _TransactionDoneState extends State<TransactionDone> {
-  
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionProvider>(

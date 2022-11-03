@@ -1,6 +1,7 @@
 import 'package:bank_sampah/feature/activity/ui/activity_screen.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
+import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_bsu.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_ojek.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
@@ -195,7 +196,21 @@ class _MainPageState extends State<MainPage> {
               InkWell(
                 onTap: () {
                   if (provider.isBsu) {
-                    context.push(NasabahScreen.routeName);
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return Wrap(
+                            children: const [
+                              BottomSheetBSU(),
+                            ],
+                          );
+                        });
                   } else {
                     showModalBottomSheet(
                         isScrollControlled: true,

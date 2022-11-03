@@ -154,8 +154,8 @@ class TransactionProvider extends ChangeNotifier {
   void start() {
     if (pagingController.hasListeners &&
         pagingControllerOnProgress.hasListeners) {
-          pagingController.removeListener(() { });
-          pagingControllerOnProgress.removeListener(() { });
+      pagingController.removeListener(() {});
+      pagingControllerOnProgress.removeListener(() {});
     } else {
       pagingControllerOnProgress.addPageRequestListener((pageKey) {
         getListTransactionOnProgress(pageKey, _filterModel);

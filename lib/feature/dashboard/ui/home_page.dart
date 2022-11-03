@@ -187,11 +187,11 @@ class _HomePageState extends State<HomePage> {
                               context.push(ListrikScreen.routeName);
                             },
                           ),
-                           CircleMenuWidget(
+                          CircleMenuWidget(
                             color: kDarkGreen,
                             iconName: kIcPdam,
                             menuName: "Pdam",
-                            onTap: (){
+                            onTap: () {
                               context.push(PDAMScreen.routeName);
                             },
                           ),
