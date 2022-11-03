@@ -1,4 +1,6 @@
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ui/bottom_sheet_ewallet.dart';
 import 'package:bank_sampah/themes/constants.dart';
@@ -44,39 +46,57 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
             ),
             Column(
               children: [
-                ItemWithdraw(
-                    imageName: kIcCircleBank,
-                    itemName: "Rekening Bank",
-                    onTap: () {
-                      context.push(WithdarwBankScreen.routeName);
-                    }),
+                // ItemWithdraw(
+                //     imageName: kIcCircleBank,
+                //     itemName: "Rekening Bank",
+                //     onTap: () {
+                //       context.push(WithdarwBankScreen.routeName);
+                //     }),
+                // const SizedBox(
+                //   height: kDefaultPadding,
+                // ),
+                // ItemWithdraw(
+                //     imageName: kIcCircleEwallet,
+                //     itemName: "Dompet Elektronik",
+                //     onTap: () {
+                //       showModalBottomSheet(
+                //           isScrollControlled: true,
+                //           shape: const RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.vertical(
+                //               top: Radius.circular(24),
+                //             ),
+                //           ),
+                //           context: context,
+                //           builder: (context) {
+                //             return Wrap(children: const [BottomSheetEwallet()]);
+                //           });
+                //     }),
                 const SizedBox(
                   height: kDefaultPadding,
                 ),
                 ItemWithdraw(
-                    imageName: kIcCircleEwallet,
-                    itemName: "Dompet Elektronik",
-                    onTap: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(24),
-                            ),
-                          ),
-                          context: context,
-                          builder: (context) {
-                            return Wrap(children: const [BottomSheetEwallet()]);
-                          });
-                    }),
-                const SizedBox(
-                  height: kDefaultPadding,
-                ),
-                ItemWithdraw(
-                    imageName: kIcCircleBank,
+                    imageName: kIcPuls,
                     itemName: "Pulsa",
                     onTap: () {
                       context.push(PulsaScreen.routeName);
+                    }),
+                const SizedBox(
+                  height: kDefaultPadding,
+                ),
+                ItemWithdraw(
+                    imageName: kIcListrik,
+                    itemName: "Listrik",
+                    onTap: () {
+                      context.push(ListrikScreen.routeName);
+                    }),
+                const SizedBox(
+                  height: kDefaultPadding,
+                ),
+                ItemWithdraw(
+                    imageName: kIcPdam,
+                    itemName: "PDAM",
+                    onTap: () {
+                      context.push(PDAMScreen.routeName);
                     }),
               ],
             )

@@ -29,7 +29,7 @@ class _SuccessPageState extends State<SuccessPage> {
             height: kDefaultPadding,
           ),
           Text(
-            "Transaksi Berhasil",
+            "Pemesanan Berhasil",
             style: kGreenText.copyWith(fontSize: 18, fontWeight: semiBold),
           ),
           const SizedBox(

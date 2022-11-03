@@ -152,12 +152,18 @@ class TransactionProvider extends ChangeNotifier {
   }
 
   void start() {
-    pagingControllerOnProgress.addPageRequestListener((pageKey) {
-      getListTransactionOnProgress(pageKey, _filterModel);
-    });
-    pagingController.addPageRequestListener((pageKey) {
-      getListTransaction(pageKey, _filterModelDone);
-    });
+    if (pagingController.hasListeners &&
+        pagingControllerOnProgress.hasListeners) {
+          pagingController.removeListener(() { });
+          pagingControllerOnProgress.removeListener(() { });
+    } else {
+      pagingControllerOnProgress.addPageRequestListener((pageKey) {
+        getListTransactionOnProgress(pageKey, _filterModel);
+      });
+      pagingController.addPageRequestListener((pageKey) {
+        getListTransaction(pageKey, _filterModelDone);
+      });
+    }
   }
 
   void resetFilter() {

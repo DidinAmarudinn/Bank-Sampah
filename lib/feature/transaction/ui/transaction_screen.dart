@@ -22,6 +22,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
       Provider.of<TransactionProvider>(context, listen: false).start();
       Provider.of<TransactionProvider>(context, listen: false)
           .changeTabBar(true);
+      print("ke initstate lagi");
     });
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../utils/preference_helper.dart';
 import '../../../../utils/request_state_enum.dart';
+import '../../model/ppob_request.dart';
 import '../../pulsa/model/datum.dart';
 import '../../service/withdraw_service.dart';
 
@@ -15,9 +16,12 @@ class ListrikProvider extends ChangeNotifier {
   final WithdrawService service = WithdrawService();
   Datum? _selectToken;
   Datum? get selectToken => _selectToken;
-
+  bool _isSufficientBalance = true;
+  bool get isSufficientBalance => _isSufficientBalance;
   void selectNominal(Datum tokenModel) {
     _selectToken = tokenModel;
+    _isSufficientBalance = (_selectToken?.pulsaPrice ?? 0) <=
+        int.parse(_point.trim().replaceAll("Rp", "").replaceAll(".", ""));
     notifyListeners();
   }
 
@@ -66,6 +70,23 @@ class ListrikProvider extends ChangeNotifier {
       notifyListeners();
     }, (data) {
       _plnSubscriberModel = data;
+      _btnState = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  Future<void> checkout(PPOBRequest request) async {
+    _btnState = RequestState.loading;
+    notifyListeners();
+    int idUser = await helper.getId() ?? 0;
+    String idBsu = await helper.getIdBsu() ?? "";
+    String idNasabah = await helper.getIdNasabah() ?? "";
+    final result = await service.checkout(request, idUser.toString(), idNasabah, idBsu);
+    result.fold((failure) {
+      _message = failure.message;
+      _btnState = RequestState.error;
+      notifyListeners();
+    }, (r) {
       _btnState = RequestState.loaded;
       notifyListeners();
     });

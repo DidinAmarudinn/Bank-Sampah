@@ -13,10 +13,11 @@ import '../../../utils/failure.dart';
 import 'package:http/http.dart' as http;
 
 class WithdrawService {
-  Future<Either<Failure, bool>> forgotPassword(PPOBRequest? ppobRequest) async {
+  Future<Either<Failure, bool>> checkout(PPOBRequest? ppobRequest,
+      String idUser, String? idNasabah, String? idBsu) async {
     try {
       Map<String, String> map = {
-        "id_user": ppobRequest?.idUser ?? "",
+        "id_user": idUser,
         "tgl_transaksi": ppobRequest?.tglTransaksi ?? "",
         "total_tagihan": ppobRequest?.totalTagihan ?? "",
         "jenis": ppobRequest?.jenis ?? "",
@@ -29,6 +30,14 @@ class WithdrawService {
         "wilayah": ppobRequest?.wilayah ?? "",
         "nominal_pelanggan": ppobRequest?.nominalPelanggan ?? ""
       };
+      if (idNasabah != null && idNasabah.isNotEmpty) {
+        map["id_nasabah"] = idNasabah;
+        map["kategori_user"] = "nasabah";
+      }
+      if (idBsu != null && idBsu.isNotEmpty) {
+        map["id_bsu"] = idBsu;
+        map["kategori_user"] = "bsu";
+      }
       var request = http.MultipartRequest("POST", Uri.parse(ppobUrl));
       request.fields.addAll(map);
       var reqResponse = await request.send();
@@ -110,18 +119,15 @@ class WithdrawService {
         "sign": sign,
       };
       request.body = json.encode(map);
-      print(request.body);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
-        print(response.body);
         var res = json.decode(response.body);
         if (res["data"]["rc"] == "00") {
-          print("cek");
           return Right(PlnSubscriberModel.fromJson(res["data"]));
         } else {
           return Left(ServerFailure(res["data"]["message"]));
-        } 
+        }
       } else {
         throw ServerException();
       }

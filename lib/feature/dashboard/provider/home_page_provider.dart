@@ -55,8 +55,17 @@ class HomePageProvider extends ChangeNotifier {
   Future<void> getUserBalance() async {
     _state = RequestState.loading;
     notifyListeners();
-    int id = await helper.getId() ?? 0;
-    final result = await service.getUserBalance("nasabah", id);
+    String id = "";
+    String type = "";
+    _isBsu = await helper.getLevel() == bsuCode;
+    if (_isBsu) {
+      type = "bsu";
+      id = await helper.getIdBsu() ?? "";
+    } else {
+      type = "nasabah";
+      id = await helper.getIdNasabah() ?? "";
+    }
+    final result = await service.getUserBalance(type, id);
     result.fold((failure) {
       debugPrint(failure.message);
       _state = RequestState.error;

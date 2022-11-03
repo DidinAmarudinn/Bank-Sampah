@@ -1,11 +1,18 @@
 import 'package:bank_sampah/feature/withdraw/listrik/provider/listrik_provider.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/success_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/request_state_enum.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../model/ppob_request.dart';
 
 class CheckoutListrikScreen extends StatefulWidget {
   static const routeName = "/checkout-listrik-page";
@@ -77,7 +84,8 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
                                     ),
                                   ),
                                   Text(
-                                    (provider.plnSubscriberModel?.meterNo ?? "") +
+                                    (provider.plnSubscriberModel?.meterNo ??
+                                            "") +
                                         (" (${provider.plnSubscriberModel?.name ?? ""})"),
                                     style: kBlackText,
                                   ),
@@ -134,12 +142,34 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              child: TBButtonPrimaryWidget(
-                buttonName: "Bayar Sekarang",
-                onPressed: () {},
-                height: 40,
-                width: double.infinity,
-              ),
+              child: provider.btnState == RequestState.loading
+                  ? const LoadingButton(height: 40, width: double.infinity)
+                  : TBButtonPrimaryWidget(
+                      buttonName: "Bayar Sekarang",
+                      onPressed: () async {
+                        PPOBRequest request = PPOBRequest(
+                            tglTransaksi: FormatterExt()
+                                .dateFormat
+                                .format(DateTime.now()),
+                            totalTagihan:
+                                ((provider.selectToken?.pulsaPrice ?? 0) + 2500)
+                                    .toString(),
+                            jenis: "listrik",
+                            jenisProduct: "token",
+                            nomerMeter: provider.plnSubscriberModel?.meterNo,
+                            nominalToken: provider.selectToken?.pulsaNominal);
+                        await provider.checkout(request);
+                        if (!mounted) return;
+                        if (provider.btnState == RequestState.loaded) {
+                          context.push(SuccessPage.routeName);
+                        } else {
+                          SnackbarMessage.showSnackbar(
+                              context, provider.message);
+                        }
+                      },
+                      height: 40,
+                      width: double.infinity,
+                    ),
             ),
             const SizedBox(
               height: kDefaultPadding,

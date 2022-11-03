@@ -82,7 +82,7 @@ class _ListrikScreenState extends State<ListrikScreen> {
                       Padding(
                         padding: const EdgeInsets.all(kDefaultPadding),
                         child: Text(
-                          "Poin Anda: ${provider.point}",
+                          "Saldo Anda: ${provider.point}",
                           style: kDarkGrayText.copyWith(fontWeight: semiBold),
                         ),
                       ),
@@ -142,7 +142,7 @@ class _ListrikScreenState extends State<ListrikScreen> {
                                           padding: const EdgeInsets.only(
                                               left: kDefaultPadding / 2),
                                           child: Text(
-                                            "Nominal ${provider.list[index].pulsaNominal}",
+                                            "Nominal ${FormatterExt().currency.format(int.parse(provider.list[index].pulsaNominal ?? "0"))}",
                                             style: kBlackText.copyWith(
                                                 fontSize: 14,
                                                 fontWeight: semiBold),
@@ -186,38 +186,37 @@ class _ListrikScreenState extends State<ListrikScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: kDefaultPadding / 2,
                             horizontal: kDefaultPadding),
-                        child: Consumer<ListrikProvider>(
-                          builder: (context, provider, _) => provider
-                                      .btnState ==
-                                  RequestState.loading
-                              ? const LoadingButton(
-                                  height: 40, width: double.infinity)
-                              : TBButtonPrimaryWidget(
-                                  buttonName: "Selanjutnya",
-                                  onPressed: () async {
-                                    String customerId = controllerNoId.text;
-                                    if (customerId.isNotEmpty &&
-                                        provider.selectToken != null) {
-                                      await provider
-                                          .getSubscriberData(customerId);
-                                      if (!mounted) return;
-                                      if (provider.btnState ==
-                                          RequestState.loaded) {
-                                        context.push(
-                                            CheckoutListrikScreen.routeName);
-                                      } else {
-                                        SnackbarMessage.showSnackbar(
-                                            context, provider.message);
-                                      }
+                        child: provider.btnState == RequestState.loading
+                            ? const LoadingButton(
+                                height: 40, width: double.infinity)
+                            : TBButtonPrimaryWidget(
+                                isDisable: !provider.isSufficientBalance,
+                                buttonName: !provider.isSufficientBalance
+                                    ? "Saldo Tidak Cukup"
+                                    : "Selanjutnya",
+                                onPressed: () async {
+                                  String customerId = controllerNoId.text;
+                                  if (customerId.isNotEmpty &&
+                                      provider.selectToken != null) {
+                                    await provider
+                                        .getSubscriberData(customerId);
+                                    if (!mounted) return;
+                                    if (provider.btnState ==
+                                        RequestState.loaded) {
+                                      context.push(
+                                          CheckoutListrikScreen.routeName);
                                     } else {
-                                      SnackbarMessage.showSnackbar(context,
-                                          "Masukan no pelanggan dan pilih nominal terlebih dahulu");
+                                      SnackbarMessage.showSnackbar(
+                                          context, provider.message);
                                     }
-                                  },
-                                  height: 40,
-                                  width: double.infinity,
-                                ),
-                        ),
+                                  } else {
+                                    SnackbarMessage.showSnackbar(context,
+                                        "Masukan no pelanggan dan pilih nominal terlebih dahulu");
+                                  }
+                                },
+                                height: 40,
+                                width: double.infinity,
+                              ),
                       ),
                     ],
                   ),

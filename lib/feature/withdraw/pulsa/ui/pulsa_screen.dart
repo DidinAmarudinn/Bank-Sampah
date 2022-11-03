@@ -1,7 +1,10 @@
+import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/success_page.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
+import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -82,7 +85,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                       Padding(
                         padding: const EdgeInsets.all(kDefaultPadding),
                         child: Text(
-                          "Poin Anda: ${provider.point}",
+                          "Saldo Anda: ${provider.point}",
                           style: kDarkGrayText.copyWith(fontWeight: semiBold),
                         ),
                       ),
@@ -142,7 +145,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                           padding: const EdgeInsets.only(
                                               left: kDefaultPadding / 2),
                                           child: Text(
-                                            "Nominal ${provider.list[index].pulsaNominal}",
+                                            "Nominal ${FormatterExt().currency.format(int.parse(provider.list[index].pulsaNominal ?? "0"))}",
                                             style: kBlackText.copyWith(
                                                 fontSize: 14,
                                                 fontWeight: semiBold),
@@ -186,24 +189,47 @@ class _PulsaScreenState extends State<PulsaScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: kDefaultPadding / 2,
                             horizontal: kDefaultPadding),
-                        child: Consumer<PulsaProvider>(
-                          builder: (context, provider, _) =>
-                              TBButtonPrimaryWidget(
-                            buttonName: "Tukarkan",
-                            onPressed: () {
-                              String tlp = controllerNoTelp.text;
-                              if (tlp.isNotEmpty &&
-                                  provider.selectePulsaModel != null) {
-                                context.push(PaymentMethodPage.routeName);
-                              } else {
-                                SnackbarMessage.showSnackbar(context,
-                                    "Masukan no telepon dan pilih nominal terlebih dahulu");
-                              }
-                            },
-                            height: 40,
-                            width: double.infinity,
-                          ),
-                        ),
+                        child: provider.btnState == RequestState.loading
+                            ? const LoadingButton(
+                                height: 40, width: double.infinity)
+                            : TBButtonPrimaryWidget(
+                                isDisable: !provider.isSufficientBalance,
+                                buttonName: !provider.isSufficientBalance
+                                    ? "Saldo Tidak Cukup"
+                                    : "Tukarkan",
+                                onPressed: () async {
+                                  String tlp = controllerNoTelp.text;
+                                  if (tlp.isNotEmpty &&
+                                      provider.selectePulsaModel != null) {
+                                    PPOBRequest request = PPOBRequest(
+                                      tglTransaksi: FormatterExt()
+                                          .dateFormat
+                                          .format(DateTime.now()),
+                                      totalTagihan: provider
+                                          .selectePulsaModel?.pulsaPrice
+                                          .toString(),
+                                      nomerTelepon: tlp,
+                                      nominalPulsa: provider
+                                          .selectePulsaModel?.pulsaNominal,
+                                      jenis: "pulsa",
+                                    );
+                                    await provider.checkout(request);
+                                    if (!mounted) return;
+                                    if (provider.btnState ==
+                                        RequestState.loaded) {
+                                      context.push(SuccessPage.routeName);
+                                    } else {
+                                      SnackbarMessage.showSnackbar(
+                                          context, provider.message);
+                                    }
+                                  } else {
+                                    SnackbarMessage.showSnackbar(context,
+                                        "Masukan no telepon dan pilih nominal terlebih dahulu");
+                                  }
+                                },
+                                height: 40,
+                                width: double.infinity,
+                              ),
                       ),
                     ],
                   ),

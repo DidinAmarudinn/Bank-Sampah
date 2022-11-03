@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/model/datum.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/model/pulsa_model.dart';
 import 'package:bank_sampah/feature/withdraw/service/withdraw_service.dart';
@@ -17,6 +18,8 @@ class PulsaProvider extends ChangeNotifier {
 
   void selectNominal(Datum pulsaModel) {
     _selectedPulsaModel = pulsaModel;
+    _isSufficientBalance = (_selectedPulsaModel?.pulsaPrice ?? 0) <=
+        int.parse(_point.trim().replaceAll("Rp", "").replaceAll(".", ""));
     notifyListeners();
   }
 
@@ -38,8 +41,11 @@ class PulsaProvider extends ChangeNotifier {
   String _message = "";
   String get message => _message;
 
+  bool _isSufficientBalance = true;
+  bool get isSufficientBalance => _isSufficientBalance;
+
   Future<void> getPriceListPulsa() async {
-    _point = await helper.getPoint() ?? "";
+    _point = await helper.getPoint() ?? "0";
     _state = RequestState.loading;
     notifyListeners();
     final result = await service.getPriceListPulsa();
@@ -54,6 +60,26 @@ class PulsaProvider extends ChangeNotifier {
             .sort((a, b) => (a.pulsaPrice ?? 0).compareTo((b.pulsaPrice ?? 0)));
       }
       _state = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  RequestState _btnState = RequestState.empty;
+  RequestState get btnState => _btnState;
+
+  Future<void> checkout(PPOBRequest request) async {
+    _btnState = RequestState.loading;
+    notifyListeners();
+    int idUser = await helper.getId() ?? 0;
+    String idBsu = await helper.getIdBsu() ?? "";
+    String idNasabah = await helper.getIdNasabah() ?? "";
+    final result = await service.checkout(request, idUser.toString(), idNasabah, idBsu);
+    result.fold((failure) {
+      _message = failure.message;
+      _btnState = RequestState.error;
+      notifyListeners();
+    }, (r) {
+      _btnState = RequestState.loaded;
       notifyListeners();
     });
   }

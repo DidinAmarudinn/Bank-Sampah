@@ -13,7 +13,7 @@ import '../../../utils/exception.dart';
 
 class DashboardService {
   Future<Either<Failure, UserBalance?>> getUserBalance(
-      String? type, int id) async {
+      String? type, String id) async {
     try {
       String url = "$getUserBalanceUrl/$type/$id";
       final response = await http.post(Uri.parse(url));
