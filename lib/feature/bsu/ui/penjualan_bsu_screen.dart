@@ -1,9 +1,11 @@
 import 'package:bank_sampah/feature/bsu/provider/bsu_provider.dart';
+import 'package:bank_sampah/feature/bsu/ui/detail_transaction_bsu_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/card_transaction_bsu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class PenjualanBSUScreen extends StatefulWidget {
@@ -29,11 +31,17 @@ class _PenjualanBSUScreenState extends State<PenjualanBSUScreen> {
             itemCount: provider.listPenagihan.length,
             itemBuilder: (context, index) {
               var data = provider.listPenagihan[index];
-              return CardTransactionBSU(
-                id: data.idTransaksi ?? "",
-                status: data.status ?? "",
-                tglTransaksi: data.tglTransaksi ?? "",
-                totalTagihan: data.totalTagihan ?? "",
+              return InkWell(
+                onTap: () {
+                  context.push(DetailTransactionBSUScreen.routeName,
+                      extra: data.idTransaksi);
+                },
+                child: CardTransactionBSU(
+                  id: data.idTransaksi ?? "",
+                  status: data.status ?? "",
+                  tglTransaksi: data.tglTransaksi ?? "",
+                  totalTagihan: data.totalTagihan ?? "",
+                ),
               );
             });
       } else {

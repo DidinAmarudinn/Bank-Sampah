@@ -14,7 +14,8 @@ import '../provider/calculator_provider.dart';
 
 class DialogAddTrash extends StatefulWidget {
   final TrashModel trashModel;
-  const DialogAddTrash({Key? key, required this.trashModel}) : super(key: key);
+  final bool? isPenimbangan;
+  const DialogAddTrash({Key? key, required this.trashModel, this.isPenimbangan}) : super(key: key);
 
   @override
   State<DialogAddTrash> createState() => _DialogAddTrashState();
@@ -108,7 +109,7 @@ class _DialogAddTrashState extends State<DialogAddTrash> {
                           uid: uuid.v4(),
                           trashModel: widget.trashModel,
                           weight: double.parse(controller.text));
-                      val.addToCart(data);
+                      val.addToCart(data, widget.isPenimbangan);
                       SnackbarMessage.showToast("Berhasil ditambahkan");
                       Navigator.pop(context);
                     } else {

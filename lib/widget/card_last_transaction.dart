@@ -48,10 +48,11 @@ class CardLastTransaction extends StatelessWidget {
             ),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 transactionResult?.getPoint() ?? "",
-                style: kDarkGrayText.copyWith(fontWeight: bold, fontSize: 12),
+                style: kBlackText.copyWith(fontWeight: bold, fontSize: 12),
               ),
               const SizedBox(
                 height: kDefaultPadding / 2,

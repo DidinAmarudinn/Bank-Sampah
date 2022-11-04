@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/bsu/model/detail_transaction_bsu_model.dart';
 import 'package:bank_sampah/feature/bsu/model/penagihan_model.dart';
 import 'package:bank_sampah/feature/bsu/model/penimbangan_model.dart';
 import 'package:bank_sampah/feature/bsu/service/bsu_service.dart';
@@ -6,12 +7,10 @@ import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
 
 class BSUProvider extends ChangeNotifier {
- 
-
   BSUProvider(this.helper);
-   RequestState _state = RequestState.empty;
+  RequestState _state = RequestState.empty;
   RequestState get state => _state;
-   RequestState _statePenimbangan = RequestState.empty;
+  RequestState _statePenimbangan = RequestState.empty;
   RequestState get statePenimbangan => _statePenimbangan;
 
   String _message = "";
@@ -55,6 +54,24 @@ class BSUProvider extends ChangeNotifier {
     }, (data) {
       _listPenimbangan = data?.data ?? [];
       _statePenimbangan = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  DetailTransactionBsuModel? _detailTransactionBsuModel;
+  DetailTransactionBsuModel? get detailData => _detailTransactionBsuModel;
+
+  Future<void> getTransactionDetail(String idTransaction) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.getDetailTransaction(idTransaction);
+    result.fold((failure) {
+      _state = RequestState.error;
+      _message = failure.message;
+      notifyListeners();
+    }, (data) {
+      _state = RequestState.loaded;
+      _detailTransactionBsuModel = data?.data;
       notifyListeners();
     });
   }

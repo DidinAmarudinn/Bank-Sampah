@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/checkout/model/checkout_penimbangan_request.dart';
 import 'package:bank_sampah/feature/checkout/model/checkout_request.dart';
 import 'package:bank_sampah/feature/checkout/model/product_checkout.dart';
 import 'package:bank_sampah/feature/checkout/service/checkout_service.dart';
@@ -44,11 +45,43 @@ class CheckoutProvider extends ChangeNotifier {
   String _message = "";
   String get message => _message;
 
-  Future<void> checkout(CheckoutRequest request, String idNasabah) async {
+  bool? _isPenimbangan;
+  bool? get isPenimbangan => _isPenimbangan;
+
+  Future<void> checkout(CheckoutRequest request) async {
     _state = RequestState.loading;
     notifyListeners();
     int id = await helper.getId() ?? 0;
-    final result = await service.checkout(request, id.toString(), idNasabah);
+    final result = await service.checkout(request, id.toString(), _idNasabah);
+    result.fold((failure) {
+      _message = failure.message;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (result) {
+      if (result) {
+        _state = RequestState.loaded;
+        notifyListeners();
+      } else {
+        _state = RequestState.error;
+        _message = "Data gagal dikirim";
+        notifyListeners();
+      }
+    });
+  }
+
+  String _idNasabah = "";
+  void setIdNasabah(String idNasabah) {
+    _idNasabah = idNasabah;
+    notifyListeners();
+  }
+
+  Future<void> checkoutPenimbangan(CheckoutPenimbanganRequest request) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    int id = await helper.getId() ?? 0;
+    String bsuId = await helper.getIdBsu() ?? "";
+    final result =
+        await service.checkoutPenimbangan(request, id.toString(), bsuId);
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
@@ -70,14 +103,16 @@ class CheckoutProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToCart(ProductCheckout productCheckout) async {
+  Future<void> addToCart(
+      ProductCheckout productCheckout, bool? isPenimbangan) async {
     _isBsu = await helper.getLevel() == "Bank Sampah Unit";
+    _isPenimbangan = isPenimbangan;
     _list.add(productCheckout);
     _totalPrice = 0;
     _prices.clear();
     _ids.clear();
     _quantities.clear();
-    if (_isBsu) {
+    if (isPenimbangan != null) {
       for (var product in _list) {
         double price = double.parse(product.trashModel.hargaBeliUnit ?? "0.0");
         _totalPrice += (product.weight * price);
@@ -87,14 +122,26 @@ class CheckoutProvider extends ChangeNotifier {
         _quantities.add(product.weight.toString());
       }
     } else {
-      for (var product in _list) {
-        double price =
-            double.parse(product.trashModel.hargaBeliNasabah ?? "0.0");
-        _totalPrice += (product.weight * price);
-        _totalPayment = _totalPrice;
-        _prices.add((product.weight * price).toString());
-        _ids.add(product.trashModel.id ?? "");
-        _quantities.add(product.weight.toString());
+      if (_isBsu) {
+        for (var product in _list) {
+          double price =
+              double.parse(product.trashModel.hargaBeliUnit ?? "0.0");
+          _totalPrice += (product.weight * price);
+          _totalPayment = _totalPrice;
+          _prices.add((product.weight * price).toString());
+          _ids.add(product.trashModel.id ?? "");
+          _quantities.add(product.weight.toString());
+        }
+      } else {
+        for (var product in _list) {
+          double price =
+              double.parse(product.trashModel.hargaBeliNasabah ?? "0.0");
+          _totalPrice += (product.weight * price);
+          _totalPayment = _totalPrice;
+          _prices.add((product.weight * price).toString());
+          _ids.add(product.trashModel.id ?? "");
+          _quantities.add(product.weight.toString());
+        }
       }
     }
     reset();

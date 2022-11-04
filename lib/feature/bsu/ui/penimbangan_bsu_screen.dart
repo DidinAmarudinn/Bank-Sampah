@@ -1,5 +1,7 @@
+import 'package:bank_sampah/feature/bsu/ui/detail_transaction_bsu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
@@ -30,11 +32,16 @@ class _PenimbanganBSUScreenState extends State<PenimbanganBSUScreen> {
             itemCount: provider.listPenimbangan.length,
             itemBuilder: (context, index) {
               var data = provider.listPenimbangan[index];
-              return CardTransactionBSU(
-                id: data.idTransaksi ?? "",
-                status: data.status ?? "",
-                tglTransaksi: data.tglTransaksi ?? "",
-                totalTagihan: data.totalTagihan ?? "",
+              return InkWell(
+                onTap: (){
+                  context.push(DetailTransactionBSUScreen.routeName, extra: data.idTransaksi);
+                },
+                child: CardTransactionBSU(
+                  id: data.idTransaksi ?? "",
+                  status: data.status ?? "",
+                  tglTransaksi: data.tglTransaksi ?? "",
+                  totalTagihan: data.totalTagihan ?? "",
+                ),
               );
             });
       } else {

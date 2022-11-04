@@ -9,6 +9,7 @@ import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/address/ui/select_address_screen.dart';
 import 'package:bank_sampah/feature/bsu/provider/bsu_provider.dart';
 import 'package:bank_sampah/feature/bsu/ui/bsu_screen.dart';
+import 'package:bank_sampah/feature/bsu/ui/detail_transaction_bsu_screen.dart';
 import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/checkout/ui/checkout_screen.dart';
 import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
@@ -209,6 +210,15 @@ class MyApp extends StatelessWidget {
         },
       ),
       GoRoute(
+        path: DetailTransactionBSUScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          String? id = state.extra as String?;
+          return DetailTransactionBSUScreen(
+            id: id ?? "0",
+          );
+        },
+      ),
+      GoRoute(
         path: CheckoutListrikScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const CheckoutListrikScreen();
@@ -291,9 +301,9 @@ class MyApp extends StatelessWidget {
       GoRoute(
           path: TrashCalculatorPage.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            NasabahBSUModel? data = state.extra as NasabahBSUModel?;
+            bool? data = state.extra as bool?;
             return TrashCalculatorPage(
-              nasabahBSUModel: data,
+              isPenimbangan: data,
             );
           }),
       GoRoute(

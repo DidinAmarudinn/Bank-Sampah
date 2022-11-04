@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/checkout/provider/checkout_provider.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/nasabah/ui/add_nasabah_data_screen.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
@@ -64,8 +65,8 @@ class _NasabahScreenState extends State<NasabahScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            context.push(TrashCalculatorPage.routeName,
-                                extra: provider.nasabaBsuList[index]);
+                            context.read<CheckoutProvider>().setIdNasabah(provider.nasabaBsuList[index].idUserNasabah ?? "");
+                            context.push(TrashCalculatorPage.routeName);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(

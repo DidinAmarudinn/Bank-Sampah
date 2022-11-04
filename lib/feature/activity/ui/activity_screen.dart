@@ -70,11 +70,14 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       ),
                     ),
                     Positioned(
-                        right: 24,
+                        left: 24,
                         top: 24,
-                        child: Image.asset(
-                          kIcNotification,
-                          width: 40,
+                        child: Text(
+                          "Edukasi",
+                          style: kBlackText.copyWith(
+                            fontSize: 16,
+                            fontWeight: semiBold,
+                          ),
                         )),
                     Padding(
                       padding:

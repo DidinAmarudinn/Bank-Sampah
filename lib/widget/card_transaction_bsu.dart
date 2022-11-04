@@ -9,7 +9,12 @@ class CardTransactionBSU extends StatelessWidget {
   final String? totalTagihan;
   final String? sisaTagihan;
   const CardTransactionBSU(
-      {super.key, this.id, this.status, this.tglTransaksi, this.totalTagihan, this.sisaTagihan});
+      {super.key,
+      this.id,
+      this.status,
+      this.tglTransaksi,
+      this.totalTagihan,
+      this.sisaTagihan});
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +26,17 @@ class CardTransactionBSU extends StatelessWidget {
           right: kDefaultPadding,
           left: kDefaultPadding),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(
-          12,
-        ),
-        boxShadow: [BoxShadow(
-          color: Colors.black.withOpacity(0.08),
-          offset: const Offset(0, 3),
-          blurRadius: 30,
-          spreadRadius: 2
-        )]
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            12,
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                offset: const Offset(0, 3),
+                blurRadius: 30,
+                spreadRadius: 2)
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,8 +58,13 @@ class CardTransactionBSU extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("Total Tagihan",style: kDarkGrayText,),
-                  const SizedBox(width: kDefaultPadding,),
+                  Text(
+                    "Total Tagihan",
+                    style: kDarkGrayText,
+                  ),
+                  const SizedBox(
+                    width: kDefaultPadding,
+                  ),
                   Text(
                     FormatterExt()
                         .currency
@@ -63,7 +73,6 @@ class CardTransactionBSU extends StatelessWidget {
                   ),
                 ],
               ),
-             
             ],
           ),
           Row(

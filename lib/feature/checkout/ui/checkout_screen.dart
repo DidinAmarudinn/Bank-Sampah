@@ -355,10 +355,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               kuantitas: provider.quantities,
                                               harga: provider.prices);
                                           await provider.checkout(
-                                              request,
-                                              widget.nasabahBSUModel
-                                                      ?.idUserNasabah ??
-                                                  "0");
+                                            request,
+                                          );
                                           if (!mounted) return;
                                           if (provider.state ==
                                               RequestState.loaded) {

@@ -146,7 +146,7 @@ class _MainPageState extends State<MainPage> {
                               : kGreyColor,
                         ),
                         Text(
-                          "Kegiatan",
+                          "Edukasi",
                           style: provider.tabIndex == 2
                               ? kBlackText.copyWith(
                                   fontSize: 12, fontWeight: semiBold)
@@ -230,8 +230,8 @@ class _MainPageState extends State<MainPage> {
                   }
                 },
                 child: Container(
-                  height: 60,
-                  width: 60,
+                  height: 50,
+                  width: 50,
                   margin: const EdgeInsets.only(bottom: kDefaultPadding / 3),
                   decoration: const BoxDecoration(
                       color: kDarkGreen, shape: BoxShape.circle),
@@ -244,7 +244,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               Text(
-                provider.isBsu ? "Nasabah" : "Ojek Sampah",
+                provider.isBsu ? "Sampah" : "Ojek Sampah",
                 style: kGreenText.copyWith(fontWeight: bold, fontSize: 12),
               )
             ],
