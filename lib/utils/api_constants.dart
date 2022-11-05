@@ -42,4 +42,5 @@ const String getListPenjualanBSUUrl =
 const String getDetailTransactionBSUUrl = "$baserUrl/api/v1/detail_transaksi_penjualan/";
 const String getDetailTransactionNasabahURL = "$baserUrl/api/v1/detail_transaksi_pembelian/";
 const String getDetailOjekSampahUrl = "$baserUrl/api/v1/detail_transaksi_ojek_sampah/";
+const String changePasswordUrl = "$baserUrl/api/v1/ganti_password";
 const String bsuCode = "Bank Sampah Unit";

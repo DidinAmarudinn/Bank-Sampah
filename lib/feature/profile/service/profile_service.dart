@@ -162,4 +162,32 @@ class ProfileService {
       return Left(ConnectionFailure("Failed to connect to the network"));
     }
   }
+
+  Future<Either<Failure, bool>> changePassword(
+      String  newPassword, String idUser) async {
+    try {
+      var request =
+          http.MultipartRequest("POST", Uri.parse(changePasswordUrl));
+      request.fields.addAll({
+        'id_user': idUser,
+        'password_baru': newPassword
+      });
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        if (res["status"] == "true") {
+          return const Right(true);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
 }

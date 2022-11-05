@@ -45,7 +45,7 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> updateProfile(UpdateDataRequest request) async {
     _state = RequestState.loading;
     notifyListeners();
-    final idNasabah = await helper.getId() ?? 0;
+    final idNasabah = await helper.getIdNasabah() ?? 0;
     final result = await service.updateProfile(request, idNasabah.toString());
     result.fold((failure) {
       _message = failure.message;
@@ -237,5 +237,20 @@ class ProfileProvider extends ChangeNotifier {
       _statusOjekSampah = "tidak berlangganan";
     }
     notifyListeners();
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final userid = await helper.getId() ?? 0;
+    final result = await service.changePassword(newPassword, userid.toString());
+    result.fold((failure) {
+      _message = failure.message;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (data) {
+      _state = RequestState.loaded;
+      notifyListeners();
+    });
   }
 }
