@@ -73,11 +73,11 @@ class TransactionResult {
       case "ojek_sampah":
         return "Ojek Sampah";
       case "pembelian":
-        return "Pembelian";
+        return jenis ?? "";
       case "ppob":
         return jenis?.toUpperCase() ?? "";
       default:
-        return "";
+        return tipe ?? "";
     }
   }
 

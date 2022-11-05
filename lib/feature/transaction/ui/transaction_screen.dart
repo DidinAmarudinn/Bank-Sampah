@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/transaction/provider/transaction_provider.dart';
 import 'package:bank_sampah/feature/transaction/ui/bottomsheet_filter_transaction.dart';
+import 'package:bank_sampah/feature/transaction/ui/transaction_canceled.dart';
 import 'package:bank_sampah/feature/transaction/ui/transaction_done_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/transaction_on_progress.dart';
 import 'package:bank_sampah/themes/constants.dart';
@@ -20,8 +21,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     super.initState();
     Future.microtask(() {
       Provider.of<TransactionProvider>(context, listen: false).start();
-      Provider.of<TransactionProvider>(context, listen: false)
-          .changeTabBar(true);
+      Provider.of<TransactionProvider>(context, listen: false).changeTabBar(0);
       print("ke initstate lagi");
     });
   }
@@ -84,7 +84,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    provider.changeTabBar(true);
+                                    provider.changeTabBar(0);
                                   },
                                   child: Column(
                                     children: [
@@ -100,11 +100,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: kDefaultPadding),
                                         width: double.infinity,
-                                        color: provider.isOnProgress == null
-                                            ? Colors.white
-                                            : provider.isOnProgress == true
-                                                ? kDarkGreen
-                                                : Colors.white.withOpacity(0),
+                                        color: provider.index == 0
+                                            ? kDarkGreen
+                                            : Colors.white.withOpacity(0),
                                       ),
                                     ],
                                   ),
@@ -113,7 +111,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    provider.changeTabBar(false);
+                                    provider.changeTabBar(1);
                                   },
                                   child: Column(
                                     children: [
@@ -129,12 +127,36 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: kDefaultPadding),
                                         width: double.infinity,
-                                        color: provider.isOnProgress == null
-                                            ? Colors.white
-                                            : provider.isOnProgress == true
-                                                ? Colors.white.withOpacity(0)
-                                                : kDarkGreen,
+                                        color: provider.index == 1
+                                            ? kDarkGreen
+                                            : Colors.white.withOpacity(0),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    provider.changeTabBar(2);
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Dibatalkan",
+                                        style: kBlackText.copyWith(
+                                            fontWeight: semiBold),
+                                      ),
+                                      AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 200),
+                                          height: 4,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: kDefaultPadding),
+                                          width: double.infinity,
+                                          color: provider.index == 2
+                                              ? kDarkGreen
+                                              : Colors.white.withOpacity(0)),
                                     ],
                                   ),
                                 ),
@@ -193,8 +215,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                         builder: (context) {
                                           return Wrap(children: [
                                             BottomSheetFilterTransaction(
-                                              isOnProgress:
-                                                  provider.isOnProgress ?? true,
+                                              isOnProgress: provider.index == 0,
+                                              isCanceled: provider.index == 2,
                                             )
                                           ]);
                                         });
@@ -238,9 +260,12 @@ class _TransactionScreenState extends State<TransactionScreen> {
                             height: kDefaultPadding,
                           ),
                           Expanded(
-                              child: provider.isOnProgress == true
-                                  ? const TransactionOnProgress()
-                                  : const TransactionDone()),
+                            child: provider.index == 0
+                                ? const TransactionOnProgress()
+                                : provider.index == 1
+                                    ? const TransactionDone()
+                                    : const TransactionCanceled(),
+                          ),
                         ],
                       ),
                     ),

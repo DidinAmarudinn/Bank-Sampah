@@ -14,6 +14,8 @@ DetailTransaksi _$DetailTransaksiFromJson(Map<String, dynamic> json) =>
       satuan: json['satuan'] as String?,
       harga: json['harga'] as String?,
       kuantitasTimbang: json['kuantitas_timbang'] as String?,
+      kuantitasDiterima: json['kuantitas_diterima'] as String?,
+      kuantitasTerhitung: json['kuantitas_terhitung'] as String?,
     );
 
 Map<String, dynamic> _$DetailTransaksiToJson(DetailTransaksi instance) =>
@@ -24,4 +26,6 @@ Map<String, dynamic> _$DetailTransaksiToJson(DetailTransaksi instance) =>
       'satuan': instance.satuan,
       'harga': instance.harga,
       'kuantitas_timbang': instance.kuantitasTimbang,
+      'kuantitas_diterima': instance.kuantitasDiterima,
+      'kuantitas_terhitung': instance.kuantitasTerhitung,
     };

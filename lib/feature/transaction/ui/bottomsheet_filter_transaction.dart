@@ -9,7 +9,9 @@ import '../../../widget/tb_button_primary_widget.dart';
 
 class BottomSheetFilterTransaction extends StatefulWidget {
   final bool isOnProgress;
-  const BottomSheetFilterTransaction({Key? key, required this.isOnProgress})
+  final bool? isCanceled;
+  const BottomSheetFilterTransaction(
+      {Key? key, required this.isOnProgress, required this.isCanceled})
       : super(key: key);
 
   @override
@@ -40,15 +42,17 @@ class _BottomSheetFilterTransactionState
               title: "Ojek Sampah",
               color: kDarkGreen,
               onCheck: (newVal) {
-                if (widget.isOnProgress) {
+                if (provider.index == 0) {
                   provider.saveFilterOnProgress(isOjekHarian: newVal);
-                } else {
+                } else if (provider.index == 1) {
                   provider.saveFilterDone(isOjekHarian: newVal);
+                } else {
+                  provider.saveFilterCanceled(isOjekHarian: newVal);
                 }
               },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isOjekHarian ?? false)
-                  : (provider.filterModelDone?.isOjekHarian ?? false),
+              isChecked: provider.index == 0 
+                  ? (provider.filterModel?.isOjekHarian ?? false) : provider.index == 1 
+                  ? (provider.filterModelDone?.isOjekHarian ?? false) : (provider.filterModelCanceled?.isOjekHarian ?? false),
             ),
             // ItemFilter(
             //   iconName: kIcMotor,
@@ -70,97 +74,74 @@ class _BottomSheetFilterTransactionState
               title: "Pulsa",
               color: kDarkGreen,
               onCheck: (newVal) {
-                if (widget.isOnProgress) {
+                if (provider.index == 0) {
                   provider.saveFilterOnProgress(isPulsa: newVal);
-                } else {
+                } else if (provider.index == 1) {
                   provider.saveFilterDone(isPulsa: newVal);
+                } else {
+                  provider.saveFilterCanceled(isPulsa: newVal);
                 }
               },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isPulsa ?? false)
-                  : (provider.filterModelDone?.isPulsa ?? false),
+              isChecked: provider.index == 0 
+                  ? (provider.filterModel?.isPulsa ?? false) : provider.index == 1 
+                  ? (provider.filterModelDone?.isPulsa ?? false) : (provider.filterModelCanceled?.isPulsa ?? false),
             ),
             ItemFilter(
               iconName: kIcListrik,
               title: "Listrik",
               color: kDarkGreen,
               onCheck: (newVal) {
-                if (widget.isOnProgress) {
+                if (provider.index == 0) {
                   provider.saveFilterOnProgress(isListrik: newVal);
-                } else {
+                } else if (provider.index == 1) {
                   provider.saveFilterDone(isListrik: newVal);
+                } else {
+                  provider.saveFilterCanceled(isListrik: newVal);
                 }
               },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isListrik ?? false)
-                  : (provider.filterModelDone?.isListrik ?? false),
+              isChecked: provider.index == 0 
+                  ? (provider.filterModel?.isListrik ?? false) : provider.index == 1 
+                  ? (provider.filterModelDone?.isListrik ?? false) : (provider.filterModelCanceled?.isListrik ?? false),
             ),
             ItemFilter(
               iconName: kIcPdam,
               title: "Pdam",
               color: kDarkGreen,
               onCheck: (newVal) {
-                if (widget.isOnProgress) {
+                if (provider.index == 0) {
                   provider.saveFilterOnProgress(isPdam: newVal);
-                } else {
+                } else if (provider.index == 1) {
                   provider.saveFilterDone(isPdam: newVal);
+                } else {
+                  provider.saveFilterCanceled(isPdam: newVal);
                 }
               },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isPdam ?? false)
-                  : (provider.filterModelDone?.isPdam ?? false),
+              isChecked: provider.index == 0 
+                  ? (provider.filterModel?.isPdam ?? false) : provider.index == 1 
+                  ? (provider.filterModelDone?.isPdam ?? false) : (provider.filterModelCanceled?.isPdam ?? false),
             ),
             const SizedBox(
               height: kDefaultPadding * 2,
             ),
-            Text(
-              "Status Layanan".toUpperCase(),
-              style: kGreenText.copyWith(fontWeight: bold, fontSize: 16),
-            ),
-            const SizedBox(
-              height: kDefaultPadding,
-            ),
-            ItemFilter(
-              iconName: null,
-              title: "Berhasil",
-              color: kDarkGreen,
-              onCheck: (newVal) {
-                if (widget.isOnProgress) {
-                  provider.saveFilterOnProgress(isSuccess: newVal);
-                } else {
-                  provider.saveFilterDone(isSuccess: newVal);
-                }
-              },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isSuccess ?? false)
-                  : (provider.filterModelDone?.isSuccess ?? false),
-            ),
-            ItemFilter(
-              iconName: null,
-              title: "Dibatalkan",
-              color: kGreen,
-              onCheck: (newVal) {
-                if (widget.isOnProgress) {
-                  provider.saveFilterOnProgress(isCancelled: newVal);
-                } else {
-                  provider.saveFilterDone(isCancelled: newVal);
-                }
-              },
-              isChecked: widget.isOnProgress
-                  ? (provider.filterModel?.isCancelled ?? false)
-                  : (provider.filterModelDone?.isCancelled ?? false),
-            ),
-            const SizedBox(
-              height: kDefaultPadding,
-            ),
+
             Row(
               children: [
                 Expanded(
                   child: TBButtonPrimaryWidget(
                     buttonName: "Reset",
                     onPressed: () {
-                      provider.resetFilter();
-                      Navigator.pop(context);
+                    if (widget.isCanceled == true) {
+                        provider.resetFilterCanceled();
+                        provider.pagingControllerCanceled.refresh();
+                      } else {
+                        if (widget.isOnProgress) {
+                           provider.resetFilterOnProgress();
+                          provider.pagingControllerOnProgress.refresh();
+                        } else {
+                           provider.resetFilterDone();
+                          provider.pagingController.refresh();
+                        }
+                      }
                     },
                     height: 40,
                     width: double.infinity,
@@ -174,10 +155,14 @@ class _BottomSheetFilterTransactionState
                     buttonName: "Masukan",
                     onPressed: () {
                       Navigator.pop(context);
-                      if (widget.isOnProgress) {
-                        provider.pagingControllerOnProgress.refresh();
+                      if (widget.isCanceled == true) {
+                        provider.pagingControllerCanceled.refresh();
                       } else {
-                        provider.pagingController.refresh();
+                        if (widget.isOnProgress) {
+                          provider.pagingControllerOnProgress.refresh();
+                        } else {
+                          provider.pagingController.refresh();
+                        }
                       }
                     },
                     height: 40,

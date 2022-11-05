@@ -12,24 +12,24 @@ import '../../ojek/ui/detail_ojek_sampah_screen.dart';
 import '../provider/transaction_provider.dart';
 import 'detail_transaction_pembelian_nasabah.dart';
 
-class TransactionDone extends StatefulWidget {
-  const TransactionDone({Key? key}) : super(key: key);
+class TransactionCanceled extends StatefulWidget {
+  const TransactionCanceled({Key? key}) : super(key: key);
 
   @override
-  State<TransactionDone> createState() => _TransactionDoneState();
+  State<TransactionCanceled> createState() => _TransactionCanceledState();
 }
 
-class _TransactionDoneState extends State<TransactionDone> {
+class _TransactionCanceledState extends State<TransactionCanceled> {
   @override
   Widget build(BuildContext context) {
     return Consumer2<TransactionProvider, HomePageProvider>(
       builder: (context, provider, homeProvider, _) => RefreshIndicator(
         onRefresh: () async {
-          provider.pagingController.itemList = [];
-          provider.pagingController.refresh();
+          provider.pagingControllerCanceled.itemList = [];
+          provider.pagingControllerCanceled.refresh();
         },
         child: PagedListView<int, TransactionResult>(
-          pagingController: provider.pagingController,
+          pagingController: provider.pagingControllerCanceled,
           builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
             noItemsFoundIndicatorBuilder: (context) => Center(
               child: Text(

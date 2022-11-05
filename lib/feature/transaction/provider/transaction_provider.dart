@@ -10,17 +10,20 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../dashboard/model/transaction_model.dart';
 
 class TransactionProvider extends ChangeNotifier {
-  bool? _isOnProgress;
+  
 
   TransactionProvider(this.helper);
-  bool? get isOnProgress => _isOnProgress;
+  int? _index ;
+  int? get index => _index;
   FilterModel? _filterModel;
   FilterModel? get filterModel => _filterModel;
+  FilterModel? _filterModelCanceled;
+  FilterModel? get filterModelCanceled => _filterModelCanceled;
 
   FilterModel? _filterModelDone;
   FilterModel? get filterModelDone => _filterModelDone;
-  void changeTabBar(bool newValue) {
-    _isOnProgress = newValue;
+  void changeTabBar(int newIndex) {
+    _index = newIndex;
     notifyListeners();
   }
 
@@ -69,6 +72,28 @@ class TransactionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void saveFilterCanceled(
+      {bool? isOjekHarian,
+      bool? isOjekBerlanggan,
+      bool? isPulsa,
+      bool? isPdam,
+      bool? isListrik,
+      bool? isSuccess,
+      bool? isCancelled}) {
+    FilterModel tempFilterModel = const FilterModel().copyWith(
+        isCancelled: isCancelled ?? _filterModelCanceled?.isCancelled,
+        isListrik: isListrik ?? _filterModelCanceled?.isListrik,
+        isOjekBerlanggan:
+            isOjekBerlanggan ?? _filterModelCanceled?.isOjekBerlanggan,
+        isOjekHarian: isOjekHarian ?? _filterModelCanceled?.isOjekHarian,
+        isPdam: isPdam ?? _filterModelCanceled?.isPdam,
+        isPulsa: isPulsa ?? _filterModelCanceled?.isPulsa,
+        isSuccess: isSuccess ?? _filterModelCanceled?.isSuccess);
+    _filterModelCanceled = tempFilterModel;
+    notifyListeners();
+  }
+
+
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
@@ -77,6 +102,8 @@ class TransactionProvider extends ChangeNotifier {
   final PagingController<int, TransactionResult> pagingControllerOnProgress =
       PagingController(firstPageKey: 0);
   final PagingController<int, TransactionResult> pagingController =
+      PagingController(firstPageKey: 0);
+  final PagingController<int, TransactionResult> pagingControllerCanceled =
       PagingController(firstPageKey: 0);
 
   bool _isLastPage = false;
@@ -91,7 +118,8 @@ class TransactionProvider extends ChangeNotifier {
         id = await helper.getIdNasabah() ?? "";
       }
       final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel, type);
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel, type,
+          isDone: true);
       result.fold((failure) {
         pagingController.error = failure.message;
       }, (transaction) {
@@ -99,12 +127,16 @@ class TransactionProvider extends ChangeNotifier {
         _isLastPage = transactionCount < _numberOfTransactionPerRequest;
         if (_isLastPage) {
           if (transaction?.result != null) {
-            pagingController.appendLastPage(transaction!.result!);
+            transaction!.result!.removeWhere((element) =>
+                element.tipe == "ojek_sampah" && element.status == "lunas");
+            pagingController.appendLastPage(transaction.result!);
           }
         } else {
           if (transaction?.result != null) {
             final nextPage = pageKey + 1;
-            pagingController.appendPage(transaction!.result!, nextPage);
+            transaction!.result!.removeWhere((element) =>
+                element.tipe == "ojek_sampah" && element.status == "lunas");
+            pagingController.appendPage(transaction.result!, nextPage);
           }
         }
       });
@@ -124,12 +156,8 @@ class TransactionProvider extends ChangeNotifier {
         id = await helper.getIdNasabah() ?? "";
       }
       final result = await service.getListTransaction(
-        id,
-        pageKey + 1,
-        _numberOfTransactionPerRequest,
-        filterModel,
-        type,
-      );
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel, type,
+          isOnProgress: true);
       result.fold((failure) {
         pagingControllerOnProgress.error = failure.message;
       }, (transaction) {
@@ -137,13 +165,17 @@ class TransactionProvider extends ChangeNotifier {
         _isLastPage = transactionCount < _numberOfTransactionPerRequest;
         if (_isLastPage) {
           if (transaction?.result != null) {
-            pagingControllerOnProgress.appendLastPage(transaction!.result!);
+            transaction!.result!.removeWhere((element) =>
+                element.tipe != "ojek_sampah" && element.status == "lunas");
+            pagingControllerOnProgress.appendLastPage(transaction.result!);
           }
         } else {
           if (transaction?.result != null) {
             final nextPage = pageKey + 1;
+              transaction!.result!.removeWhere((element) =>
+                element.tipe !=  "ojek_sampah" && element.status == "lunas");
             pagingControllerOnProgress.appendPage(
-                transaction!.result!, nextPage);
+                transaction.result!, nextPage);
           }
         }
       });
@@ -152,11 +184,49 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
+   Future<void> getListTransactionCanceled(
+      int pageKey, FilterModel? filterModel) async {
+    try {
+      String id = "";
+      bool type = await helper.getLevel() == bsuCode;
+      if (type) {
+        id = await helper.getIdBsu() ?? "";
+      } else {
+        id = await helper.getIdNasabah() ?? "";
+      }
+      final result = await service.getListTransaction(
+          id, pageKey + 1, _numberOfTransactionPerRequest, filterModel, type,
+          isCanceled: true);
+      result.fold((failure) {
+        pagingControllerCanceled.error = failure.message;
+      }, (transaction) {
+        int transactionCount = transaction?.result?.length ?? 0;
+        _isLastPage = transactionCount < _numberOfTransactionPerRequest;
+        if (_isLastPage) {
+          if (transaction?.result != null) {
+        
+            pagingControllerCanceled.appendLastPage(transaction!.result!);
+          }
+        } else {
+          if (transaction?.result != null) {
+            final nextPage = pageKey + 1;
+              
+            pagingControllerCanceled.appendPage(
+                transaction!.result!, nextPage);
+          }
+        }
+      });
+    } catch (e) {
+      pagingControllerCanceled.error = e;
+    }
+  }
+
   void start() {
     if (pagingController.hasListeners &&
         pagingControllerOnProgress.hasListeners) {
       pagingController.removeListener(() {});
       pagingControllerOnProgress.removeListener(() {});
+      pagingControllerCanceled.removeListener(() { });
     } else {
       pagingControllerOnProgress.addPageRequestListener((pageKey) {
         getListTransactionOnProgress(pageKey, _filterModel);
@@ -164,11 +234,24 @@ class TransactionProvider extends ChangeNotifier {
       pagingController.addPageRequestListener((pageKey) {
         getListTransaction(pageKey, _filterModelDone);
       });
+      pagingControllerCanceled.addPageRequestListener((pageKey) {
+        getListTransactionCanceled(pageKey, _filterModelCanceled);
+      });
     }
   }
 
-  void resetFilter() {
+  void resetFilterOnProgress() {
     _filterModel = null;
+    notifyListeners();
+  }
+
+  void resetFilterCanceled() {
+    _filterModelCanceled = null;
+    notifyListeners();
+  }
+
+  void resetFilterDone() {
+    _filterModelDone = null;
     notifyListeners();
   }
 

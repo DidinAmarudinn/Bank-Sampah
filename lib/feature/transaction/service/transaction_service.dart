@@ -14,11 +14,15 @@ import 'package:http/http.dart' as http;
 
 class TransactionService {
   Future<Either<Failure, TransactionModel?>> getListTransaction(
-      String id,
-      int record,
-      int recordPerPage,
-      FilterModel? filterModel,
-      bool isBsu) async {
+    String id,
+    int record,
+    int recordPerPage,
+    FilterModel? filterModel,
+    bool isBsu, {
+    bool? isDone,
+    bool? isOnProgress,
+    bool? isCanceled,
+  }) async {
     try {
       String url = "";
       if (isBsu) {
@@ -49,15 +53,24 @@ class TransactionService {
         index += 1;
       }
 
-      if (filterModel?.isCancelled == true) {
+      if (isDone == true) {
+        map["filter_status[$indexStatus]"] = "selesai";
+        map["filter_status[${indexStatus + 1}]"] = "lunas";
+      }
+
+      if (isOnProgress == true) {
+        map["filter_status[$indexStatus]"] = "lunas";
+        map["filter_status[${indexStatus + 1}]"] = "belum dibayar";
+        map["filter_status[${indexStatus + 2}]"] = "dibayar sebagian";
+      }
+
+      if (isCanceled == true) {
         map["filter_status[$indexStatus]"] = "dibatalkan";
-        indexStatus += 1;
+        map["filter_status[${indexStatus + 1}]"] = "overdue";
       }
-      if (filterModel?.isSuccess == true) {
-        map["filter_status[${indexStatus + 1}]"] = "selesai";
-        map["filter_status[${indexStatus + 2}]"] = "lunas";
-      }
+
       print(map);
+      print(url);
       var request = http.MultipartRequest("POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();

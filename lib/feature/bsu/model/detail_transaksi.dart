@@ -14,6 +14,10 @@ class DetailTransaksi {
   String? harga;
   @JsonKey(name: 'kuantitas_timbang')
   String? kuantitasTimbang;
+  @JsonKey(name: "kuantitas_diterima")
+  String? kuantitasDiterima;
+  @JsonKey(name: "kuantitas_terhitung")
+  String? kuantitasTerhitung;
 
   DetailTransaksi({
     this.idSampah,
@@ -22,6 +26,8 @@ class DetailTransaksi {
     this.satuan,
     this.harga,
     this.kuantitasTimbang,
+    this.kuantitasDiterima,
+    this.kuantitasTerhitung
   });
 
   factory DetailTransaksi.fromJson(Map<String, dynamic> json) {

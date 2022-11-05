@@ -50,7 +50,9 @@ class _DetailTransactionBSUScreenState
                   padding: const EdgeInsets.all(kDefaultPadding),
                   child: CustomAppBar(
                     titlePage:
-                        provider.detailData?.transaksi?.jenis  == "penagihan" ? "Penjualan" : "Penimbangan",
+                        provider.detailData?.transaksi?.jenis == "penagihan"
+                            ? "Penjualan"
+                            : "Penimbangan",
                     isHaveShadow: true,
                   ),
                 ),
@@ -68,6 +70,8 @@ class _DetailTransactionBSUScreenState
                 ),
                 _buildRow("Status Transaksi",
                     provider.detailData?.transaksi?.status ?? ""),
+                _buildRow("Tanggal Transaksi",
+                    provider.detailData?.transaksi?.tglTransaksi ?? ""),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: kDefaultPadding,
@@ -128,15 +132,19 @@ class _DetailTransactionBSUScreenState
                                     "Timbangan: ${data?.kuantitasTimbang}",
                                     style: kBlackText,
                                   ),
-                                  Text(
-                                    "Diterima: ${data?.kuantitasTimbang}",
-                                    style: kBlackText,
-                                  ),
-                                  Text(
-                                    "Terhitung: Rp${data?.kuantitasTimbang}",
-                                    style:
-                                        kGreenText.copyWith(fontWeight: bold),
-                                  ),
+                                  data?.kuantitasDiterima != null
+                                      ? Text(
+                                          "Diterima: ${data?.kuantitasDiterima}",
+                                          style: kBlackText,
+                                        )
+                                      : const SizedBox(),
+                                  data?.kuantitasTerhitung != null
+                                      ? Text(
+                                          "Terhitung: Rp${data?.kuantitasTerhitung}",
+                                          style: kGreenText.copyWith(
+                                              fontWeight: bold),
+                                        )
+                                      : const SizedBox(),
                                 ],
                               ),
                             ),

@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
 import '../../../widget/card_last_transaction.dart';
+import '../../bsu/ui/detail_transaction_bsu_screen.dart';
 import '../provider/home_page_provider.dart';
 import '../provider/main_page_provider.dart';
 import 'bottom_sheet_others_menu.dart';
@@ -283,12 +284,28 @@ class _HomePageState extends State<HomePage> {
                   return InkWell(
                       onTap: () {
                         if (provider.isBsu) {
+                          if (item.tipe == "pembelian" &&
+                              item.jenis == "penimbangan") {
+                            context.push(DetailTransactionBSUScreen.routeName,
+                                extra: item.idTransaksi);
+                          }
+
+                          if (item.tipe == "pembelian" &&
+                              item.jenis == "penagihan") {
+                            context.push(DetailTransactionBSUScreen.routeName,
+                                extra: item.idTransaksi);
+                          }
                         } else {
                           if (item.tipe == "ojek_sampah") {
-                            context.push(DetailOjekSampahScreen.routeName, extra: item.idTransaksi);
+                            context.push(DetailOjekSampahScreen.routeName,
+                                extra: item.idTransaksi);
                           }
-                          if (item.jenis == "penagihan" && item.tipe == "pembelian") {
-                            context.push(DetailTransactionPembelianNasabahScreen.routeName, extra: item.idTransaksi);
+                          if (item.jenis == "penagihan" &&
+                              item.tipe == "pembelian") {
+                            context.push(
+                                DetailTransactionPembelianNasabahScreen
+                                    .routeName,
+                                extra: item.idTransaksi);
                           }
                         }
                       },
