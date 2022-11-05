@@ -1,5 +1,8 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
+import 'package:bank_sampah/feature/ojek/ui/detail_ojek_sampah_screen.dart';
+import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
+import 'package:bank_sampah/feature/transaction/ui/detail_transaction_pembelian_nasabah.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
@@ -277,7 +280,19 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 itemBuilder: (context, item, index) {
-                  return CardLastTransaction(transactionResult: item);
+                  return InkWell(
+                      onTap: () {
+                        if (provider.isBsu) {
+                        } else {
+                          if (item.tipe == "ojek_sampah") {
+                            context.push(DetailOjekSampahScreen.routeName, extra: item.idTransaksi);
+                          }
+                          if (item.jenis == "penagihan" && item.tipe == "pembelian") {
+                            context.push(DetailTransactionPembelianNasabahScreen.routeName, extra: item.idTransaksi);
+                          }
+                        }
+                      },
+                      child: CardLastTransaction(transactionResult: item));
                 },
               ),
             ),

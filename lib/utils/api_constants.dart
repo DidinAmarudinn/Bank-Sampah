@@ -40,4 +40,6 @@ const String getTokenPriceListUrl =
 const String getListPenjualanBSUUrl =
     "$baserUrl/api/v1/list_transaksi_penjualan/";
 const String getDetailTransactionBSUUrl = "$baserUrl/api/v1/detail_transaksi_penjualan/";
+const String getDetailTransactionNasabahURL = "$baserUrl/api/v1/detail_transaksi_pembelian/";
+const String getDetailOjekSampahUrl = "$baserUrl/api/v1/detail_transaksi_ojek_sampah/";
 const String bsuCode = "Bank Sampah Unit";

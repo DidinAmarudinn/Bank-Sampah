@@ -46,7 +46,6 @@ class DashboardService {
       var map = <String, String>{};
       map['record'] = "$record";
       map["recordPerPage"] = "$recordPerPage";
-      print(url);
       var request = http.MultipartRequest("POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();

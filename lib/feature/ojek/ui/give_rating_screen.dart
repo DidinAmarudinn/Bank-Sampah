@@ -3,6 +3,7 @@ import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
@@ -12,8 +13,9 @@ import '../../../widget/tb_button_primary_widget.dart';
 import '../../../widget/tb_textfield_border.dart';
 
 class GiveRatingScreen extends StatefulWidget {
+  final String id;
   static const routeName = "/give-rating-page";
-  const GiveRatingScreen({super.key});
+  const GiveRatingScreen({super.key, required this.id});
 
   @override
   State<GiveRatingScreen> createState() => _GiveRatingScreenState();
@@ -106,7 +108,7 @@ class _GiveRatingScreenState extends State<GiveRatingScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Id Pemesanan",
+                                      "Id Pemesanan ${widget.id}",
                                       style: kBlackText,
                                     ),
                                     Text(
@@ -140,7 +142,7 @@ class _GiveRatingScreenState extends State<GiveRatingScreen> {
                                           onPressed: () async {
                                             GiveRatingRequest? request =
                                                 GiveRatingRequest(
-                                              idTransaksi: "",
+                                              idTransaksi: widget.id,
                                               idNasabah: provider.idNasabah,
                                               nilai: provider.rating.toString(),
                                               komentar: controller.text,
@@ -152,6 +154,8 @@ class _GiveRatingScreenState extends State<GiveRatingScreen> {
                                               SnackbarMessage.showSnackbar(
                                                   context,
                                                   "Berhasil memberikan penilaian");
+                                                  provider.getTransactionDetail(widget.id);
+                                                  context.pop();
                                             }
                                             if (provider.state ==
                                                 RequestState.error) {

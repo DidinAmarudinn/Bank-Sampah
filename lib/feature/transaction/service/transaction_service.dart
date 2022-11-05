@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bank_sampah/feature/transaction/model/detail_transaction_nasabah_model.dart';
 import 'package:bank_sampah/feature/transaction/model/filter_model.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../core/base_response.dart';
 import '../../../utils/api_constants.dart';
 import '../../../utils/exception.dart';
 import '../../../utils/failure.dart';
@@ -64,6 +66,30 @@ class TransactionService {
         var res = json.decode(response.body);
         if (res["status"] == "true") {
           final result = TransactionModel.fromJson(res);
+          return Right(result);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, BaseResponse<DetailTransactionNasabahModel>?>>
+      getDetailTransaction(String idTransaction) async {
+    try {
+      final response = await http
+          .get(Uri.parse("$getDetailTransactionNasabahURL$idTransaction"));
+      var res = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (res["status"] == "true") {
+          final result = BaseResponse<DetailTransactionNasabahModel>.fromJson(
+              res, (data) => DetailTransactionNasabahModel.fromJson(data));
           return Right(result);
         } else {
           return Left(ServerFailure(res["result"].toString()));

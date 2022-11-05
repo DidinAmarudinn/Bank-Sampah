@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/ojek/model/detail_ojek_sampah_model.dart';
 import 'package:bank_sampah/feature/ojek/model/give_rating_request.dart';
 import 'package:bank_sampah/feature/ojek/model/gudang_model.dart';
 import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
@@ -237,6 +238,24 @@ class OjekProvider extends ChangeNotifier {
       notifyListeners();
     }, (result) {
       _state = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  DetailOjekSampahModel? _detailOjekSampahModel;
+  DetailOjekSampahModel? get detailData => _detailOjekSampahModel;
+
+  Future<void> getTransactionDetail(String idTransaction) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.getDetailTransaction(idTransaction);
+    result.fold((failure) {
+      _state = RequestState.error;
+      _message = failure.message;
+      notifyListeners();
+    }, (data) {
+      _state = RequestState.loaded;
+      _detailOjekSampahModel = data?.data;
       notifyListeners();
     });
   }

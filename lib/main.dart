@@ -28,6 +28,7 @@ import 'package:bank_sampah/feature/nasabah/ui/complete_profile_screen.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
+import 'package:bank_sampah/feature/ojek/ui/detail_ojek_sampah_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
@@ -41,6 +42,7 @@ import 'package:bank_sampah/feature/register/provider/register_provider.dart';
 import 'package:bank_sampah/feature/register/ui/register_page.dart';
 import 'package:bank_sampah/feature/register/ui/tnc_screen.dart';
 import 'package:bank_sampah/feature/transaction/provider/transaction_provider.dart';
+import 'package:bank_sampah/feature/transaction/ui/detail_transaction_pembelian_nasabah.dart';
 import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
@@ -219,6 +221,15 @@ class MyApp extends StatelessWidget {
         },
       ),
       GoRoute(
+        path: DetailTransactionPembelianNasabahScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          String? id = state.extra as String?;
+          return DetailTransactionPembelianNasabahScreen(
+            id: id ?? "0",
+          );
+        },
+      ),
+      GoRoute(
         path: CheckoutListrikScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const CheckoutListrikScreen();
@@ -233,7 +244,15 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: GiveRatingScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
-          return const GiveRatingScreen();
+          String? id = state.extra as String?;
+          return GiveRatingScreen(id: id ?? "0");
+        },
+      ),
+      GoRoute(
+        path: DetailOjekSampahScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          String? id = state.extra as String?;
+          return DetailOjekSampahScreen(id: id ?? "0");
         },
       ),
       GoRoute(

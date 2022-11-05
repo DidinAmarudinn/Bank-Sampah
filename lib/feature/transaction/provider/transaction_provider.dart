@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/transaction/model/detail_transaction_nasabah_model.dart';
 import 'package:bank_sampah/feature/transaction/model/filter_model.dart';
 import 'package:bank_sampah/feature/transaction/service/transaction_service.dart';
 import 'package:bank_sampah/utils/api_constants.dart';
@@ -169,5 +170,24 @@ class TransactionProvider extends ChangeNotifier {
   void resetFilter() {
     _filterModel = null;
     notifyListeners();
+  }
+
+  DetailTransactionNasabahModel? _detailTransactionNasabahModel;
+  DetailTransactionNasabahModel? get detailData =>
+      _detailTransactionNasabahModel;
+
+  Future<void> getTransactionDetail(String idTransaction) async {
+    _state = RequestState.loading;
+    notifyListeners();
+    final result = await service.getDetailTransaction(idTransaction);
+    result.fold((failure) {
+      _state = RequestState.error;
+      _message = failure.message;
+      notifyListeners();
+    }, (data) {
+      _state = RequestState.loaded;
+      _detailTransactionNasabahModel = data?.data;
+      notifyListeners();
+    });
   }
 }

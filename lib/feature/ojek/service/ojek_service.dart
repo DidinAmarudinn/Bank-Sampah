@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bank_sampah/feature/ojek/model/detail_ojek_sampah_model.dart';
 import 'package:bank_sampah/feature/ojek/model/give_rating_request.dart';
 import 'package:bank_sampah/feature/ojek/model/vilage_available_model.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../core/base_response.dart';
 import '../../../core/base_response_list.dart';
 import '../../../utils/api_constants.dart';
 import '../../../utils/exception.dart';
@@ -151,8 +153,33 @@ class OjekService {
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
+        print(res);
         if (res["status"] == "true") {
           return const Right(true);
+        } else {
+          return Left(ServerFailure(res["result"].toString()));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+   Future<Either<Failure, BaseResponse<DetailOjekSampahModel>?>>
+      getDetailTransaction(String idTransaction) async {
+    try {
+      final response = await http
+          .get(Uri.parse("$getDetailOjekSampahUrl$idTransaction"));
+      var res = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (res["status"] == "true") {
+          final result = BaseResponse<DetailOjekSampahModel>.fromJson(
+              res, (data) => DetailOjekSampahModel.fromJson(data));
+          return Right(result);
         } else {
           return Left(ServerFailure(res["result"].toString()));
         }
