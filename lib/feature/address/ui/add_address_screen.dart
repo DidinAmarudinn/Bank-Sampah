@@ -151,8 +151,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             addressProvider.getUserAddress();
                             SnackbarMessage.showSnackbar(
                                 context, "Berhasil menambahkan alamat");
-                            context.go(OjekScreen.routeName,
-                                extra: addressProvider.isDaily);
+                            context.pop();
+                            context.pop();
                           }
                           if (addressProvider.state == RequestState.error) {
                             SnackbarMessage.showSnackbar(

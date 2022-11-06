@@ -161,7 +161,7 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
                         await provider.checkout(request);
                         if (!mounted) return;
                         if (provider.btnState == RequestState.loaded) {
-                          context.push(SuccessPage.routeName);
+                          context.go(SuccessPage.routeName);
                         } else {
                           SnackbarMessage.showSnackbar(
                               context, provider.message);

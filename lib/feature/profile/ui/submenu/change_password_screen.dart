@@ -30,6 +30,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: kDefaultPadding,
+              ),
               const CustomAppBar(
                 titlePage: "Ganti Password",
                 isHaveShadow: true,
@@ -68,7 +71,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       },
                       height: 40,
-                      width: double.infinity)
+                      width: double.infinity,
+                    ),
+              const SizedBox(
+                height: kDefaultPadding,
+              ),
             ],
           ),
         ),

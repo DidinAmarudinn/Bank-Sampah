@@ -171,7 +171,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                               listAddress[index].detailAlamat));
                                   if (!mounted) return;
                                   if (provider.state == RequestState.loaded) {
-                                    SnackbarMessage.showSnackbar(context,
+                                    SnackbarMessage.showToast(
                                         "Berhasil melakukan pemesanan ojek sampah");
                                     context.pop();
                                   }

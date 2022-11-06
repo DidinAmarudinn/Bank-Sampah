@@ -51,7 +51,7 @@ class AddressProvider extends ChangeNotifier {
   Future<void> addAddressNasabah(AddAddressRequest addAddressRequest) async {
     _state = RequestState.loading;
     notifyListeners();
-    final nasabahId = await helper.getId() ?? 0;
+    final nasabahId = await helper.getIdNasabah() ?? 0;
     final result = await service.addNasabahAddress(
         addAddressRequest, nasabahId.toString());
     result.fold((failure) {

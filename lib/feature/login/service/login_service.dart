@@ -19,6 +19,7 @@ class LoginService {
       var map = <String, String>{};
       map['user_login'] = username;
       map['password_login'] = password;
+      print(map);
       var request = http.MultipartRequest("POST", Uri.parse(loginUrl));
       request.fields.addAll(map);
       var reqResponse = await request.send();

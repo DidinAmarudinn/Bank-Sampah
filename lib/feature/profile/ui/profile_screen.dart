@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Image.asset(
                     kIcNoProfile,
-                    width: 120,
+                    width: 100,
                   ),
                 ),
                 Row(

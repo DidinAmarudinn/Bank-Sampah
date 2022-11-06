@@ -60,7 +60,6 @@ import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/splash_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intl/date_symbol_data_local.dart';

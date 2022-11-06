@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                             RequestState.loaded) {
                                           context.go(MainPage.routeName);
                                         } else {
-                                          SnackbarMessage.showSnackbar(context,
+                                          SnackbarMessage.showToast(
                                               provider.messageErrorBsu);
                                         }
                                       } else {
@@ -212,8 +212,8 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     } else if (provider.state ==
                                         RequestState.error) {
-                                      SnackbarMessage.showSnackbar(
-                                          context, provider.message);
+                                      SnackbarMessage.showToast(
+                                          provider.message);
                                     }
                                   } else {
                                     SnackbarMessage.showSnackbar(

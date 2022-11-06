@@ -93,23 +93,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       : TBButtonPrimaryWidget(
                           buttonName: "Kirim",
                           onPressed: () async {
-                            // String username = emailController.text;
-                            // if (username.isNotEmpty) {
-                            //   await provider.forgotPassword(username);
-                            //   if (!mounted) return;
-                            //   if (provider.state == RequestState.loaded) {
-                            //     SnackbarMessage.showSnackbar(context,
-                            //         "Link lupa password berhasil dikirim ke email $username");
-                            //   }
-                            //   if (provider.state == RequestState.error) {
-                            //     SnackbarMessage.showSnackbar(
-                            //         context, provider.message);
-                            //   }
-                            // } else {
-                            //   SnackbarMessage.showSnackbar(
-                            //       context, provider.message);
-                            // }
-                            context.push(GiveRatingScreen.routeName);
+                            String username = emailController.text;
+                            if (username.isNotEmpty) {
+                              await provider.forgotPassword(username);
+                              if (!mounted) return;
+                              if (provider.state == RequestState.loaded) {
+                                SnackbarMessage.showSnackbar(context,
+                                    "Link lupa password berhasil dikirim ke email $username");
+                              }
+                              if (provider.state == RequestState.error) {
+                                SnackbarMessage.showSnackbar(
+                                    context, provider.message);
+                              }
+                            } else {
+                              SnackbarMessage.showSnackbar(
+                                  context, provider.message);
+                            }
+                            
                           },
                           height: 40,
                           width: double.infinity,

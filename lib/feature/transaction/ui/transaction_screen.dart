@@ -171,37 +171,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 horizontal: kDefaultPadding),
                             child: Row(
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: kDefaultPadding / 2),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.1),
-                                              blurRadius: 12,
-                                              offset: const Offset(3, 3))
-                                        ]),
-                                    width: double.infinity,
-                                    child: TextField(
-                                      controller: searchController,
-                                      decoration: const InputDecoration(
-                                        hintText: "Cari Transaksi",
-                                        border: InputBorder.none,
-                                        prefixIcon: Icon(
-                                          Icons.search,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: kDefaultPadding / 2,
-                                ),
+                               
                                 InkWell(
                                   onTap: () {
                                     showModalBottomSheet(
