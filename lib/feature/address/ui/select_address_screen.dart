@@ -86,11 +86,12 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                         padding: const EdgeInsets.all(
                                             kDefaultPadding),
                                         child: Text(
-                                          "Tidak ada alamat yang tersedia",
+                                          "Tidak ada alamat yang tersedia, untuk kelurahan layanan ojek sampah yang anda pilih",
                                           style: kBlackText.copyWith(
                                             fontSize: 14,
                                             fontWeight: semiBold,
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       )
                                     : const SizedBox(),
