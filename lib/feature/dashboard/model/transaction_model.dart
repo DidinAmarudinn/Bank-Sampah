@@ -84,7 +84,7 @@ class TransactionResult {
 
   String getDisplayedDate() {
     var transactionDate =
-        DateFormat("yyyy-mm-dd").parse(tglTransaksi ?? "2022-09-01");
+        DateFormat("yyyy-MM-dd").parse(tglTransaksi ?? "2022-09-01");
     return DateFormat("dd MMMM yyyy", "id_ID").format(transactionDate);
   }
 

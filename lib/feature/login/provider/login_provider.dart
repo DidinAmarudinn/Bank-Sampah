@@ -79,7 +79,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> checkNasabahData() async {
     _stateChecDataNasabah = RequestState.loading;
-    int id = int.parse(_loginModel?.id ?? "0");
+    int id = await preferencesHelper.getId() ?? 0;
     final nasabahData = await nasabahService.getDataNsabah(id);
     nasabahData.fold((l) {
       _stateChecDataNasabah = RequestState.error;
@@ -99,8 +99,8 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> getDataBsu() async {
     _stateGetDataBSU = RequestState.loading;
-    String id = _loginModel?.id ?? "0";
-    final bsuData = await service.getDataBsu(id);
+    int? id = await preferencesHelper.getId();
+    final bsuData = await service.getDataBsu(id.toString());
     bsuData.fold((failure) {
       _stateGetDataBSU = RequestState.error;
       _messageErrorBsu = failure.message;
