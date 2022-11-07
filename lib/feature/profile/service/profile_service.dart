@@ -115,6 +115,7 @@ class ProfileService {
   Future<Either<Failure, NasabahModel?>> getDataNsabah(int userId) async {
     try {
       final response = await http.get(Uri.parse("$getDataNsabahUrl$userId"));
+      print("$getDataNsabahUrl$userId");
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
         if (data["status"] == "true") {
@@ -123,6 +124,7 @@ class ProfileService {
                 data.map((e) => NasabahModel.fromJson(e)).toList();
             return nasabahList;
           });
+          print(result.data?[0].id);
           return Right(result.data?[0]);
         } else {
           return const Right(null);

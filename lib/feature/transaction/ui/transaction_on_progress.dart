@@ -13,22 +13,24 @@ import '../../ojek/ui/detail_ojek_sampah_screen.dart';
 import '../provider/transaction_provider.dart';
 
 class TransactionOnProgress extends StatefulWidget {
-  const TransactionOnProgress({Key? key}) : super(key: key);
+  final PagingController<int, TransactionResult> pagingController;
+  const TransactionOnProgress({Key? key, required this.pagingController}) : super(key: key);
 
   @override
   State<TransactionOnProgress> createState() => _TransactionOnProgressState();
 }
 
 class _TransactionOnProgressState extends State<TransactionOnProgress> {
+ 
   @override
   Widget build(BuildContext context) {
     return Consumer2<TransactionProvider, HomePageProvider>(
       builder: (context, provider, homeProvider, _) => RefreshIndicator(
         onRefresh: () async {
-          provider.pagingControllerOnProgress.refresh();
+         widget.pagingController.refresh();
         },
         child: PagedListView<int, TransactionResult>(
-          pagingController: provider.pagingControllerOnProgress,
+          pagingController:widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
             noItemsFoundIndicatorBuilder: (context) => Center(
               child: Text(

@@ -10,8 +10,16 @@ import '../../../widget/tb_button_primary_widget.dart';
 class BottomSheetFilterTransaction extends StatefulWidget {
   final bool isOnProgress;
   final bool? isCanceled;
+  final Function onSaveFilterOnProgress;
+  final Function onSaveDone;
+  final Function onSaveCanceled;
   const BottomSheetFilterTransaction(
-      {Key? key, required this.isOnProgress, required this.isCanceled})
+      {Key? key,
+      required this.isOnProgress,
+      required this.isCanceled,
+      required this.onSaveFilterOnProgress,
+      required this.onSaveDone,
+      required this.onSaveCanceled})
       : super(key: key);
 
   @override
@@ -50,9 +58,11 @@ class _BottomSheetFilterTransactionState
                   provider.saveFilterCanceled(isOjekHarian: newVal);
                 }
               },
-              isChecked: provider.index == 0 
-                  ? (provider.filterModel?.isOjekHarian ?? false) : provider.index == 1 
-                  ? (provider.filterModelDone?.isOjekHarian ?? false) : (provider.filterModelCanceled?.isOjekHarian ?? false),
+              isChecked: provider.index == 0
+                  ? (provider.filterModel?.isOjekHarian ?? false)
+                  : provider.index == 1
+                      ? (provider.filterModelDone?.isOjekHarian ?? false)
+                      : (provider.filterModelCanceled?.isOjekHarian ?? false),
             ),
             // ItemFilter(
             //   iconName: kIcMotor,
@@ -82,9 +92,11 @@ class _BottomSheetFilterTransactionState
                   provider.saveFilterCanceled(isPulsa: newVal);
                 }
               },
-              isChecked: provider.index == 0 
-                  ? (provider.filterModel?.isPulsa ?? false) : provider.index == 1 
-                  ? (provider.filterModelDone?.isPulsa ?? false) : (provider.filterModelCanceled?.isPulsa ?? false),
+              isChecked: provider.index == 0
+                  ? (provider.filterModel?.isPulsa ?? false)
+                  : provider.index == 1
+                      ? (provider.filterModelDone?.isPulsa ?? false)
+                      : (provider.filterModelCanceled?.isPulsa ?? false),
             ),
             ItemFilter(
               iconName: kIcListrik,
@@ -99,9 +111,11 @@ class _BottomSheetFilterTransactionState
                   provider.saveFilterCanceled(isListrik: newVal);
                 }
               },
-              isChecked: provider.index == 0 
-                  ? (provider.filterModel?.isListrik ?? false) : provider.index == 1 
-                  ? (provider.filterModelDone?.isListrik ?? false) : (provider.filterModelCanceled?.isListrik ?? false),
+              isChecked: provider.index == 0
+                  ? (provider.filterModel?.isListrik ?? false)
+                  : provider.index == 1
+                      ? (provider.filterModelDone?.isListrik ?? false)
+                      : (provider.filterModelCanceled?.isListrik ?? false),
             ),
             ItemFilter(
               iconName: kIcPdam,
@@ -116,9 +130,11 @@ class _BottomSheetFilterTransactionState
                   provider.saveFilterCanceled(isPdam: newVal);
                 }
               },
-              isChecked: provider.index == 0 
-                  ? (provider.filterModel?.isPdam ?? false) : provider.index == 1 
-                  ? (provider.filterModelDone?.isPdam ?? false) : (provider.filterModelCanceled?.isPdam ?? false),
+              isChecked: provider.index == 0
+                  ? (provider.filterModel?.isPdam ?? false)
+                  : provider.index == 1
+                      ? (provider.filterModelDone?.isPdam ?? false)
+                      : (provider.filterModelCanceled?.isPdam ?? false),
             ),
             const SizedBox(
               height: kDefaultPadding * 2,
@@ -130,16 +146,16 @@ class _BottomSheetFilterTransactionState
                   child: TBButtonPrimaryWidget(
                     buttonName: "Reset",
                     onPressed: () {
-                    if (widget.isCanceled == true) {
+                      if (widget.isCanceled == true) {
                         provider.resetFilterCanceled();
-                        provider.pagingControllerCanceled.refresh();
+                        widget.onSaveCanceled();
                       } else {
                         if (widget.isOnProgress) {
-                           provider.resetFilterOnProgress();
-                          provider.pagingControllerOnProgress.refresh();
+                          provider.resetFilterOnProgress();
+                          widget.onSaveFilterOnProgress();
                         } else {
-                           provider.resetFilterDone();
-                          provider.pagingController.refresh();
+                          provider.resetFilterDone();
+                          widget.onSaveDone();
                         }
                       }
                     },
@@ -156,12 +172,12 @@ class _BottomSheetFilterTransactionState
                     onPressed: () {
                       Navigator.pop(context);
                       if (widget.isCanceled == true) {
-                        provider.pagingControllerCanceled.refresh();
+                        widget.onSaveCanceled();
                       } else {
                         if (widget.isOnProgress) {
-                          provider.pagingControllerOnProgress.refresh();
+                          widget.onSaveFilterOnProgress();
                         } else {
-                          provider.pagingController.refresh();
+                          widget.onSaveDone();
                         }
                       }
                     },

@@ -77,6 +77,7 @@ class TransactionService {
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
+        print(res);
         if (res["status"] == "true") {
           final result = TransactionModel.fromJson(res);
           return Right(result);

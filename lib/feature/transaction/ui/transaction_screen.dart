@@ -5,7 +5,10 @@ import 'package:bank_sampah/feature/transaction/ui/transaction_done_screen.dart'
 import 'package:bank_sampah/feature/transaction/ui/transaction_on_progress.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+
+import '../../dashboard/model/transaction_model.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);
@@ -16,14 +19,40 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   final TextEditingController searchController = TextEditingController();
+  final PagingController<int, TransactionResult> _pagingController =
+      PagingController(firstPageKey: 0);
+  final PagingController<int, TransactionResult> _pagingControllerCanceled =
+      PagingController(firstPageKey: 0);
+  final PagingController<int, TransactionResult> _pagingControllerDone =
+      PagingController(firstPageKey: 0);
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<TransactionProvider>(context, listen: false).start();
       Provider.of<TransactionProvider>(context, listen: false).changeTabBar(0);
-      print("ke initstate lagi");
     });
+    _pagingController.addPageRequestListener((pageKey) {
+      Provider.of<TransactionProvider>(context, listen: false)
+          .getListTransactionOnProgress(pageKey, null, _pagingController);
+    });
+    _pagingControllerDone.addPageRequestListener((pageKey) {
+      Provider.of<TransactionProvider>(context, listen: false)
+          .getListTransaction(pageKey, null, _pagingControllerDone);
+    });
+    _pagingControllerCanceled.addPageRequestListener((pageKey) {
+      Provider.of<TransactionProvider>(context, listen: false)
+          .getListTransactionCanceled(pageKey, null, _pagingControllerCanceled);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+    _pagingControllerCanceled.dispose();
+    _pagingControllerDone.dispose();
+    print("dispose called");
   }
 
   @override
@@ -171,7 +200,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 horizontal: kDefaultPadding),
                             child: Row(
                               children: [
-                               
                                 InkWell(
                                   onTap: () {
                                     showModalBottomSheet(
@@ -187,6 +215,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                             BottomSheetFilterTransaction(
                                               isOnProgress: provider.index == 0,
                                               isCanceled: provider.index == 2,
+                                              onSaveFilterOnProgress: () {
+                                                _pagingController.refresh();
+                                              },
+                                              onSaveCanceled: () {},
+                                              onSaveDone: () {},
                                             )
                                           ]);
                                         });
@@ -231,10 +264,17 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           ),
                           Expanded(
                             child: provider.index == 0
-                                ? const TransactionOnProgress()
+                                ? TransactionOnProgress(
+                                    pagingController: _pagingController,
+                                  )
                                 : provider.index == 1
-                                    ? const TransactionDone()
-                                    : const TransactionCanceled(),
+                                    ? TransactionDone(
+                                        pagingController: _pagingControllerDone,
+                                      )
+                                    : TransactionCanceled(
+                                        pagingController:
+                                            _pagingControllerCanceled,
+                                      ),
                           ),
                         ],
                       ),

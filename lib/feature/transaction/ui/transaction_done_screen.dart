@@ -13,7 +13,8 @@ import '../provider/transaction_provider.dart';
 import 'detail_transaction_pembelian_nasabah.dart';
 
 class TransactionDone extends StatefulWidget {
-  const TransactionDone({Key? key}) : super(key: key);
+  final PagingController<int, TransactionResult> pagingController;
+  const TransactionDone({Key? key, required this.pagingController}) : super(key: key);
 
   @override
   State<TransactionDone> createState() => _TransactionDoneState();
@@ -25,11 +26,10 @@ class _TransactionDoneState extends State<TransactionDone> {
     return Consumer2<TransactionProvider, HomePageProvider>(
       builder: (context, provider, homeProvider, _) => RefreshIndicator(
         onRefresh: () async {
-          provider.pagingController.itemList = [];
-          provider.pagingController.refresh();
+          widget.pagingController.refresh();
         },
         child: PagedListView<int, TransactionResult>(
-          pagingController: provider.pagingController,
+          pagingController: widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
             noItemsFoundIndicatorBuilder: (context) => Center(
               child: Text(

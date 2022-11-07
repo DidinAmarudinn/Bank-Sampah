@@ -13,7 +13,8 @@ import '../provider/transaction_provider.dart';
 import 'detail_transaction_pembelian_nasabah.dart';
 
 class TransactionCanceled extends StatefulWidget {
-  const TransactionCanceled({Key? key}) : super(key: key);
+  final PagingController<int, TransactionResult> pagingController;
+  const TransactionCanceled({Key? key, required this.pagingController}) : super(key: key);
 
   @override
   State<TransactionCanceled> createState() => _TransactionCanceledState();
@@ -25,11 +26,10 @@ class _TransactionCanceledState extends State<TransactionCanceled> {
     return Consumer2<TransactionProvider, HomePageProvider>(
       builder: (context, provider, homeProvider, _) => RefreshIndicator(
         onRefresh: () async {
-          provider.pagingControllerCanceled.itemList = [];
-          provider.pagingControllerCanceled.refresh();
+          widget.pagingController.refresh();
         },
         child: PagedListView<int, TransactionResult>(
-          pagingController: provider.pagingControllerCanceled,
+          pagingController: widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
             noItemsFoundIndicatorBuilder: (context) => Center(
               child: Text(

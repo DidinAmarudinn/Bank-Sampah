@@ -43,6 +43,7 @@ class DashboardService {
       } else {
         url = "${getListTransactionDashboardUrl}list_transaksi_nasabah/$id";
       }
+      print(url);
       var map = <String, String>{};
       map['record'] = "$record";
       map["recordPerPage"] = "$recordPerPage";
