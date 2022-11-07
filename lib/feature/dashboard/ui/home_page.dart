@@ -266,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(kDefaultPadding / 2),
                 child: Text(
-                  "Transaksi Terkahir",
+                  "Transaksi Terakhir",
                   style: kDarkGrayText.copyWith(fontWeight: bold),
                 ),
               ),

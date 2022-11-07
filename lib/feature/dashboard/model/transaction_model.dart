@@ -1,3 +1,4 @@
+import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -90,6 +91,6 @@ class TransactionResult {
   String getPoint() {
     int total =
         int.parse(totalTagihan ?? "0") - int.parse(nominalTransaksi ?? "0");
-    return total.toString();
+    return FormatterExt().currencyFormatter.format(total);
   }
 }
