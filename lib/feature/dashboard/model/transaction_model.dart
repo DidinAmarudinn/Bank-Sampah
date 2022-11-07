@@ -91,6 +91,6 @@ class TransactionResult {
   String getPoint() {
     int total =
         int.parse(totalTagihan ?? "0") - int.parse(nominalTransaksi ?? "0");
-    return FormatterExt().currencyFormatter.format(total);
+    return FormatterExt().currency.format(total);
   }
 }
