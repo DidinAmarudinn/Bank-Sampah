@@ -17,6 +17,7 @@ class PreferencesHelper {
 
   void setFullName(String value) async {
     final prefs = await sharedPreference;
+    print("saved $value");
     prefs.setString(fullName, value);
   }
 
