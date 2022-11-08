@@ -158,6 +158,7 @@ class _BottomSheetFilterTransactionState
                           widget.onSaveDone();
                         }
                       }
+                      Navigator.pop(context);
                     },
                     height: 40,
                     width: double.infinity,

@@ -46,14 +46,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _pagingController.dispose();
-    _pagingControllerCanceled.dispose();
-    _pagingControllerDone.dispose();
-    print("dispose called");
-  }
 
   @override
   Widget build(BuildContext context) {
