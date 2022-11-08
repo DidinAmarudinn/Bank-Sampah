@@ -148,6 +148,7 @@ class OjekService {
         "nilai": giveRatingRequest?.nilai ?? "",
         "komentar": giveRatingRequest?.komentar ?? ""
       };
+      print(body);
       request.fields.addAll(body);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
