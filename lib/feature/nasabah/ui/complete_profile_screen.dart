@@ -50,7 +50,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   void getNasabahName() {
     helper.getFullName().then((value) {
-      print(value);
+      print("nama $value");
       controllerName.text = value ?? "";
     });
   }

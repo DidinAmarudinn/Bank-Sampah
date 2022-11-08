@@ -53,10 +53,13 @@ class LoginProvider extends ChangeNotifier {
       _loginModel = result?.data;
       _state = RequestState.loaded;
       int id = int.parse(result?.data?.id ?? "0");
+      print(_loginModel?.namaUser);
+      print(_loginModel?.username);
+      print(_loginModel?.level);
       preferencesHelper.setId(id);
-      preferencesHelper.setLevel(_loginModel?.level ?? "");
-      preferencesHelper.setUsername(_loginModel?.username ?? "");
-      preferencesHelper.setFullName(loginModel?.namaUser ?? "");
+      preferencesHelper.setLevel(result?.data?.level ?? "");
+      preferencesHelper.setUsername(result?.data?.username ?? "");
+      preferencesHelper.setFullName(result?.data?.namaUser ?? "");
       preferencesHelper.setImageProfileUrl(_loginModel?.filefotoprofile ?? "");
       _isBsu = _loginModel?.level == "Bank Sampah Unit";
       notifyListeners();
@@ -89,10 +92,12 @@ class LoginProvider extends ChangeNotifier {
       _stateChecDataNasabah = RequestState.loaded;
       _checkIsUserHasCompletedProfile = r != null;
 
-      preferencesHelper.setFullName(r?.namaNasabah ?? "");
-      preferencesHelper.setEmail(r?.email ?? "");
-      preferencesHelper.setPhoneNumber(r?.noKontak ?? "");
-      preferencesHelper.setIdNasabah(r?.id ?? "0");
+      if (_checkIsUserHasCompletedProfile) {
+        preferencesHelper.setFullName(r?.namaNasabah ?? "");
+        preferencesHelper.setEmail(r?.email ?? "");
+        preferencesHelper.setPhoneNumber(r?.noKontak ?? "");
+        preferencesHelper.setIdNasabah(r?.id ?? "0");
+      }
       notifyListeners();
     });
   }
