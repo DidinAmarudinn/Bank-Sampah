@@ -2,7 +2,6 @@ import 'package:bank_sampah/feature/bsu/provider/bsu_provider.dart';
 import 'package:bank_sampah/feature/bsu/ui/bottom_sheet_select_gudang.dart';
 import 'package:bank_sampah/feature/bsu/ui/penimbangan_bsu_screen.dart';
 import 'package:bank_sampah/feature/bsu/ui/penjualan_bsu_screen.dart';
-import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';

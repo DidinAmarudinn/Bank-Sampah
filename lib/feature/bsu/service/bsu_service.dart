@@ -26,7 +26,6 @@ class BSUService {
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
-        print(res);
         if (res["status"] == "true") {
           final result = BaseResponseList<PenagihanModel>.fromJson(res, (data) {
             List<PenagihanModel> penagihan =

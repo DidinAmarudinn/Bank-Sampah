@@ -8,7 +8,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
-import '../../../utils/img_constants.dart';
 import '../../../utils/request_state_enum.dart';
 
 class ActivityScreen extends StatefulWidget {
