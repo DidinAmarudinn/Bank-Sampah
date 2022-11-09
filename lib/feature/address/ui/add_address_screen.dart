@@ -2,7 +2,6 @@ import 'package:bank_sampah/feature/address/model/add_address_request.dart';
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/nasabah/provider/nasabah_provider.dart';
 import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
-import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/loading_button.dart';

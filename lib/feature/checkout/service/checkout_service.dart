@@ -81,7 +81,6 @@ class CheckoutService {
       checkoutRequest.idsSampah.asMap().forEach((key, value) {
         body["id_sampah[$key]"] = value;
       });
-      print(body);
       request.fields.addAll(body);
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
