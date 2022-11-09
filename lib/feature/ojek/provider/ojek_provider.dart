@@ -9,6 +9,7 @@ import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../user_available_address/data_jenis_nasabah.dart';
 
@@ -258,5 +259,12 @@ class OjekProvider extends ChangeNotifier {
       _detailOjekSampahModel = data?.data;
       notifyListeners();
     });
+  }
+
+  Future<void> launchUrlWA(String phoneNumber) async {
+    launchUrl(
+      Uri.parse('https://wa.me/+$phoneNumber?text=Hi saya mau konfirmasi pembayaran ojek sampah'),
+      mode: LaunchMode.externalApplication,
+    );
   }
 }

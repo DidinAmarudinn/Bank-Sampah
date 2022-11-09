@@ -1,9 +1,10 @@
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
+import 'package:bank_sampah/feature/profile/provider/profile_provider.dart';
+import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -30,12 +31,14 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
     Future.microtask(() {
       Provider.of<OjekProvider>(context, listen: false)
           .getTransactionDetail(widget.id);
+      Provider.of<ProfileProvider>(context, listen: false).getOthersInfo();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OjekProvider>(context);
+    final profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       body: provider.state == RequestState.loading
           ? const Center(
@@ -45,20 +48,19 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
             ))
           : SafeArea(
               child: Column(
-                children: [
-                     const Padding(
-                          padding: EdgeInsets.all(kDefaultPadding),
-                          child: CustomAppBar(
-                            titlePage: "Ojek Sampah",
-                            isHaveShadow: true,
-                          ),
-                        ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(kDefaultPadding),
+                  child: CustomAppBar(
+                    titlePage: "Ojek Sampah",
+                    isHaveShadow: true,
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                     
                         _buildRow(
                           "Id Transaksi",
                           "#${provider.detailData?.transaksi?.idTransaksi ?? ""}",
@@ -70,16 +72,64 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                         _buildRow(
                           "Total Tagihan",
                           FormatterExt().currencyFormatter.format(
-                                int.parse(
-                                    provider.detailData?.transaksi?.totalTagihan ??
-                                        "0"),
+                                int.parse(provider
+                                        .detailData?.transaksi?.totalTagihan ??
+                                    "0"),
                               ),
                         ),
                         _buildRow("Status Transaksi",
                             provider.detailData?.transaksi?.status ?? ""),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Detail Pembayaran",
+                                style:
+                                    kBlackText.copyWith(fontWeight: semiBold),
+                              ),
+                              const SizedBox(
+                                height: kDefaultPadding / 2,
+                              ),
+                              profileProvider.othersInfoModel?.bankSettings !=
+                                      null
+                                  ? Column(
+                                      children: profileProvider
+                                          .othersInfoModel!.bankSettings!
+                                          .map((value) {
+                                      return Row(
+                                        children: [
+                                          Text(
+                                              "${value.namaBank} no Rek: ${value.nomorRekening} an ${value.atasNama}"),
+                                          const SizedBox(
+                                            width: kDefaultPadding / 3,
+                                          ),
+                                          IconButton(
+                                            onPressed: () async {
+                                              await Clipboard.setData(ClipboardData(
+                                                  text:
+                                                      "${value.nomorRekening}"));
+                                              SnackbarMessage.showToast(
+                                                  "Nomer rekening berhasil dicopy");
+                                            },
+                                            icon: const Icon(
+                                              Icons.copy,
+                                              color: kDarkGreen,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }).toList())
+                                  : const SizedBox()
+                            ],
+                          ),
+                        ),
                         provider.detailData?.detailPembayaran?.isEmpty ?? true
                             ? const SizedBox()
                             : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -98,24 +148,25 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                         padding: const EdgeInsets.only(
                                             left: kDefaultPadding),
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: provider
-                                            .detailData?.detailPembayaran?.length,
+                                        itemCount: provider.detailData
+                                            ?.detailPembayaran?.length,
                                         itemBuilder: (
                                           context,
                                           index,
                                         ) {
-                                          var data = provider
-                                              .detailData?.detailPembayaran?[index];
+                                          var data = provider.detailData
+                                              ?.detailPembayaran?[index];
                                           return Container(
                                             padding: const EdgeInsets.all(
                                                 kDefaultPadding / 2),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius: BorderRadius.circular(6),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color:
-                                                        Colors.black.withOpacity(0.05),
+                                                    color: Colors.black
+                                                        .withOpacity(0.05),
                                                     offset: const Offset(0, 3),
                                                     spreadRadius: 3,
                                                     blurRadius: 30,
@@ -123,7 +174,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                                 ]),
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
@@ -144,6 +196,7 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                         provider.detailData?.detailTransaksi?.isEmpty ?? true
                             ? const SizedBox()
                             : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -162,25 +215,26 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                         padding: const EdgeInsets.only(
                                             left: kDefaultPadding),
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: provider
-                                            .detailData?.detailTransaksi?.length,
+                                        itemCount: provider.detailData
+                                            ?.detailTransaksi?.length,
                                         itemBuilder: (
                                           context,
                                           index,
                                         ) {
-                                          var data = provider
-                                              .detailData?.detailTransaksi?[index];
+                                          var data = provider.detailData
+                                              ?.detailTransaksi?[index];
                                           return Container(
                                             padding: const EdgeInsets.all(
                                                 kDefaultPadding / 2),
                                             width: 200,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius: BorderRadius.circular(6),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color:
-                                                        Colors.black.withOpacity(0.05),
+                                                    color: Colors.black
+                                                        .withOpacity(0.05),
                                                     offset: const Offset(0, 3),
                                                     spreadRadius: 3,
                                                     blurRadius: 30,
@@ -188,11 +242,13 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                                 ]),
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text("Jenis Nasabah ${data?.jenis}"),
+                                                Text(
+                                                    "Jenis Nasabah ${data?.jenis}"),
                                                 Text("Harga ${data?.harga}"),
                                                 Expanded(
                                                     child: Text(
@@ -209,6 +265,23 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                         const SizedBox(
                           height: kDefaultPadding,
                         ),
+                        provider.detailData?.transaksi?.status ==
+                                "belum dibayar"
+                            ? Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: TBButtonPrimaryWidget(
+                                  buttonName: "Konfirmasi Pembayaran",
+                                  isHaveImage: true,
+                                  onPressed: () {
+                                    provider.launchUrlWA(profileProvider
+                                            .othersInfoModel?.noTelp ??
+                                        "");
+                                  },
+                                  height: 40,
+                                  width: double.infinity,
+                                ),
+                              )
+                            : const SizedBox(),
                         provider.detailData?.transaksi?.status == "selesai" &&
                                 provider.detailData?.penilaian == null
                             ? Padding(
@@ -223,13 +296,15 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                   width: double.infinity,
                                 ),
                               )
-                            : provider.detailData?.transaksi?.status == "selesai" &&
+                            : provider.detailData?.transaksi?.status ==
+                                        "selesai" &&
                                     provider.detailData?.penilaian != null
                                 ? Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: kDefaultPadding),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Penilaian",
@@ -241,10 +316,13 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                           height: kDefaultPadding / 2,
                                         ),
                                         RatingBarIndicator(
-                                          rating: double.parse(
-                                              provider.detailData?.penilaian?.nilai ??
-                                                  "1"),
-                                          itemBuilder: (context, index) => const Icon(
+                                          rating: double.parse(provider
+                                                  .detailData
+                                                  ?.penilaian
+                                                  ?.nilai ??
+                                              "1"),
+                                          itemBuilder: (context, index) =>
+                                              const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                           ),
@@ -260,19 +338,20 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                           style: kBlackText.copyWith(
                                             fontWeight: semiBold,
                                           ),
-                  
                                         ),
-                                        const SizedBox(height: kDefaultPadding,)
+                                        const SizedBox(
+                                          height: kDefaultPadding,
+                                        )
                                       ],
                                     ),
                                   )
                                 : const SizedBox(),
                       ],
-                                ),
                     ),
                   ),
-                ],
-              )),
+                ),
+              ],
+            )),
     );
   }
 

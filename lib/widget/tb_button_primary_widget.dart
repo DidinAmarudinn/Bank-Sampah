@@ -1,4 +1,5 @@
 import 'package:bank_sampah/themes/constants.dart';
+import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
 
 class TBButtonPrimaryWidget extends StatelessWidget {
@@ -7,13 +8,15 @@ class TBButtonPrimaryWidget extends StatelessWidget {
   final double height;
   final double width;
   final bool? isDisable;
+  final bool? isHaveImage;
   const TBButtonPrimaryWidget(
       {Key? key,
       required this.buttonName,
       required this.onPressed,
       required this.height,
       required this.width,
-      this.isDisable})
+      this.isDisable,
+      this.isHaveImage})
       : super(key: key);
 
   @override
@@ -30,14 +33,28 @@ class TBButtonPrimaryWidget extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Text(
-            buttonName,
-            style: isDisable ?? false
-                ? kGreyText.copyWith(fontSize: 12, fontWeight: semiBold)
-                : kWhiteText.copyWith(
-                    fontSize: 12,
-                    fontWeight: semiBold,
-                  ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                buttonName,
+                style: isDisable ?? false
+                    ? kGreyText.copyWith(fontSize: 12, fontWeight: semiBold)
+                    : kWhiteText.copyWith(
+                        fontSize: 12,
+                        fontWeight: semiBold,
+                      ),
+              ),
+              isHaveImage != null
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding/2),
+                    child: Image.asset(
+                        kicWa,
+                        width: 20,
+                      ),
+                  )
+                  : const SizedBox(),
+            ],
           ),
         ),
       ),
