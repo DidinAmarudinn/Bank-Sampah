@@ -11,17 +11,16 @@ class DetailTransactionNasabahModel {
   List<SampahData>? detailTransaksi;
   @JsonKey(name: "detail_pembayaran")
   List<DataPembayaranNasabah>? detailPembayaran;
-  
+
   DetailTransactionNasabahModel({
     this.transaksi,
     this.detailTransaksi,
     this.detailPembayaran,
   });
- factory DetailTransactionNasabahModel.fromJson(Map<String, dynamic> json) =>
+  factory DetailTransactionNasabahModel.fromJson(Map<String, dynamic> json) =>
       _$DetailTransactionNasabahModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DetailTransactionNasabahModelToJson(this);
- 
 }
 
 @JsonSerializable()
@@ -41,12 +40,11 @@ class SampahData {
     this.harga,
   });
 
-   factory SampahData.fromJson(Map<String, dynamic> json) =>
+  factory SampahData.fromJson(Map<String, dynamic> json) =>
       _$SampahDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$SampahDataToJson(this);
 }
-
 
 @JsonSerializable()
 class TransactionData {
@@ -96,29 +94,27 @@ class TransactionData {
     this.updatedAt,
   });
 
-   factory TransactionData.fromJson(Map<String, dynamic> json) =>
+  factory TransactionData.fromJson(Map<String, dynamic> json) =>
       _$TransactionDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransactionDataToJson(this);
 }
 
-
-
 @JsonSerializable()
 class DataPembayaranNasabah {
   @JsonKey(name: "id_transaksi_pembayaran")
-   String? idTransaksiPembayaran;
+  String? idTransaksiPembayaran;
   String? id;
   String? status;
   @JsonKey(name: "nominal_transaksi")
   String? nominalTransaksi;
-   @JsonKey(name: "total_tagihan")
+  @JsonKey(name: "total_tagihan")
   String? totalTagihan;
   String? jenis;
-    @JsonKey(name: "no_transaksi")
+  @JsonKey(name: "no_transaksi")
   String? noTransaksi;
   String? jumlah;
-    @JsonKey(name: "tgl_transaksi")
+  @JsonKey(name: "tgl_transaksi")
   String? tglTransaksi;
   @JsonKey(name: "nama_cara")
   String? namaCara;
@@ -135,9 +131,8 @@ class DataPembayaranNasabah {
     this.namaCara,
   });
 
-   factory DataPembayaranNasabah.fromJson(Map<String, dynamic> json) =>
+  factory DataPembayaranNasabah.fromJson(Map<String, dynamic> json) =>
       _$DataPembayaranNasabahFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataPembayaranNasabahToJson(this);
-
 }

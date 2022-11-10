@@ -3,7 +3,7 @@ class CheckoutPenimbanganRequest {
   String tglTransaksi;
   String tglJatuhTempo;
   String? keterangan;
-  String  totalTagihan;
+  String totalTagihan;
   String idGudang;
   List<String> idsSampah;
   List<String> kuantitasTimbang;

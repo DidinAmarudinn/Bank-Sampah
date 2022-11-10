@@ -166,14 +166,10 @@ class ProfileService {
   }
 
   Future<Either<Failure, bool>> changePassword(
-      String  newPassword, String idUser) async {
+      String newPassword, String idUser) async {
     try {
-      var request =
-          http.MultipartRequest("POST", Uri.parse(changePasswordUrl));
-      request.fields.addAll({
-        'id_user': idUser,
-        'password_baru': newPassword
-      });
+      var request = http.MultipartRequest("POST", Uri.parse(changePasswordUrl));
+      request.fields.addAll({'id_user': idUser, 'password_baru': newPassword});
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);

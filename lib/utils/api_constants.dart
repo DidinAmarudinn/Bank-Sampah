@@ -39,8 +39,15 @@ const String getTokenPriceListUrl =
     "https://testprepaid.mobilepulsa.net/v1/legacy/index/pln/pln";
 const String getListPenjualanBSUUrl =
     "$baserUrl/api/v1/list_transaksi_penjualan/";
-const String getDetailTransactionBSUUrl = "$baserUrl/api/v1/detail_transaksi_penjualan/";
-const String getDetailTransactionNasabahURL = "$baserUrl/api/v1/detail_transaksi_pembelian/";
-const String getDetailOjekSampahUrl = "$baserUrl/api/v1/detail_transaksi_ojek_sampah/";
+const String getDetailTransactionBSUUrl =
+    "$baserUrl/api/v1/detail_transaksi_penjualan/";
+const String getDetailTransactionNasabahURL =
+    "$baserUrl/api/v1/detail_transaksi_pembelian/";
+const String getDetailOjekSampahUrl =
+    "$baserUrl/api/v1/detail_transaksi_ojek_sampah/";
 const String changePasswordUrl = "$baserUrl/api/v1/ganti_password";
+const String paketDataUrl =
+    "https://testprepaid.mobilepulsa.net/v1/legacy/index/data/telkomsel_paket_internet";
+const String billCheckPDAMUrl =
+    "https://testpostpaid.mobilepulsa.net/api/v1/bill/check";
 const String bsuCode = "Bank Sampah Unit";

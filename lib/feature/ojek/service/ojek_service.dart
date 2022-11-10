@@ -170,11 +170,11 @@ class OjekService {
     }
   }
 
-   Future<Either<Failure, BaseResponse<DetailOjekSampahModel>?>>
+  Future<Either<Failure, BaseResponse<DetailOjekSampahModel>?>>
       getDetailTransaction(String idTransaction) async {
     try {
-      final response = await http
-          .get(Uri.parse("$getDetailOjekSampahUrl$idTransaction"));
+      final response =
+          await http.get(Uri.parse("$getDetailOjekSampahUrl$idTransaction"));
       var res = json.decode(response.body);
       if (response.statusCode == 200) {
         if (res["status"] == "true") {

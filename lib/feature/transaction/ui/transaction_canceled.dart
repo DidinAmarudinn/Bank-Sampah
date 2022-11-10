@@ -14,7 +14,8 @@ import 'detail_transaction_pembelian_nasabah.dart';
 
 class TransactionCanceled extends StatefulWidget {
   final PagingController<int, TransactionResult> pagingController;
-  const TransactionCanceled({Key? key, required this.pagingController}) : super(key: key);
+  const TransactionCanceled({Key? key, required this.pagingController})
+      : super(key: key);
 
   @override
   State<TransactionCanceled> createState() => _TransactionCanceledState();
@@ -41,17 +42,17 @@ class _TransactionCanceledState extends State<TransactionCanceled> {
               return InkWell(
                   onTap: () {
                     if (homeProvider.isBsu) {
-                       if (item.tipe == "pembelian" &&
-                              item.jenis == "penimbangan") {
-                            context.push(DetailTransactionBSUScreen.routeName,
-                                extra: item.idTransaksi);
-                          }
+                      if (item.tipe == "pembelian" &&
+                          item.jenis == "penimbangan") {
+                        context.push(DetailTransactionBSUScreen.routeName,
+                            extra: item.idTransaksi);
+                      }
 
-                          if (item.tipe == "pembelian" &&
-                              item.jenis == "penagihan") {
-                            context.push(DetailTransactionBSUScreen.routeName,
-                                extra: item.idTransaksi);
-                          }
+                      if (item.tipe == "pembelian" &&
+                          item.jenis == "penagihan") {
+                        context.push(DetailTransactionBSUScreen.routeName,
+                            extra: item.idTransaksi);
+                      }
                     } else {
                       if (item.tipe == "ojek_sampah") {
                         context.push(DetailOjekSampahScreen.routeName,

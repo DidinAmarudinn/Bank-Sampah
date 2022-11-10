@@ -33,8 +33,9 @@ class _PenimbanganBSUScreenState extends State<PenimbanganBSUScreen> {
             itemBuilder: (context, index) {
               var data = provider.listPenimbangan[index];
               return InkWell(
-                onTap: (){
-                  context.push(DetailTransactionBSUScreen.routeName, extra: data.idTransaksi);
+                onTap: () {
+                  context.push(DetailTransactionBSUScreen.routeName,
+                      extra: data.idTransaksi);
                 },
                 child: CardTransactionBSU(
                   id: data.idTransaksi ?? "",

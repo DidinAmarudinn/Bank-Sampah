@@ -46,7 +46,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransactionProvider>(context);

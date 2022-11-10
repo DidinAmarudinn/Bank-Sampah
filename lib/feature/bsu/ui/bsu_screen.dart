@@ -91,22 +91,21 @@ class _BSUScreenState extends State<BSUScreen> {
                   child: TBButtonPrimaryWidget(
                       buttonName: "Tambah Penimbangan",
                       onPressed: () {
-                         showModalBottomSheet(
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(24),
-                          ),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return Wrap(
-                            children: const [
-                              BottomSheetSelectGudang(),
-                            ],
-                          );
-                        });
-                      
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(24),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) {
+                              return Wrap(
+                                children: const [
+                                  BottomSheetSelectGudang(),
+                                ],
+                              );
+                            });
                       },
                       height: 40,
                       width: double.infinity),
