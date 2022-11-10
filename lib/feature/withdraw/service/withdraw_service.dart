@@ -12,6 +12,8 @@ import '../../../utils/exception.dart';
 import '../../../utils/failure.dart';
 import 'package:http/http.dart' as http;
 
+import '../pdam/model/pdam_bill_check_model.dart';
+
 class WithdrawService {
   Future<Either<Failure, bool>> checkout(PPOBRequest? ppobRequest,
       String idUser, String? idNasabah, String? idBsu) async {
@@ -83,6 +85,30 @@ class WithdrawService {
     }
   }
 
+  Future<Either<Failure, PulsaModel?>> getPriceData() async {
+    try {
+      var request = http.Request('POST', Uri.parse(paketDataUrl));
+      request.body = json.encode({
+        "commands": "pricelist",
+        "username": "6281910532804",
+        "sign": "7edccf37170af1dc3e70e5ddedbb77b1",
+        "status": "active"
+      });
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        return Right(PulsaModel.fromJson(res));
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
   Future<Either<Failure, PulsaModel?>> getPriceListToken() async {
     try {
       var request = http.Request('POST', Uri.parse(getTokenPriceListUrl));
@@ -125,6 +151,39 @@ class WithdrawService {
         var res = json.decode(response.body);
         if (res["data"]["rc"] == "00") {
           return Right(PlnSubscriberModel.fromJson(res["data"]));
+        } else {
+          return Left(ServerFailure(res["data"]["message"]));
+        }
+      } else {
+        throw ServerException();
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, PdamBillCheckModel?>> getUserBillCheck(
+      String customerId, String codeWilayah) async {
+    try {
+      String sign = generateMd5("6281910532804101634cc8fcb402b$customerId");
+      var request = http.Request('POST', Uri.parse(getTokenPriceListUrl));
+      var map = {
+        "commands": "inq-pasca",
+        "username": "6281910532804",
+        "code": "PDAMKOTA.SURABAYA",
+        "hp": "10202001",
+        "ref_id": "091283746515",
+        "sign": "017b81645271095bb5668b295b8db165"
+      };
+      request.body = json.encode(map);
+      var reqResponse = await request.send();
+      if (reqResponse.statusCode == 200) {
+        var response = await http.Response.fromStream(reqResponse);
+        var res = json.decode(response.body);
+        if (res["data"]["rc"] == "00") {
+          return Right(PdamBillCheckModel.fromJson(res["data"]));
         } else {
           return Left(ServerFailure(res["data"]["message"]));
         }

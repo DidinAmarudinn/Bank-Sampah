@@ -47,12 +47,13 @@ class TBButtonPrimaryWidget extends StatelessWidget {
               ),
               isHaveImage != null
                   ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding/2),
-                    child: Image.asset(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding / 2),
+                      child: Image.asset(
                         kicWa,
                         width: 20,
                       ),
-                  )
+                    )
                   : const SizedBox(),
             ],
           ),

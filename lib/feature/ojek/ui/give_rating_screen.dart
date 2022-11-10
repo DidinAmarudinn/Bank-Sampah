@@ -154,8 +154,9 @@ class _GiveRatingScreenState extends State<GiveRatingScreen> {
                                               SnackbarMessage.showSnackbar(
                                                   context,
                                                   "Berhasil memberikan penilaian");
-                                                  provider.getTransactionDetail(widget.id);
-                                                  context.pop();
+                                              provider.getTransactionDetail(
+                                                  widget.id);
+                                              context.pop();
                                             }
                                             if (provider.state ==
                                                 RequestState.error) {

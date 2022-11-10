@@ -96,10 +96,11 @@ class TransactionProvider extends ChangeNotifier {
 
   String _message = "";
   String get message => _message;
-  
+
   bool _isLastPage = false;
   final int _numberOfTransactionPerRequest = 5;
-  Future<void> getListTransaction(int pageKey, FilterModel? filterModel,PagingController pagingController) async {
+  Future<void> getListTransaction(int pageKey, FilterModel? filterModel,
+      PagingController pagingController) async {
     try {
       String id = "";
       bool type = await helper.getLevel() == bsuCode;
@@ -108,8 +109,8 @@ class TransactionProvider extends ChangeNotifier {
       } else {
         id = await helper.getIdNasabah() ?? "";
       }
-      final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest, _filterModelDone, type,
+      final result = await service.getListTransaction(id, pageKey + 1,
+          _numberOfTransactionPerRequest, _filterModelDone, type,
           isDone: true);
       result.fold((failure) {
         pagingController.error = failure.message;
@@ -136,8 +137,8 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getListTransactionOnProgress(
-      int pageKey, FilterModel? filterModel, PagingController pagingController) async {
+  Future<void> getListTransactionOnProgress(int pageKey,
+      FilterModel? filterModel, PagingController pagingController) async {
     try {
       String id = "";
       bool type = await helper.getLevel() == bsuCode;
@@ -165,8 +166,7 @@ class TransactionProvider extends ChangeNotifier {
             final nextPage = pageKey + 1;
             transaction!.result!.removeWhere((element) =>
                 element.tipe != "ojek_sampah" && element.status == "lunas");
-            pagingController.appendPage(
-                transaction.result!, nextPage);
+            pagingController.appendPage(transaction.result!, nextPage);
           }
         }
       });
@@ -175,8 +175,8 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getListTransactionCanceled(
-      int pageKey, FilterModel? filterModel, PagingController pagingController) async {
+  Future<void> getListTransactionCanceled(int pageKey, FilterModel? filterModel,
+      PagingController pagingController) async {
     try {
       String id = "";
       bool type = await helper.getLevel() == bsuCode;
@@ -185,8 +185,8 @@ class TransactionProvider extends ChangeNotifier {
       } else {
         id = await helper.getIdNasabah() ?? "";
       }
-      final result = await service.getListTransaction(
-          id, pageKey + 1, _numberOfTransactionPerRequest, _filterModelCanceled, type,
+      final result = await service.getListTransaction(id, pageKey + 1,
+          _numberOfTransactionPerRequest, _filterModelCanceled, type,
           isCanceled: true);
       result.fold((failure) {
         pagingController.error = failure.message;
@@ -209,8 +209,6 @@ class TransactionProvider extends ChangeNotifier {
       pagingController.error = e;
     }
   }
-
-
 
   void resetFilterOnProgress() {
     _filterModel = null;

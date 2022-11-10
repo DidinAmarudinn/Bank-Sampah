@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
+import 'package:bank_sampah/feature/withdraw/paket_data/ui/paket_data_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ui/bottom_sheet_ewallet.dart';
@@ -79,6 +80,15 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
                     itemName: "Pulsa",
                     onTap: () {
                       context.push(PulsaScreen.routeName);
+                    }),
+                const SizedBox(
+                  height: kDefaultPadding,
+                ),
+                ItemWithdraw(
+                    imageName: kIcPuls,
+                    itemName: "Paket Data",
+                    onTap: () {
+                      context.push(PaketDataScreen.routeName);
                     }),
                 const SizedBox(
                   height: kDefaultPadding,

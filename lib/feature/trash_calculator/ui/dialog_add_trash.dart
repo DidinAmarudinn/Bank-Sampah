@@ -15,7 +15,8 @@ import '../provider/calculator_provider.dart';
 class DialogAddTrash extends StatefulWidget {
   final TrashModel trashModel;
   final bool? isPenimbangan;
-  const DialogAddTrash({Key? key, required this.trashModel, this.isPenimbangan}) : super(key: key);
+  const DialogAddTrash({Key? key, required this.trashModel, this.isPenimbangan})
+      : super(key: key);
 
   @override
   State<DialogAddTrash> createState() => _DialogAddTrashState();

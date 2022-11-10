@@ -109,7 +109,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               SnackbarMessage.showSnackbar(
                                   context, provider.message);
                             }
-                            
                           },
                           height: 40,
                           width: double.infinity,

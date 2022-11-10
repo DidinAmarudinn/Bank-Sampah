@@ -50,6 +50,8 @@ import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.
 import 'package:bank_sampah/feature/withdraw/listrik/provider/listrik_provider.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/checkout_listrik_screen.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
+import 'package:bank_sampah/feature/withdraw/paket_data/provider/paket_data_provider.dart';
+import 'package:bank_sampah/feature/withdraw/paket_data/ui/paket_data_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
 import 'package:bank_sampah/feature/withdraw/provider/ppob_provider.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/provider/pulsa_provider.dart';
@@ -106,6 +108,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
         ChangeNotifierProvider(
             create: (_) => PulsaProvider(PreferencesHelper(
+                sharedPreference: SharedPreferences.getInstance()))),
+        ChangeNotifierProvider(
+            create: (_) => PaketDataProvider(PreferencesHelper(
                 sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
             create: (_) => MainPageProvider(PreferencesHelper(
@@ -346,6 +351,11 @@ class MyApp extends StatelessWidget {
           path: PulsaScreen.routeName,
           builder: (BuildContext context, GoRouterState state) {
             return const PulsaScreen();
+          }),
+      GoRoute(
+          path: PaketDataScreen.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return const PaketDataScreen();
           }),
       GoRoute(
           path: ChangePasswordScreen.routeName,

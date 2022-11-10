@@ -176,7 +176,10 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   if (provider.state == RequestState.loaded) {
                                     SnackbarMessage.showToast(
                                         "Berhasil melakukan pemesanan ojek sampah");
-                                    context.read<HomePageProvider>().pagingController.refresh();
+                                    context
+                                        .read<HomePageProvider>()
+                                        .pagingController
+                                        .refresh();
                                     context.go(MainPage.routeName);
                                   }
                                   if (provider.state == RequestState.error) {

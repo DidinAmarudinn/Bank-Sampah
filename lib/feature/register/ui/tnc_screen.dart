@@ -28,7 +28,7 @@ class _TNCScreenState extends State<TNCScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
             const Padding(
@@ -44,8 +44,9 @@ class _TNCScreenState extends State<TNCScreen> {
                   return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
-                      child:
-                          Html(data: provider.othersInfoModel?.syaratKetentuan ?? ""));
+                      child: Html(
+                          data:
+                              provider.othersInfoModel?.syaratKetentuan ?? ""));
                 } else if (provider.state == RequestState.loading) {
                   return const Center(
                     child: SpinKitFadingCircle(

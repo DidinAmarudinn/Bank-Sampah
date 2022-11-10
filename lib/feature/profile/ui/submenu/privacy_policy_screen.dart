@@ -31,8 +31,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
-                      child:
-                          Html(data: provider.othersInfoModel?.kebijakanPrivasi ?? ""));
+                      child: Html(
+                          data: provider.othersInfoModel?.kebijakanPrivasi ??
+                              ""));
                 } else if (provider.state == RequestState.loading) {
                   return const Center(
                     child: SpinKitFadingCircle(

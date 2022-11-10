@@ -65,7 +65,9 @@ class _NasabahScreenState extends State<NasabahScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            context.read<CheckoutProvider>().setIdNasabah(provider.nasabaBsuList[index].idUserNasabah ?? "");
+                            context.read<CheckoutProvider>().setIdNasabah(
+                                provider.nasabaBsuList[index].idUserNasabah ??
+                                    "");
                             context.push(TrashCalculatorPage.routeName);
                           },
                           child: Container(

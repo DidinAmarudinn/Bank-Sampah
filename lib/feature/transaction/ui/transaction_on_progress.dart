@@ -14,23 +14,23 @@ import '../provider/transaction_provider.dart';
 
 class TransactionOnProgress extends StatefulWidget {
   final PagingController<int, TransactionResult> pagingController;
-  const TransactionOnProgress({Key? key, required this.pagingController}) : super(key: key);
+  const TransactionOnProgress({Key? key, required this.pagingController})
+      : super(key: key);
 
   @override
   State<TransactionOnProgress> createState() => _TransactionOnProgressState();
 }
 
 class _TransactionOnProgressState extends State<TransactionOnProgress> {
- 
   @override
   Widget build(BuildContext context) {
     return Consumer2<TransactionProvider, HomePageProvider>(
       builder: (context, provider, homeProvider, _) => RefreshIndicator(
         onRefresh: () async {
-         widget.pagingController.refresh();
+          widget.pagingController.refresh();
         },
         child: PagedListView<int, TransactionResult>(
-          pagingController:widget.pagingController,
+          pagingController: widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
             noItemsFoundIndicatorBuilder: (context) => Center(
               child: Text(
