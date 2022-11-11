@@ -60,12 +60,41 @@ class _PDAMScreenState extends State<PDAMScreen> {
                   width: double.infinity),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(),
+                  child: Column(
+                   children: [
+                    _buildRow("Nomer Pelanggan", controller.text),
+                    _buildRow("Total Tagihan", "val"),
+                    _buildRow("Periode", "val"),
+                    _buildRow("Nama PDAM", "val"),
+                    _buildRow("Alamat", "val"),
+                    _buildRow("label", "val"),
+                    _buildRow("label", "val"),
+                   ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildRow(String label, String val) {
+    return Padding(
+      padding: const EdgeInsets.symmetric( vertical: kDefaultPadding / 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: kBlackText,
+          ),
+          Text(
+            val,
+            style: kBlackText.copyWith(fontWeight: semiBold),
+          ),
+        ],
       ),
     );
   }
