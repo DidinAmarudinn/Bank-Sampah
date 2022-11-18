@@ -1,4 +1,5 @@
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
+import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/ojek/ui/ojek_screen.dart';
 import 'package:bank_sampah/widget/card_ojek_sampah.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                     context.read<AddressProvider>().selectOjekType(true);
+                    context.read<OjekProvider>().setisDaily(true);
                     context.push(OjekScreen.routeName, extra: true);
                   },
                   subTitle: "Ojek Sampah Dalam Sekali Pesan",
@@ -59,6 +61,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                     context.read<AddressProvider>().selectOjekType(false);
+                    context.read<OjekProvider>().setisDaily(false);
                     context.push(OjekScreen.routeName, extra: false);
                   },
                   color: kGreen,
