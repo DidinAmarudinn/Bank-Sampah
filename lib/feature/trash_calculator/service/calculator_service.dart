@@ -16,6 +16,7 @@ class CalculatorService {
       final response = await http.get(Uri.parse(getTrashListUrl));
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
+        print(response.body);
         if (data["status"] == "true") {
           final result = BaseResponseList<TrashModel>.fromJson(data, (data) {
             List<TrashModel> trashs =

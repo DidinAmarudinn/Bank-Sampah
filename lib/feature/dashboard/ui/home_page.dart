@@ -1,12 +1,8 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/detail_ojek_sampah_screen.dart';
-import 'package:bank_sampah/feature/ojek/ui/give_rating_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/detail_transaction_pembelian_nasabah.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
-import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
-import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
-import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/circle_menu_widget.dart';
@@ -159,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Consumer<MainPageProvider>(
                             builder: (context, provider, _) => CircleMenuWidget(
@@ -175,30 +171,30 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ),
-                          CircleMenuWidget(
-                            color: kDarkGreen,
-                            iconName: kIcPuls,
-                            menuName: "Pulsa",
-                            onTap: () {
-                              context.push(PulsaScreen.routeName);
-                            },
-                          ),
-                          CircleMenuWidget(
-                            color: kDarkGreen,
-                            iconName: kIcListrik,
-                            menuName: "Listrik",
-                            onTap: () {
-                              context.push(ListrikScreen.routeName);
-                            },
-                          ),
-                          CircleMenuWidget(
-                            color: kDarkGreen,
-                            iconName: kIcPdam,
-                            menuName: "Pdam",
-                            onTap: () {
-                              context.push(PDAMScreen.routeName);
-                            },
-                          ),
+                          // CircleMenuWidget(
+                          //   color: kDarkGreen,
+                          //   iconName: kIcPuls,
+                          //   menuName: "Pulsa",
+                          //   onTap: () {
+                          //     context.push(PulsaScreen.routeName);
+                          //   },
+                          // ),
+                          // CircleMenuWidget(
+                          //   color: kDarkGreen,
+                          //   iconName: kIcListrik,
+                          //   menuName: "Listrik",
+                          //   onTap: () {
+                          //     context.push(ListrikScreen.routeName);
+                          //   },
+                          // ),
+                          // CircleMenuWidget(
+                          //   color: kDarkGreen,
+                          //   iconName: kIcPdam,
+                          //   menuName: "Pdam",
+                          //   onTap: () {
+                          //     context.push(PDAMScreen.routeName);
+                          //   },
+                          // ),
                           CircleMenuWidget(
                             color: kLightGray,
                             iconName: kIcOthersMenu,
@@ -219,6 +215,7 @@ class _HomePageState extends State<HomePage> {
                                   });
                             },
                           ),
+                          const Spacer()
                         ],
                       ),
                       const SizedBox(

@@ -4,12 +4,10 @@ import 'package:bank_sampah/feature/dashboard/provider/main_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_bsu.dart';
 import 'package:bank_sampah/feature/dashboard/ui/bottom_sheet_ojek.dart';
 import 'package:bank_sampah/feature/dashboard/ui/home_page.dart';
-import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/profile/ui/profile_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/transaction_screen.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../themes/constants.dart';
@@ -244,7 +242,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               Text(
-                provider.isBsu ? "Sampah" : "Ojek Sampah",
+                provider.isBsu ? "Sampah" : "Jasa Angkut",
                 style: kGreenText.copyWith(fontWeight: bold, fontSize: 12),
               )
             ],

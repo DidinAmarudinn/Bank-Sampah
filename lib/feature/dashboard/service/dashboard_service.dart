@@ -17,6 +17,7 @@ class DashboardService {
     try {
       String url = "$getUserBalanceUrl/$type/$id";
       final response = await http.post(Uri.parse(url));
+      print(response.body);
       if (response.statusCode == 200) {
         var res = json.decode(response.body);
         if (res["status"] == "true") {
