@@ -215,6 +215,7 @@ class _OjekScreenState extends State<OjekScreen> {
                         child: TBButtonPrimaryWidget(
                           buttonName: "Selanjutnya",
                           onPressed: () async {
+                            print(provider.selectedNasabahType?.id ?? "0");
                             await val.getListUserAvaliableAddress(
                                 provider.selectedNasabahType?.id ?? "0",
                                 widget.isDaily);
