@@ -1,4 +1,4 @@
-const String baserUrl = "https://sistem.banksampahsorongraya.id";
+const String baserUrl = "https://bssr.rubin.id";
 const String loginUrl = "$baserUrl/api/v1/get_login";
 const String registerUrl = "$baserUrl/api/v1/add_user_akun";
 const String getGroupUrl = "$baserUrl/api/v1/get_group_user";

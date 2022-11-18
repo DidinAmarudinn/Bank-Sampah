@@ -143,6 +143,7 @@ class OjekProvider extends ChangeNotifier {
   String get ojekPrice => _ojekPrice;
   Future<void> getListUserAvaliableAddress(
       String idNasabahType, bool isDaily) async {
+        _ojekPrice = "0";
     _idNasabah = await helper.getIdNasabah();
     _state = RequestState.loading;
     notifyListeners();
@@ -161,21 +162,19 @@ class OjekProvider extends ChangeNotifier {
       if (dataJenisNasabah?.result != null) {
         if (_time.isAfter(DateTime.now())) {
           if (dataJenisNasabah!.result!.isNotEmpty) {
-            _ojekPrice = dataJenisNasabah.result
-                    ?.where(
-                        (element) => element.idJenisNasabah == idNasabahType)
-                    .first
-                    .hargaHariSeterusnya ??
-                "0";
+            var data = dataJenisNasabah.result
+                ?.where((element) => element.idJenisNasabah == idNasabahType);
+            if (data != null && data.isNotEmpty) {
+              _ojekPrice = data.first.hargaHariSeterusnya ?? "0";
+            }
           }
         } else {
           if (dataJenisNasabah!.result!.isNotEmpty) {
-            _ojekPrice = dataJenisNasabah.result
-                    ?.where(
-                        (element) => element.idJenisNasabah == idNasabahType)
-                    .first
-                    .hargaHariIni ??
-                "0";
+            var data = dataJenisNasabah.result
+                ?.where((element) => element.idJenisNasabah == idNasabahType);
+                 if (data != null  && data.isNotEmpty) {
+              _ojekPrice = data.first.hargaHariIni ?? "0";
+            }
           }
         }
       }
