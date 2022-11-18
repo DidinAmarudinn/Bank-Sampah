@@ -7,7 +7,7 @@ import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
 import 'package:bank_sampah/widget/dropdown_gudang.dart';
-import 'package:bank_sampah/widget/dropdown_nasabah_category.dart';
+import 'package:bank_sampah/widget/dropdown_nasabah_avail_type.dart';
 import 'package:bank_sampah/widget/dropdown_vilage_available.dart';
 import 'package:bank_sampah/widget/loading_button.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +171,7 @@ class _OjekScreenState extends State<OjekScreen> {
                       const SizedBox(
                         height: kDefaultPadding / 2,
                       ),
-                      const DropdownNasabahType(),
+                      const DropdownNasabahAvailType(),
                       const SizedBox(
                         height: kDefaultPadding / 2,
                       ),
@@ -215,12 +215,13 @@ class _OjekScreenState extends State<OjekScreen> {
                         child: TBButtonPrimaryWidget(
                           buttonName: "Selanjutnya",
                           onPressed: () async {
-                            print(provider.selectedNasabahType?.id ?? "0");
-                            await val.getListUserAvaliableAddress(
-                                provider.selectedNasabahType?.id ?? "0",
-                                widget.isDaily);
-                            if (!mounted) return;
-                            if (val.state == RequestState.loaded) {
+                            if (val.nasabahTypeModel != null &&
+                                val.selectedVilage != null &&
+                                val.selectedGudang != null) {
+                                  if (val.ojekPrice == "0"){
+                                    SnackbarMessage.showSnackbar(context, "Layanan belum tersedia");
+                                    return;
+                                  }
                               OrderOjekRequest request = OrderOjekRequest(
                                   idUser: val.idUser.toString(),
                                   idNasabah: val.idNasabah,
@@ -246,7 +247,8 @@ class _OjekScreenState extends State<OjekScreen> {
                               context.push(SelectAddressScreen.routeName,
                                   extra: request);
                             } else {
-                              SnackbarMessage.showToast(val.message);
+                              SnackbarMessage.showToast(
+                                  "Silahkan isi data diatas terlebih dahulu");
                             }
                           },
                           height: 40,

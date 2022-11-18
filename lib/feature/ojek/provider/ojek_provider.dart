@@ -5,6 +5,7 @@ import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/model/vilage_available_model.dart';
 import 'package:bank_sampah/feature/ojek/service/ojek_service.dart';
 import 'package:bank_sampah/feature/user_available_address/data_buku_alamat.dart';
+import 'package:bank_sampah/feature/user_available_address/result_nasabah_type_model.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
@@ -21,24 +22,11 @@ class OjekProvider extends ChangeNotifier {
 
   final OjekService service = OjekService();
 
-  void selectDays(String day) {
-    _selectedDays.add(day);
-    notifyListeners();
-  }
-
-  void selectDay(String day) {
-    _selectedDays.clear();
-    _selectedDays.add(day);
-    notifyListeners();
-  }
-
-  void removeDays(String day) {
-    _selectedDays.removeWhere((e) => e == day);
-    notifyListeners();
-  }
-
   void clearData() {
     _selectedDays = [];
+    _selectedGudang = null;
+    _selectedVilage = null;
+    _nasabahTypeModel = null;
   }
 
   bool isChecked(String day) {
@@ -82,7 +70,6 @@ class OjekProvider extends ChangeNotifier {
 
   Future<void> getListGudang() async {
     final result = await service.getListGudang();
-
     result.fold((failure) {
       _message = failure.message;
       notifyListeners();
@@ -121,6 +108,7 @@ class OjekProvider extends ChangeNotifier {
   void selectGudang(GudangModel? gudangModel) {
     _selectedGudang = gudangModel;
     _selectedVilage = null;
+    _nasabahTypeModel = null;
     _listVilage = [];
     getListVilagesAvail(_selectedGudang?.id ?? "3");
     notifyListeners();
@@ -130,6 +118,8 @@ class OjekProvider extends ChangeNotifier {
   VilageAvailableModel? get selectedVilage => _selectedVilage;
   void selectVilage(VilageAvailableModel? vilageAvailableModel) {
     _selectedVilage = vilageAvailableModel;
+    _nasabahTypeModel = null;
+    getListUserAvaliableAddress();
     notifyListeners();
   }
 
@@ -139,13 +129,23 @@ class OjekProvider extends ChangeNotifier {
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
+  List<ResultNasabahTypeModel> _listNasabahType = [];
+  List<ResultNasabahTypeModel> get listNasabahType => _listNasabahType;
+
+  bool _isDaily = true;
+
+  void setisDaily(bool val) {
+    _isDaily = val;
+    notifyListeners();
+  }
+
   String _ojekPrice = "0";
   String get ojekPrice => _ojekPrice;
-  Future<void> getListUserAvaliableAddress(
-      String idNasabahType, bool isDaily) async {
-        _ojekPrice = "0";
+  Future<void> getListUserAvaliableAddress() async {
+    _ojekPrice = "0";
     _idNasabah = await helper.getIdNasabah();
     _state = RequestState.loading;
+    _nasabahTypeModel = null;
     notifyListeners();
     final result = await service.getListAvailableAddress(
         idGudang: _selectedGudang?.id ?? "0",
@@ -160,31 +160,7 @@ class OjekProvider extends ChangeNotifier {
       _state = RequestState.loaded;
       DataJenisNasabah? dataJenisNasabah = result?.result?.dataJenisNasabah;
       if (dataJenisNasabah?.result != null) {
-        if (_time.isAfter(DateTime.now())) {
-          if (dataJenisNasabah!.result!.isNotEmpty) {
-            var data = dataJenisNasabah.result
-                ?.where((element) => element.idJenisNasabah == idNasabahType);
-            if (data != null && data.isNotEmpty) {
-              if (isDaily) {
-                _ojekPrice = data.first.hargaHariSeterusnya ?? "0";
-              } else {
-                _ojekPrice = data.first.hargaBerlangganan ?? "";
-              }
-            }
-          }
-        } else {
-          if (dataJenisNasabah!.result!.isNotEmpty) {
-            var data = dataJenisNasabah.result
-                ?.where((element) => element.idJenisNasabah == idNasabahType);
-                 if (data != null  && data.isNotEmpty) {
-              if (isDaily) {
-                _ojekPrice = data.first.hargaHariIni ?? "0";
-              } else {
-                _ojekPrice = data.first.hargaBerlangganan ?? "0";
-              }
-            }
-          }
-        }
+        _listNasabahType = dataJenisNasabah?.result ?? [];
       }
       notifyListeners();
     });
@@ -194,6 +170,26 @@ class OjekProvider extends ChangeNotifier {
   int get selectedIndex => _selectedIndex;
   void selectAddress(int index) {
     _selectedIndex = index;
+    notifyListeners();
+  }
+  ResultNasabahTypeModel? _nasabahTypeModel;
+  ResultNasabahTypeModel? get nasabahTypeModel => _nasabahTypeModel;
+
+  void selectNasabahType(ResultNasabahTypeModel? nasabahTypeModel) {
+    _nasabahTypeModel = nasabahTypeModel;
+    if (_time.isAfter(DateTime.now())) {
+      if (_isDaily) {
+        _ojekPrice = nasabahTypeModel?.hargaHariSeterusnya ?? "0";
+      } else {
+        _ojekPrice = nasabahTypeModel?.hargaBerlangganan ?? "";
+      }
+    } else {
+      if (_isDaily) {
+        _ojekPrice = nasabahTypeModel?.hargaHariIni ?? "0";
+      } else {
+        _ojekPrice = nasabahTypeModel?.hargaBerlangganan ?? "0";
+      }
+    }
     notifyListeners();
   }
 
