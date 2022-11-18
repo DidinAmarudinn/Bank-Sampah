@@ -162,8 +162,8 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                               ),
                               TBButtonPrimaryWidget(
                                 buttonName: "Pesan Ojek",
-                                isDisable: provider.dataBukuAlamat?.result?.isEmpty ??
-                                        false,
+                                isDisable: (provider.dataBukuAlamat?.result?.isEmpty ??
+                                        false ) || provider.ojekPrice == "0",
                                 onPressed: () async {
                                   List<ResultAvailableAddressModel>?
                                       listAddress =

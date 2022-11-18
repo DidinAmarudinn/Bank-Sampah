@@ -165,7 +165,11 @@ class OjekProvider extends ChangeNotifier {
             var data = dataJenisNasabah.result
                 ?.where((element) => element.idJenisNasabah == idNasabahType);
             if (data != null && data.isNotEmpty) {
-              _ojekPrice = data.first.hargaHariSeterusnya ?? "0";
+              if (isDaily) {
+                _ojekPrice = data.first.hargaHariSeterusnya ?? "0";
+              } else {
+                _ojekPrice = data.first.hargaBerlangganan ?? "";
+              }
             }
           }
         } else {
@@ -173,7 +177,11 @@ class OjekProvider extends ChangeNotifier {
             var data = dataJenisNasabah.result
                 ?.where((element) => element.idJenisNasabah == idNasabahType);
                  if (data != null  && data.isNotEmpty) {
-              _ojekPrice = data.first.hargaHariIni ?? "0";
+              if (isDaily) {
+                _ojekPrice = data.first.hargaHariIni ?? "0";
+              } else {
+                _ojekPrice = data.first.hargaBerlangganan ?? "0";
+              }
             }
           }
         }
