@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
 import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
-import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/user_available_address/result_available_address_model.dart';
@@ -21,6 +20,7 @@ import 'package:provider/provider.dart';
 import '../../../themes/constants.dart';
 import '../../../widget/loading_button.dart';
 import '../../../widget/tb_button_primary_widget.dart';
+import '../../ojek/ui/detail_ojek_sampah_screen.dart';
 
 class SelectAddressScreen extends StatefulWidget {
   static const routeName = "/select-address-page";
@@ -180,7 +180,9 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                         .read<HomePageProvider>()
                                         .pagingController
                                         .refresh();
-                                    context.go(MainPage.routeName);
+                                    context.push(
+                                        DetailOjekSampahScreen.routeName,
+                                        extra: provider.idTransaksi.toString());
                                   }
                                   if (provider.state == RequestState.error) {
                                     SnackbarMessage.showToast(provider.message);

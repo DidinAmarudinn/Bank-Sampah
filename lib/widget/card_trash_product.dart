@@ -2,8 +2,9 @@ import 'package:bank_sampah/feature/trash_calculator/model/trash_model.dart';
 import 'package:bank_sampah/feature/trash_calculator/provider/calculator_provider.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
-import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class CardTrashProduct extends StatelessWidget {
@@ -27,11 +28,23 @@ class CardTrashProduct extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            kIcPhone,
-            fit: BoxFit.cover,
-            height: 60,
-          ),
+          trashModel?.filegambar != null
+              ? CachedNetworkImage(
+                  imageUrl: trashModel?.filegambar ?? "",
+                  fit: BoxFit.cover,
+                  height: 60,
+                  placeholder: (context, url) => const Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: SpinKitFadingCircle(
+                        size: 30, color: kDarkGreen),
+                  ),
+                  errorWidget: (context, url, error) {
+                    return const SizedBox(height: 60,);
+                  },
+                )
+              : const SizedBox(
+                  height: 60,
+                ),
           const SizedBox(
             height: kDefaultPadding / 2,
           ),

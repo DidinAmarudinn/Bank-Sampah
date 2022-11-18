@@ -1,5 +1,4 @@
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
-import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,7 +41,10 @@ class BottomSheetOthersMenu extends StatelessWidget {
             const SizedBox(
               height: kDefaultPadding,
             ),
+            
             Row(
+               crossAxisAlignment:  CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleMenuWidget(
                   color: kPastelColor,
@@ -53,43 +55,45 @@ class BottomSheetOthersMenu extends StatelessWidget {
                   },
                   menuName: "Kalkulator\nSampah",
                 ),
-                const CircleMenuWidget(
-                  color: kDarkGreen,
-                  iconName: kIcPuls,
-                  menuName: "Pulsa",
-                ),
-                const CircleMenuWidget(
-                  color: kDarkGreen,
-                  iconName: kIcCalculator,
-                  menuName: "Listrik",
-                ),
+                const Expanded(child: SizedBox()),
+                const Expanded(child: SizedBox())
+                // const CircleMenuWidget(
+                //   color: kDarkGreen,
+                //   iconName: kIcPuls,
+                //   menuName: "Pulsa",
+                // ),
+                // const CircleMenuWidget(
+                //   color: kDarkGreen,
+                //   iconName: kIcCalculator,
+                //   menuName: "Listrik",
+                // ),
               ],
             ),
-            const SizedBox(
-              height: kDefaultPadding,
-            ),
-            Row(
-              children: [
-                const CircleMenuWidget(
-                  color: kDarkGreen,
-                  iconName: kIcPdam,
-                  menuName: "Pdam",
-                ),
-                CircleMenuWidget(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    context.push(WithdrawPointScreen.routeName);
-                  },
-                  color: kYellowColor,
-                  iconName: kIcPoin,
-                  menuName: "Tuker Poin",
-                ),
-                const Expanded(
-                    child: SizedBox(
-                  width: 20,
-                ))
-              ],
-            )
+            // const SizedBox(
+            //   height: kDefaultPadding,
+            // ),
+            // Row(
+            //   children: [
+            //     const CircleMenuWidget(
+            //       color: kDarkGreen,
+            //       iconName: kIcPdam,
+            //       menuName: "Pdam",
+            //     ),
+            //     CircleMenuWidget(
+            //       onTap: () {
+            //         Navigator.of(context).pop();
+            //         context.push(WithdrawPointScreen.routeName);
+            //       },
+            //       color: kYellowColor,
+            //       iconName: kIcPoin,
+            //       menuName: "Tuker Poin",
+            //     ),
+            //     const Expanded(
+            //         child: SizedBox(
+            //       width: 20,
+            //     ))
+            //   ],
+            // )
           ],
         ),
       ),

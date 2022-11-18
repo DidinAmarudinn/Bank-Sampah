@@ -97,7 +97,7 @@ class OjekService {
     }
   }
 
-  Future<Either<Failure, bool>> orderOjek(
+  Future<Either<Failure, int?>> orderOjek(
       OrderOjekRequest? orderOjekRequest) async {
     try {
       var request = http.MultipartRequest("POST", Uri.parse(addOjekSampahUrl));
@@ -122,9 +122,10 @@ class OjekService {
       var reqResponse = await request.send();
       if (reqResponse.statusCode == 200) {
         var response = await http.Response.fromStream(reqResponse);
+        print(response.body);
         var res = json.decode(response.body);
         if (res["status"] == "true") {
-          return const Right(true);
+          return Right(int.parse(res["id_transaksi"].toString()));
         } else {
           return Left(ServerFailure(res["result"].toString()));
         }

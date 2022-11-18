@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 class CustomAppBar extends StatelessWidget {
   final String titlePage;
   final bool? isHaveShadow;
-  const CustomAppBar({Key? key, required this.titlePage, this.isHaveShadow})
+  final Function? onTap;
+  const CustomAppBar(
+      {Key? key, required this.titlePage, this.isHaveShadow, this.onTap})
       : super(key: key);
 
   @override
@@ -16,7 +18,11 @@ class CustomAppBar extends StatelessWidget {
         children: [
           GestureDetector(
               onTap: () {
-                context.pop();
+                if (onTap != null) {
+                  onTap!();
+                } else {
+                  context.pop();
+                }
               },
               child: isHaveShadow != null
                   ? Container(

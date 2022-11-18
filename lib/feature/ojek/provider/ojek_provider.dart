@@ -77,6 +77,9 @@ class OjekProvider extends ChangeNotifier {
   String _message = "";
   String get message => _message;
 
+  int? _idTransaksi;
+  int? get idTransaksi => _idTransaksi;
+
   Future<void> getListGudang() async {
     final result = await service.getListGudang();
 
@@ -197,8 +200,10 @@ class OjekProvider extends ChangeNotifier {
       _state = RequestState.error;
       notifyListeners();
     }, (result) {
-      if (result) {
+      if (result != null) {
         _state = RequestState.loaded;
+        _idTransaksi = result;
+        notifyListeners();
       } else {
         _state = RequestState.error;
         _message = "Gagal memesan ojek";

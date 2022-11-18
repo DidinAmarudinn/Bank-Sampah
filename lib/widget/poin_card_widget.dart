@@ -1,8 +1,5 @@
-import 'package:bank_sampah/feature/withdraw/ui/withdraw_point_screen.dart';
 import 'package:bank_sampah/themes/constants.dart';
-import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class PoinCardWidget extends StatelessWidget {
   final String userBalance;
@@ -42,37 +39,37 @@ class PoinCardWidget extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            height: double.infinity,
-            width: 2,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
-            ),
-          ),
-          const SizedBox(
-            width: kDefaultPadding / 2,
-          ),
-          InkWell(
-            onTap: () {
-              context.push(WithdrawPointScreen.routeName);
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image.asset(
-                  kIcPoin,
-                  width: 24,
-                ),
-                Text(
-                  "Tukar Saldo",
-                  style: kWhiteText.copyWith(
-                    fontWeight: light,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          )
+          // Container(
+          //   height: double.infinity,
+          //   width: 2,
+          //   decoration: BoxDecoration(
+          //     color: Colors.white.withOpacity(0.8),
+          //   ),
+          // ),
+          // const SizedBox(
+          //   width: kDefaultPadding / 2,
+          // ),
+          // InkWell(
+          //   onTap: () {
+          //     context.push(WithdrawPointScreen.routeName);
+          //   },
+          //   child: Column(
+          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //     children: [
+          //       Image.asset(
+          //         kIcPoin,
+          //         width: 24,
+          //       ),
+          //       Text(
+          //         "Tukar Saldo",
+          //         style: kWhiteText.copyWith(
+          //           fontWeight: light,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

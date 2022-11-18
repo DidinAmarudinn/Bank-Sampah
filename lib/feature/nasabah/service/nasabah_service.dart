@@ -21,10 +21,10 @@ class NasabahService {
   Future<Either<Failure, NasabahModel?>> getDataNsabah(int userId) async {
     try {
       final response = await http.get(Uri.parse("$getDataNsabahUrl$userId"));
-      var data = json.decode(response.body);
       print("$getDataNsabahUrl$userId");
-      print(data);
+      print(response.body);
       if (response.statusCode == 200) {
+        var data = json.decode(response.body);
         if (data["status"] == "true") {
           final result = BaseResponseList<NasabahModel>.fromJson(data, (data) {
             List<NasabahModel> nasabahList =
