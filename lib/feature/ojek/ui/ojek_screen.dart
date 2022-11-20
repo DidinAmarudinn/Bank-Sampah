@@ -52,7 +52,7 @@ class _OjekScreenState extends State<OjekScreen> {
                 vertical: kDefaultPadding / 2, horizontal: kDefaultPadding),
             child: CustomAppBar(
               titlePage:
-                  widget.isDaily ? "Ojek Sampah" : "Ojek Sampah Berlangganan",
+                  widget.isDaily ? "Jasa Angkut" : "Jasa Angkut Berlangganan",
               isHaveShadow: true,
             ),
           ),
@@ -83,14 +83,14 @@ class _OjekScreenState extends State<OjekScreen> {
                   children: [
                     Text(
                       widget.isDaily
-                          ? "Ojek Sampah"
-                          : "Ojek Sampah Berlangganan ",
+                          ? "Jasa Angkut"
+                          : "Jasa Angkut Berlangganan ",
                       style: kGreenText.copyWith(fontWeight: semiBold),
                     ),
                     Text(
                       widget.isDaily
-                          ? "Ojek Sampah Dalam Sekali Pesan"
-                          : "Pelayanan Ojek Jemput Berkala Sesuai Jadwal",
+                          ? "Jasa Angkut Dalam Sekali Pesan"
+                          : "Jasa Angkut Berkala Sesuai Jadwal",
                       style:
                           kGreyText.copyWith(fontSize: 12, fontWeight: light),
                     )
@@ -218,10 +218,11 @@ class _OjekScreenState extends State<OjekScreen> {
                             if (val.nasabahTypeModel != null &&
                                 val.selectedVilage != null &&
                                 val.selectedGudang != null) {
-                                  if (val.ojekPrice == "0"){
-                                    SnackbarMessage.showSnackbar(context, "Layanan belum tersedia");
-                                    return;
-                                  }
+                              if (val.ojekPrice == "0") {
+                                SnackbarMessage.showSnackbar(
+                                    context, "Layanan belum tersedia");
+                                return;
+                              }
                               OrderOjekRequest request = OrderOjekRequest(
                                   idUser: val.idUser.toString(),
                                   idNasabah: val.idNasabah,
@@ -239,8 +240,7 @@ class _OjekScreenState extends State<OjekScreen> {
                                           ?.jmlAngkutBerlangganan,
                                   keterangan: "",
                                   idKelurahan: val.selectedVilage?.idKelurahan,
-                                  idJenisNasabah:
-                                      provider.selectedNasabahType?.id,
+                                  idJenisNasabah: val.nasabahTypeModel?.id,
                                   idBukuAlamat: null,
                                   detailAlamat: null,
                                   harga: val.ojekPrice);

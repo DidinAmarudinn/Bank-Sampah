@@ -47,7 +47,7 @@ class _BottomSheetFilterTransactionState
             ),
             ItemFilter(
               iconName: kIcMotor,
-              title: "Ojek Sampah",
+              title: "Jasa Angkut",
               color: kDarkGreen,
               onCheck: (newVal) {
                 if (provider.index == 0) {

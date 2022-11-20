@@ -58,7 +58,7 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                    Padding(
                     padding: const EdgeInsets.all(kDefaultPadding),
                     child: CustomAppBar(
-                      titlePage: "Ojek Sampah",
+                      titlePage: "Jasa Angkut",
                       isHaveShadow: true,
                       onTap: (){
                          context.go(MainPage.routeName);
@@ -212,7 +212,7 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                           horizontal: kDefaultPadding,
                                           vertical: kDefaultPadding / 2),
                                       child: Text(
-                                        "Detail Pemesanan Ojek Sampah",
+                                        "Detail Pemesanan Jasa Angkut",
                                         style: kBlackText.copyWith(
                                           fontWeight: semiBold,
                                         ),

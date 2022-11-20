@@ -36,7 +36,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               child: Text(
-                "Pilih Layanan Ojek Sampah",
+                "Pilih Layanan Jasa Angkut",
                 style: kGreenText.copyWith(fontWeight: semiBold),
               ),
             ),
@@ -46,7 +46,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
             Column(
               children: [
                 CardOjekSampah(
-                  titile: "Ojek Sampah",
+                  titile: "Jasa Ankut",
                   color: kDarkGreen,
                   onTap: () {
                     Navigator.of(context).pop();
@@ -54,10 +54,10 @@ class BottomSheetOjekSampah extends StatelessWidget {
                     context.read<OjekProvider>().setisDaily(true);
                     context.push(OjekScreen.routeName, extra: true);
                   },
-                  subTitle: "Ojek Sampah Dalam Sekali Pesan",
+                  subTitle: "Jasa Angkut Dalam Sekali Pesan",
                 ),
                 CardOjekSampah(
-                  titile: "Ojek Sampah Berlangganan",
+                  titile: "Jasa Angkut Berlangganan",
                   onTap: () {
                     Navigator.of(context).pop();
                     context.read<AddressProvider>().selectOjekType(false);
@@ -65,7 +65,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
                     context.push(OjekScreen.routeName, extra: false);
                   },
                   color: kGreen,
-                  subTitle: "Pelayanan Ojek Jemput Berkala Sesuai Jadwal",
+                  subTitle: "Jasa Angkut Berkala Sesuai Jadwal",
                 ),
               ],
             )

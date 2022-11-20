@@ -145,7 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             height: kDefaultPadding,
           ),
           Text(
-            "Jenis Ojek Sampah",
+            "Jenis jasa angkut",
             style: kDarkGrayText.copyWith(fontWeight: semiBold),
           ),
           const SizedBox(
