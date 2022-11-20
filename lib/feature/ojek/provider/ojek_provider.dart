@@ -272,7 +272,7 @@ class OjekProvider extends ChangeNotifier {
   Future<void> launchUrlWA(String phoneNumber) async {
     launchUrl(
       Uri.parse(
-          'https://wa.me/+$phoneNumber?text=Hi saya mau konfirmasi pembayaran ojek sampah'),
+          'https://wa.me/+$phoneNumber?text=Hi saya mau konfirmasi pembayaran jasa angkut'),
       mode: LaunchMode.externalApplication,
     );
   }

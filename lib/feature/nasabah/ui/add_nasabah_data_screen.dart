@@ -208,7 +208,7 @@ class _AddDataNasabahScreenState extends State<AddDataNasabahScreen> {
                   height: kDefaultPadding,
                 ),
                 Text(
-                  "Jenis Ojek Sampah",
+                  "Jenis Jasa Angkut",
                   style: kDarkGrayText.copyWith(fontWeight: semiBold),
                 ),
                 const SizedBox(

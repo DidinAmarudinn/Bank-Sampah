@@ -72,7 +72,7 @@ class TransactionResult {
   String getTransactionType() {
     switch (tipe) {
       case "ojek_sampah":
-        return "Ojek Sampah";
+        return "Jasa Angkut";
       case "pembelian":
         return jenis ?? "";
       case "ppob":

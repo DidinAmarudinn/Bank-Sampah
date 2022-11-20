@@ -88,7 +88,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                         padding: const EdgeInsets.all(
                                             kDefaultPadding),
                                         child: Text(
-                                          "Tidak ada alamat yang tersedia, untuk kelurahan layanan ojek sampah yang anda pilih",
+                                          "Tidak ada alamat yang tersedia, untuk kelurahan layanan Jasa Angkut yang anda pilih",
                                           style: kBlackText.copyWith(
                                             fontSize: 14,
                                             fontWeight: semiBold,
@@ -177,7 +177,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   if (!mounted) return;
                                   if (provider.state == RequestState.loaded) {
                                     SnackbarMessage.showToast(
-                                        "Berhasil melakukan pemesanan ojek sampah");
+                                        "Berhasil melakukan pemesanan Jasa Angkut");
                                     context
                                         .read<HomePageProvider>()
                                         .pagingController
