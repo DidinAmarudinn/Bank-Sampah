@@ -1,5 +1,4 @@
 import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
-import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/success_page.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
@@ -137,15 +136,14 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                       children: [
                                         CachedNetworkImage(
                                           imageUrl:
-                                              provider.list[index].iconUrl ??
-                                                  "",
+                                              "https://cdn.mobilepulsa.net/img/logo/pulsa/small/telkomsel.png",
                                           height: 40,
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: kDefaultPadding / 2),
                                           child: Text(
-                                            "Nominal ${FormatterExt().currency.format(int.parse(provider.list[index].pulsaNominal ?? "0"))}",
+                                            "Nominal ${provider.list[index].getNominal()}",
                                             style: kBlackText.copyWith(
                                                 fontSize: 14,
                                                 fontWeight: semiBold),
@@ -211,6 +209,7 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                       nomerTelepon: tlp,
                                       nominalPulsa: provider
                                           .selectePulsaModel?.pulsaNominal,
+                                          codePulsa: provider.selectePulsaModel?.pulsaCode,
                                       jenis: "pulsa",
                                     );
                                     await provider.checkout(request);

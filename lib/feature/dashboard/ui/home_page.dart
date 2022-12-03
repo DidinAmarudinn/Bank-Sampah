@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import '../../../themes/constants.dart';
 import '../../../widget/card_last_transaction.dart';
 import '../../bsu/ui/detail_transaction_bsu_screen.dart';
+import '../../withdraw/listrik/ui/listrik_screen.dart';
+import '../../withdraw/pulsa/ui/pulsa_screen.dart';
 import '../provider/home_page_provider.dart';
 import '../provider/main_page_provider.dart';
 import 'bottom_sheet_others_menu.dart';
@@ -116,9 +118,8 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           PoinCardWidget(
-                            userBalance:
-                                provider.userBalance?.result?.belumDibayar ??
-                                    "",
+                            userBalance: provider.saldo,
+                            isBsu: provider.isBsu,
                           ),
                         ],
                       ),
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Consumer<MainPageProvider>(
                             builder: (context, provider, _) => CircleMenuWidget(
@@ -171,22 +172,24 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ),
-                          // CircleMenuWidget(
-                          //   color: kDarkGreen,
-                          //   iconName: kIcPuls,
-                          //   menuName: "Pulsa",
-                          //   onTap: () {
-                          //     context.push(PulsaScreen.routeName);
-                          //   },
-                          // ),
-                          // CircleMenuWidget(
-                          //   color: kDarkGreen,
-                          //   iconName: kIcListrik,
-                          //   menuName: "Listrik",
-                          //   onTap: () {
-                          //     context.push(ListrikScreen.routeName);
-                          //   },
-                          // ),
+                          if (provider.isBsu == false)
+                            CircleMenuWidget(
+                              color: kDarkGreen,
+                              iconName: kIcPuls,
+                              menuName: "Pulsa",
+                              onTap: () {
+                                context.push(PulsaScreen.routeName);
+                              },
+                            ),
+                          if (provider.isBsu == false)
+                            CircleMenuWidget(
+                              color: kDarkGreen,
+                              iconName: kIcListrik,
+                              menuName: "Listrik",
+                              onTap: () {
+                                context.push(ListrikScreen.routeName);
+                              },
+                            ),
                           // CircleMenuWidget(
                           //   color: kDarkGreen,
                           //   iconName: kIcPdam,
@@ -215,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                                   });
                             },
                           ),
-                          const Spacer()
+                          if (provider.isBsu) const Spacer()
                         ],
                       ),
                       const SizedBox(

@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
+
 part 'nasabah_model.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
@@ -33,23 +35,27 @@ class NasabahModel {
   String? status;
   @JsonKey(name: "status_ojek_sampah")
   String? statusOjekSampah;
+  @JsonKey(name: "saldo_bssr")
+  String? saldo;
 
-  NasabahModel(
-      {this.id,
-      this.idUser,
-      this.idArea,
-      this.idBsu,
-      this.idJenis,
-      this.idUserNasabah,
-      this.idKecamatan,
-      this.idKelurahan,
-      this.kodeNasabah,
-      this.namaNasabah,
-      this.noKontak,
-      this.email,
-      this.alamat,
-      this.status,
-      this.statusOjekSampah});
+  NasabahModel({
+    this.id,
+    this.idUser,
+    this.idArea,
+    this.idBsu,
+    this.idJenis,
+    this.idUserNasabah,
+    this.idKecamatan,
+    this.idKelurahan,
+    this.kodeNasabah,
+    this.namaNasabah,
+    this.noKontak,
+    this.email,
+    this.alamat,
+    this.status,
+    this.statusOjekSampah,
+    this.saldo,
+  });
 
   factory NasabahModel.fromJson(Map<String, dynamic> json) =>
       _$NasabahModelFromJson(json);

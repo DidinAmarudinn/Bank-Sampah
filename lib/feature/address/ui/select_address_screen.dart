@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bank_sampah/feature/address/provider/address_provider.dart';
 import 'package:bank_sampah/feature/address/ui/add_address_screen.dart';
-import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/ojek/model/order_ojek_request.dart';
 import 'package:bank_sampah/feature/ojek/provider/ojek_provider.dart';
 import 'package:bank_sampah/feature/user_available_address/result_available_address_model.dart';
@@ -178,10 +177,6 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   if (provider.state == RequestState.loaded) {
                                     SnackbarMessage.showToast(
                                         "Berhasil melakukan pemesanan Jasa Angkut");
-                                    context
-                                        .read<HomePageProvider>()
-                                        .pagingController
-                                        .refresh();
                                     context.push(
                                         DetailOjekSampahScreen.routeName,
                                         extra: provider.idTransaksi.toString());

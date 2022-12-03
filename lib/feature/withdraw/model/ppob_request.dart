@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class PPOBRequest {
   String? tglTransaksi;
+  String? codePulsa;
   String? totalTagihan;
   String? jenis;
   String? nomerTelepon;
@@ -13,6 +14,7 @@ class PPOBRequest {
   String? nominalPelanggan;
   PPOBRequest({
     this.tglTransaksi,
+    this.codePulsa,
     this.totalTagihan,
     this.jenis,
     this.nomerTelepon,
