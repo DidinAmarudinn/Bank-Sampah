@@ -33,6 +33,9 @@ class HomePageProvider extends ChangeNotifier {
   bool _isBsu = false;
   bool get isBsu => _isBsu;
 
+  String _saldo = "";
+  String get saldo => _saldo;
+
   String _fullName = "";
   String get fullName => _fullName;
 
@@ -57,25 +60,42 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
     String id = "";
     String type = "";
+    int idG = 0;
     _isBsu = await helper.getLevel() == bsuCode;
     if (_isBsu) {
       type = "bsu";
       id = await helper.getIdBsu() ?? "";
     } else {
       type = "nasabah";
-      id = await helper.getIdNasabah() ?? "";
+      idG = await helper.getId() ?? 0;
     }
-    final result = await service.getUserBalance(type, id);
+    if (type == "bsu") {
+      final result = await service.getUserBalance(type, id);
+      result.fold((failure) {
+        debugPrint(failure.message);
+        _state = RequestState.error;
+        notifyListeners();
+      }, (userBalance) {
+        _userBalance = userBalance;
+        helper.setPoint(userBalance?.result?.belumDibayar ?? "");
+        _saldo = userBalance?.result?.belumDibayar ?? "";
+        _state = RequestState.loaded;
+        notifyListeners();
+      });
+    } else {
+       final result = await service.getDataNsabah(idG);
     result.fold((failure) {
       debugPrint(failure.message);
       _state = RequestState.error;
       notifyListeners();
-    }, (userBalance) {
-      _userBalance = userBalance;
-      helper.setPoint(userBalance?.result?.belumDibayar ?? "");
+    }, (data) {
+    
+      helper.setPoint(data?.saldo ?? "");
+      _saldo = data?.saldo ?? "";
       _state = RequestState.loaded;
       notifyListeners();
     });
+    }
   }
 
   Future<void> getUserData() async {
@@ -137,9 +157,6 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   void start() {
-    if (pagingController.itemList != null) {
-      pagingController.dispose();
-    }
     pagingController.addPageRequestListener((pageKey) {
       getListTransaction(pageKey);
     });

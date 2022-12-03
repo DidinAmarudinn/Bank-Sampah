@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../utils/formatter_ext.dart';
+
 part 'datum.g.dart';
 
 @JsonSerializable()
@@ -36,4 +38,13 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
 
   Map<String, dynamic> toJson() => _$DatumToJson(this);
+
+
+  String getNominal() {
+    try {
+      return FormatterExt().currency.format(int.parse(pulsaNominal ?? "0"));
+    } catch(e) {
+      return pulsaNominal.toString();
+    }
+  }
 }

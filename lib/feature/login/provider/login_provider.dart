@@ -91,6 +91,7 @@ class LoginProvider extends ChangeNotifier {
     }, (r) {
       _stateChecDataNasabah = RequestState.loaded;
       _checkIsUserHasCompletedProfile = r != null;
+      print(r?.idKelurahan);
 
       if (_checkIsUserHasCompletedProfile) {
         preferencesHelper.setFullName(r?.namaNasabah ?? "");

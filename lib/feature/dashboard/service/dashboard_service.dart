@@ -10,6 +10,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import '../../../core/base_response_list.dart';
 import '../../../utils/exception.dart';
+import '../../nasabah/model/nasabah_model.dart';
 
 class DashboardService {
   Future<Either<Failure, UserBalance?>> getUserBalance(
@@ -27,6 +28,32 @@ class DashboardService {
         }
       } else {
         return Left(ServerFailure("Internal Server Error"));
+      }
+    } on ServerException {
+      return Left(ServerFailure("Internal Server Error"));
+    } on SocketException {
+      return Left(ConnectionFailure("Failed to connect to the network"));
+    }
+  }
+
+  Future<Either<Failure, NasabahModel?>> getDataNsabah(int userId) async {
+    try {
+      final response = await http.get(Uri.parse("$getDataNsabahUrl$userId"));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        print(data);
+        if (data["status"] == "true") {
+          final result = BaseResponseList<NasabahModel>.fromJson(data, (data) {
+            List<NasabahModel> nasabahList =
+                data.map((e) => NasabahModel.fromJson(e)).toList();
+            return nasabahList;
+          });
+          return Right(result.data?[0]);
+        } else {
+          return const Right(null);
+        }
+      } else {
+        throw ServerException();
       }
     } on ServerException {
       return Left(ServerFailure("Internal Server Error"));

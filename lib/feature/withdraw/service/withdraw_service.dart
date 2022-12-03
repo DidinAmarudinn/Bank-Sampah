@@ -29,6 +29,7 @@ class WithdrawService {
         "nomor_meter": ppobRequest?.nomerMeter ?? "",
         "nomor_registrasi": ppobRequest?.nomerRegistrasi ?? "",
         "nominal_token": ppobRequest?.nominalToken ?? "",
+        "pulsa_code": ppobRequest?.codePulsa ?? "",
         "wilayah": ppobRequest?.wilayah ?? "",
         "nominal_pelanggan": ppobRequest?.nominalPelanggan ?? ""
       };
@@ -40,6 +41,7 @@ class WithdrawService {
         map["id_bsu"] = idBsu;
         map["kategori_user"] = "bsu";
       }
+      print(map);
       var request = http.MultipartRequest("POST", Uri.parse(ppobUrl));
       request.fields.addAll(map);
       var reqResponse = await request.send();

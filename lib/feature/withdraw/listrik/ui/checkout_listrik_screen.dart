@@ -32,7 +32,7 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
           children: [
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 children: [
                   const SizedBox(
                     height: kDefaultPadding,
@@ -156,6 +156,7 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
                                     .toString(),
                             jenis: "listrik",
                             jenisProduct: "token",
+                             codePulsa: provider.selectToken?.pulsaCode,
                             nomerMeter: provider.plnSubscriberModel?.meterNo,
                             nominalToken: provider.selectToken?.pulsaNominal);
                         await provider.checkout(request);

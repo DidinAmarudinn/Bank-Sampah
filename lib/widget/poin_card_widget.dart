@@ -1,9 +1,16 @@
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../feature/withdraw/ui/withdraw_point_screen.dart';
+import '../utils/img_constants.dart';
 
 class PoinCardWidget extends StatelessWidget {
   final String userBalance;
-  const PoinCardWidget({Key? key, required this.userBalance}) : super(key: key);
+  final bool? isBsu;
+  const PoinCardWidget(
+      {Key? key, required this.userBalance, this.isBsu = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class PoinCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Saldo anda",
+                  isBsu == true ? "Tagihan Belum Dibayar" : "Saldo anda",
                   style: kWhiteText.copyWith(
                     fontWeight: light,
                     fontSize: 12,
@@ -39,37 +46,43 @@ class PoinCardWidget extends StatelessWidget {
               ],
             ),
           ),
-          // Container(
-          //   height: double.infinity,
-          //   width: 2,
-          //   decoration: BoxDecoration(
-          //     color: Colors.white.withOpacity(0.8),
-          //   ),
-          // ),
-          // const SizedBox(
-          //   width: kDefaultPadding / 2,
-          // ),
-          // InkWell(
-          //   onTap: () {
-          //     context.push(WithdrawPointScreen.routeName);
-          //   },
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //     children: [
-          //       Image.asset(
-          //         kIcPoin,
-          //         width: 24,
-          //       ),
-          //       Text(
-          //         "Tukar Saldo",
-          //         style: kWhiteText.copyWith(
-          //           fontWeight: light,
-          //           fontSize: 12,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // )
+          isBsu == true
+              ? const SizedBox()
+              : Row(
+                  children: [
+                    Container(
+                      height: double.infinity,
+                      width: 2,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: kDefaultPadding / 2,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        context.push(WithdrawPointScreen.routeName);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            kIcPoin,
+                            width: 24,
+                          ),
+                          Text(
+                            "Tukar Saldo",
+                            style: kWhiteText.copyWith(
+                              fontWeight: light,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
         ],
       ),
     );

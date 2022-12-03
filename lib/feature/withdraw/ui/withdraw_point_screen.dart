@@ -1,9 +1,5 @@
-import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
-import 'package:bank_sampah/feature/withdraw/paket_data/ui/paket_data_screen.dart';
-import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
-import 'package:bank_sampah/feature/withdraw/ui/bottom_sheet_ewallet.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
 import 'package:bank_sampah/widget/item_withdraw.dart';
@@ -72,24 +68,24 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
                 //             return Wrap(children: const [BottomSheetEwallet()]);
                 //           });
                 //     }),
-                const SizedBox(
-                  height: kDefaultPadding,
-                ),
+                // const SizedBox(
+                //   height: kDefaultPadding,
+                // ),
                 ItemWithdraw(
                     imageName: kIcPuls,
                     itemName: "Pulsa",
                     onTap: () {
                       context.push(PulsaScreen.routeName);
                     }),
-                const SizedBox(
-                  height: kDefaultPadding,
-                ),
-                ItemWithdraw(
-                    imageName: kIcPuls,
-                    itemName: "Paket Data",
-                    onTap: () {
-                      context.push(PaketDataScreen.routeName);
-                    }),
+                // const SizedBox(
+                //   height: kDefaultPadding,
+                // ),
+                // ItemWithdraw(
+                //     imageName: kIcPuls,
+                //     itemName: "Paket Data",
+                //     onTap: () {
+                //       context.push(PaketDataScreen.routeName);
+                //     }),
                 const SizedBox(
                   height: kDefaultPadding,
                 ),
@@ -102,12 +98,12 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
                 const SizedBox(
                   height: kDefaultPadding,
                 ),
-                ItemWithdraw(
-                    imageName: kIcPdam,
-                    itemName: "PDAM",
-                    onTap: () {
-                      context.push(PDAMScreen.routeName);
-                    }),
+                // ItemWithdraw(
+                //     imageName: kIcPdam,
+                //     itemName: "PDAM",
+                //     onTap: () {
+                //       context.push(PDAMScreen.routeName);
+                //     }),
               ],
             )
           ],
