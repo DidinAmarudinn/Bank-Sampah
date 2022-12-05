@@ -30,7 +30,7 @@ class PoinCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  isBsu == true ? "Tagihan Belum Dibayar" : "Saldo anda",
+                  "Saldo anda",
                   style: kWhiteText.copyWith(
                     fontWeight: light,
                     fontSize: 12,
