@@ -1,6 +1,5 @@
-import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_pasca_screen.dart';
-import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
-import 'package:bank_sampah/feature/withdraw/pulsa/ui/pulsa_screen.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/ui/bottom_sheet_listrik.dart';
+import 'package:bank_sampah/feature/withdraw/pulsa/ui/bottom_sheet_pulsa.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/widget/custom_app_bar.dart';
 import 'package:bank_sampah/widget/item_withdraw.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../utils/img_constants.dart';
-import '../paket_data/ui/paket_data_screen.dart';
 import '../pdam/ui/pdam_screen.dart';
 
 class WithdrawPointScreen extends StatefulWidget {
@@ -76,37 +74,49 @@ class _WithdrawPointScreenState extends State<WithdrawPointScreen> {
                 // ),
                 ItemWithdraw(
                     imageName: kIcPuls,
-                    itemName: "Pulsa",
+                    itemName: "Pulsa / Paket Data",
                     onTap: () {
-                      context.push(PulsaScreen.routeName);
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) {
+                            return Wrap(
+                              children: const [
+                                BottomSheetPulsa(),
+                              ],
+                            );
+                          });
                     }),
+
                 const SizedBox(
                   height: kDefaultPadding,
                 ),
                 ItemWithdraw(
-                    imageName: kIcPuls,
-                    itemName: "Paket Data",
-                    onTap: () {
-                      context.push(PaketDataScreen.routeName);
-                    }),
-                const SizedBox(
-                  height: kDefaultPadding,
+                  imageName: kIcListrik,
+                  itemName: "Listrik",
+                  onTap: () {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return Wrap(
+                            children: const [
+                              BottomSheetListrik(),
+                            ],
+                          );
+                        });
+                  },
                 ),
-                ItemWithdraw(
-                    imageName: kIcListrik,
-                    itemName: "Listrik - Token",
-                    onTap: () {
-                      context.push(ListrikScreen.routeName);
-                    }),
-                      const SizedBox(
-                  height: kDefaultPadding,
-                ),
-                ItemWithdraw(
-                    imageName: kIcListrik,
-                    itemName: "Listrik - Pasca Bayar",
-                    onTap: () {
-                      context.push(ListrikPascaScreen.routeName);
-                    }),
                 const SizedBox(
                   height: kDefaultPadding,
                 ),

@@ -1,11 +1,9 @@
 import 'package:bank_sampah/feature/dashboard/model/slider_model.dart';
-import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
 import 'package:bank_sampah/feature/dashboard/model/user_balance_model.dart';
 import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../utils/api_constants.dart';
 
@@ -45,8 +43,6 @@ class HomePageProvider extends ChangeNotifier {
   // final PagingController<int, TransactionResult> pagingController =
   //     PagingController(firstPageKey: 0);
 
-  final bool _isLastPage = false;
-  final int _numberOfTransactionPerRequest = 5;
   final DashboardService service;
   final PreferencesHelper helper;
 
