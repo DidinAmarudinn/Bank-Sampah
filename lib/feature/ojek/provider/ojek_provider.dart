@@ -172,6 +172,7 @@ class OjekProvider extends ChangeNotifier {
     _selectedIndex = index;
     notifyListeners();
   }
+
   ResultNasabahTypeModel? _nasabahTypeModel;
   ResultNasabahTypeModel? get nasabahTypeModel => _nasabahTypeModel;
 

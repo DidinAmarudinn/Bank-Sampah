@@ -41,10 +41,10 @@ class BottomSheetOthersMenu extends StatelessWidget {
             const SizedBox(
               height: kDefaultPadding,
             ),
-            
+
             Row(
-               crossAxisAlignment:  CrossAxisAlignment.start,
-               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleMenuWidget(
                   color: kPastelColor,

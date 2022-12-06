@@ -1,9 +1,11 @@
 import 'package:bank_sampah/feature/dashboard/model/transaction_model.dart';
+import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/detail_ojek_sampah_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/detail_transaction_pembelian_nasabah.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
+import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/widget/circle_menu_widget.dart';
 import 'package:bank_sampah/widget/custom_slider_widget.dart';
@@ -13,8 +15,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../themes/constants.dart';
+import '../../../utils/api_constants.dart';
 import '../../../widget/card_last_transaction.dart';
 import '../../bsu/ui/detail_transaction_bsu_screen.dart';
 import '../../withdraw/listrik/ui/listrik_screen.dart';
@@ -35,7 +39,58 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     init();
+  }
+
+  static const _pageSize = 10;
+
+  final PagingController<int, TransactionResult> _pagingController =
+      PagingController(firstPageKey: 0);
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final helper =
+          PreferencesHelper(sharedPreference: SharedPreferences.getInstance());
+      String id = "";
+      bool type = await helper.getLevel() == bsuCode;
+      if (type) {
+        id = await helper.getIdBsu() ?? "";
+      } else {
+        id = await helper.getIdNasabah() ?? "";
+      }
+      final result = await DashboardService().getListTransaction(
+        id,
+        pageKey + 1,
+        _pageSize,
+        type,
+      );
+      result.fold((failure) {
+        _pagingController.error = failure.message;
+      }, (transaction) {
+        int transactionCount = transaction?.result?.length ?? 0;
+        final isLastPage = transactionCount < _pageSize;
+        if (isLastPage) {
+          if (transaction?.result != null) {
+            _pagingController.appendLastPage(transaction!.result!);
+          }
+        } else {
+          if (transaction?.result != null) {
+            final nextPage = pageKey + 1;
+            _pagingController.appendPage(transaction!.result!, nextPage);
+          }
+        }
+      });
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
   void init() {
@@ -53,7 +108,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            provider.pagingController.refresh();
+            _pagingController.refresh();
             provider.getUserBalance();
           },
           child: CustomScrollView(slivers: [
@@ -272,7 +327,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             PagedSliverList<int, TransactionResult>(
-              pagingController: provider.pagingController,
+              pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<TransactionResult>(
                 noItemsFoundIndicatorBuilder: (context) => Center(
                   child: Text(

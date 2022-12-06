@@ -91,6 +91,17 @@ class CardLastTransaction extends StatelessWidget {
         ),
       );
     } else if (transactionResult?.getTransactionType().toLowerCase() ==
+        "data") {
+      return Container(
+        padding: const EdgeInsets.all(7),
+        decoration:
+            const BoxDecoration(color: kDarkGreen, shape: BoxShape.circle),
+        child: Image.asset(
+          kIcPuls,
+          width: 15,
+        ),
+      );
+    } else if (transactionResult?.getTransactionType().toLowerCase() ==
         "listrik") {
       return Container(
         padding: const EdgeInsets.all(7),

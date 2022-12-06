@@ -2,6 +2,7 @@ import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/model/datum.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/model/pulsa_model.dart';
 import 'package:bank_sampah/feature/withdraw/service/withdraw_service.dart';
+import 'package:bank_sampah/utils/constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:flutter/foundation.dart';
@@ -44,11 +45,15 @@ class PulsaProvider extends ChangeNotifier {
   bool _isSufficientBalance = true;
   bool get isSufficientBalance => _isSufficientBalance;
 
+  OperatorModel? _selectedOperator = listOperator[0];
+  OperatorModel? get selectedOperator => _selectedOperator;
+
   Future<void> getPriceListPulsa() async {
     _point = await helper.getPoint() ?? "0";
     _state = RequestState.loading;
     notifyListeners();
-    final result = await service.getPriceListPulsa();
+    final result =
+        await service.getPriceListPulsa(_selectedOperator?.code ?? "telkomsel");
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
@@ -83,5 +88,12 @@ class PulsaProvider extends ChangeNotifier {
       _btnState = RequestState.loaded;
       notifyListeners();
     });
+  }
+
+  void selecteOperator(OperatorModel operatorModel) {
+    _selectedPulsaModel = null;
+    _selectedOperator = operatorModel;
+    getPriceListPulsa();
+    notifyListeners();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/withdraw/model/pasca_bill_check_model.dart';
 import 'package:bank_sampah/feature/withdraw/model/pln_subscriber_model.dart';
 import 'package:flutter/foundation.dart';
 
@@ -89,6 +90,30 @@ class ListrikProvider extends ChangeNotifier {
       notifyListeners();
     }, (r) {
       _btnState = RequestState.loaded;
+      notifyListeners();
+    });
+  }
+
+  PascaBillCheck? _billCheckModel;
+  PascaBillCheck? get billCheckModel => _billCheckModel;
+
+   Future<void> billCheck(String customerId) async {
+    _point = await helper.getPoint() ?? "0";
+    _state = RequestState.loading;
+    notifyListeners();
+    final result =
+        await service.getUserBillCheckListrik(customerId);
+    _billCheckModel = null;
+    result.fold((failure) {
+      _message = failure.message;
+      _billCheckModel = null;
+      _state = RequestState.error;
+      notifyListeners();
+    }, (data) {
+      _billCheckModel = data;
+      _isSufficientBalance = (data?.price ?? 0) <=
+          int.parse(_point.trim().replaceAll("Rp", "").replaceAll(".", ""));
+      _state = RequestState.loaded;
       notifyListeners();
     });
   }

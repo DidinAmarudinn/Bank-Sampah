@@ -34,7 +34,7 @@ const String forgotPasswordUrl = "$baserUrl/api/v1/get_lupa_password";
 const String giveRatingUrl = "$baserUrl/api/v1/add_penilaian_ojek_sampah";
 const String ppobUrl = "$baserUrl/api/v1/add_ppob";
 const String getPriceListPulsaUrl =
-    "https://testprepaid.mobilepulsa.net/v1/legacy/index/pulsa/telkomsel";
+    "https://testprepaid.mobilepulsa.net/v1/legacy/index/pulsa/";
 const String getTokenPriceListUrl =
     "https://testprepaid.mobilepulsa.net/v1/legacy/index/pln/pln";
 const String getListPenjualanBSUUrl =
@@ -47,7 +47,11 @@ const String getDetailOjekSampahUrl =
     "$baserUrl/api/v1/detail_transaksi_ojek_sampah/";
 const String changePasswordUrl = "$baserUrl/api/v1/ganti_password";
 const String paketDataUrl =
-    "https://testprepaid.mobilepulsa.net/v1/legacy/index/data/telkomsel_paket_internet";
+    "https://testprepaid.mobilepulsa.net/v1/legacy/index/data/";
 const String billCheckPDAMUrl =
     "https://testpostpaid.mobilepulsa.net/api/v1/bill/check";
+const String getWilayahPDAMUrl=
+    "https://testpostpaid.mobilepulsa.net/api/v1/bill/check/pdam";
+const String billCheckListrikPascaUrl=
+    "https://testpostpaid.mobilepulsa.net/api/v1/bill/check/pdam";
 const String bsuCode = "Bank Sampah Unit";

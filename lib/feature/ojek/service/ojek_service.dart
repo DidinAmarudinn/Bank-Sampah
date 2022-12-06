@@ -79,7 +79,7 @@ class OjekService {
     try {
       final response = await http.get(Uri.parse(
           "$getUserAvailableAddress$idGudang/$idKelurahan/$idNasabah"));
-          print("$getUserAvailableAddress$idGudang/$idKelurahan/$idNasabah");
+      print("$getUserAvailableAddress$idGudang/$idKelurahan/$idNasabah");
       var data = json.decode(response.body);
       print(data);
       if (response.statusCode == 200) {

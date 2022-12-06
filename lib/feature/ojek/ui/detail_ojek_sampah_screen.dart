@@ -41,8 +41,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
     final provider = Provider.of<OjekProvider>(context);
     final profileProvider = Provider.of<ProfileProvider>(context);
     return WillPopScope(
-      onWillPop: ()async {
-       context.go(MainPage.routeName);
+      onWillPop: () async {
+        context.go(MainPage.routeName);
         return true;
       },
       child: Scaffold(
@@ -55,13 +55,13 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
             : SafeArea(
                 child: Column(
                 children: [
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.all(kDefaultPadding),
                     child: CustomAppBar(
                       titlePage: "Jasa Angkut",
                       isHaveShadow: true,
-                      onTap: (){
-                         context.go(MainPage.routeName);
+                      onTap: () {
+                        context.go(MainPage.routeName);
                       },
                     ),
                   ),
@@ -81,8 +81,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                           _buildRow(
                             "Total Tagihan",
                             FormatterExt().currencyFormatter.format(
-                                  int.parse(provider
-                                          .detailData?.transaksi?.totalTagihan ??
+                                  int.parse(provider.detailData?.transaksi
+                                          ?.totalTagihan ??
                                       "0"),
                                 ),
                           ),
@@ -117,9 +117,10 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                             ),
                                             IconButton(
                                               onPressed: () async {
-                                                await Clipboard.setData(ClipboardData(
-                                                    text:
-                                                        "${value.nomorRekening}"));
+                                                await Clipboard.setData(
+                                                    ClipboardData(
+                                                        text:
+                                                            "${value.nomorRekening}"));
                                                 SnackbarMessage.showToast(
                                                     "Nomer rekening berhasil dicopy");
                                               },
@@ -176,7 +177,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                                     BoxShadow(
                                                       color: Colors.black
                                                           .withOpacity(0.05),
-                                                      offset: const Offset(0, 3),
+                                                      offset:
+                                                          const Offset(0, 3),
                                                       spreadRadius: 3,
                                                       blurRadius: 30,
                                                     ),
@@ -192,7 +194,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                                       "Id Pembayaran #${data?.idTransaksiPembayaran}"),
                                                   Text(
                                                       "Total Pembayaran ${data?.nominalTransaksi}"),
-                                                  Text("Status ${data?.status}"),
+                                                  Text(
+                                                      "Status ${data?.status}"),
                                                   Text(
                                                       "Cara Pembayaran ${data?.namaCara}"),
                                                 ],
@@ -244,7 +247,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                                                     BoxShadow(
                                                       color: Colors.black
                                                           .withOpacity(0.05),
-                                                      offset: const Offset(0, 3),
+                                                      offset:
+                                                          const Offset(0, 3),
                                                       spreadRadius: 3,
                                                       blurRadius: 30,
                                                     ),
@@ -277,7 +281,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                           provider.detailData?.transaksi?.status ==
                                   "belum dibayar"
                               ? Padding(
-                                  padding: const EdgeInsets.all(kDefaultPadding),
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
                                   child: TBButtonPrimaryWidget(
                                     buttonName: "Konfirmasi Pembayaran",
                                     isHaveImage: true,
@@ -294,7 +299,8 @@ class _DetailOjekSampahScreenState extends State<DetailOjekSampahScreen> {
                           provider.detailData?.transaksi?.status == "selesai" &&
                                   provider.detailData?.penilaian == null
                               ? Padding(
-                                  padding: const EdgeInsets.all(kDefaultPadding),
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
                                   child: TBButtonPrimaryWidget(
                                     buttonName: "Berikan Penilaian",
                                     onPressed: () {

@@ -197,7 +197,6 @@ class _LoginPageState extends State<LoginPage> {
                                             RequestState.loaded) {
                                           if (provider
                                               .checkIsUserHasCompletedProfile) {
-                                              
                                             context.go(MainPage.routeName);
                                           } else {
                                             context.go(CompleteProfileScreen

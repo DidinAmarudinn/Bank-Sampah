@@ -1,5 +1,6 @@
 import 'package:bank_sampah/feature/withdraw/model/ppob_request.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/success_page.dart';
+import 'package:bank_sampah/utils/constants.dart';
 import 'package:bank_sampah/utils/formatter_ext.dart';
 import 'package:bank_sampah/utils/request_state_enum.dart';
 import 'package:bank_sampah/utils/snackbar_message.dart';
@@ -64,6 +65,38 @@ class _PulsaScreenState extends State<PulsaScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding),
+                        child: Text(
+                          "Pilih Operator",
+                          style: kBlackText.copyWith(fontWeight: semiBold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
+                            vertical: kDefaultPadding / 2),
+                        child: Wrap(
+                          children: List<Widget>.generate(
+                            listOperator.length,
+                            (int idx) {
+                              return ChoiceChip(
+                                  label: Text(
+                                    listOperator[idx].name,
+                                    style: kWhiteText,
+                                  ),
+                                  selected: provider.selectedOperator ==
+                                      listOperator[idx],
+                                  selectedColor: kDarkGreen,
+                                  backgroundColor: kYoungGreen,
+                                  onSelected: (bool selected) {
+                                    provider.selecteOperator(listOperator[idx]);
+                                  });
+                            },
+                          ).toList(),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding),
@@ -134,11 +167,19 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl:
-                                              "https://cdn.mobilepulsa.net/img/logo/pulsa/small/telkomsel.png",
-                                          height: 40,
-                                        ),
+                                        if (provider.list[index].iconUrl !=
+                                                null &&
+                                            provider.list[index].iconUrl != "-")
+                                          CachedNetworkImage(
+                                            imageUrl:
+                                                provider.list[index].iconUrl!,
+                                            height: 40,
+                                            errorWidget:
+                                                (context, url, error) => Text(
+                                                    provider.selectedOperator
+                                                            ?.name ??
+                                                        ""),
+                                          ),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: kDefaultPadding / 2),
@@ -207,9 +248,12 @@ class _PulsaScreenState extends State<PulsaScreen> {
                                           .selectePulsaModel?.pulsaPrice
                                           .toString(),
                                       nomerTelepon: tlp,
+                                      operator:
+                                          provider.selectePulsaModel?.pulsaOp,
                                       nominalPulsa: provider
                                           .selectePulsaModel?.pulsaNominal,
-                                          codePulsa: provider.selectePulsaModel?.pulsaCode,
+                                      codePulsa:
+                                          provider.selectePulsaModel?.pulsaCode,
                                       jenis: "pulsa",
                                     );
                                     await provider.checkout(request);
