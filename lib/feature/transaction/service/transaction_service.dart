@@ -56,21 +56,24 @@ class TransactionService {
       if (isDone == true) {
         map["filter_status[$indexStatus]"] = "selesai";
         map["filter_status[${indexStatus + 1}]"] = "lunas";
+        map["filter_status[${indexStatus + 2}]"] = "berhasil";
       }
 
       if (isOnProgress == true) {
         map["filter_status[$indexStatus]"] = "lunas";
         map["filter_status[${indexStatus + 1}]"] = "belum dibayar";
         map["filter_status[${indexStatus + 2}]"] = "dibayar sebagian";
+        map["filter_status[${indexStatus + 3}]"] = "pengajuan";
+        map["filter_status[${indexStatus + 4}]"] = "proses";
       }
 
       if (isCanceled == true) {
         map["filter_status[$indexStatus]"] = "dibatalkan";
         map["filter_status[${indexStatus + 1}]"] = "overdue";
+        map["filter_status[${indexStatus + 2}]"] = "gagal";
+        map["filter_status[${indexStatus + 3}]"] = "ditolak";
       }
 
-      print(map);
-      print(url);
       var request = http.MultipartRequest("POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();

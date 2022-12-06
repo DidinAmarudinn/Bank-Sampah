@@ -35,11 +35,12 @@ class CardTrashProduct extends StatelessWidget {
                   height: 60,
                   placeholder: (context, url) => const Padding(
                     padding: EdgeInsets.all(18.0),
-                    child: SpinKitFadingCircle(
-                        size: 30, color: kDarkGreen),
+                    child: SpinKitFadingCircle(size: 30, color: kDarkGreen),
                   ),
                   errorWidget: (context, url, error) {
-                    return const SizedBox(height: 60,);
+                    return const SizedBox(
+                      height: 60,
+                    );
                   },
                 )
               : const SizedBox(

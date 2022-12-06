@@ -1,4 +1,5 @@
 import 'package:bank_sampah/feature/withdraw/paket_data/provider/paket_data_provider.dart';
+import 'package:bank_sampah/utils/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -64,6 +65,39 @@ class _PaketDataScreenState extends State<PaketDataScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding),
+                        child: Text(
+                          "Pilih Operator",
+                          style: kBlackText.copyWith(fontWeight: semiBold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
+                            vertical: kDefaultPadding / 2),
+                        child: Wrap(
+                          children: List<Widget>.generate(
+                            listOperatorPaketData.length,
+                            (int idx) {
+                              return ChoiceChip(
+                                  label: Text(
+                                    listOperatorPaketData[idx].name,
+                                    style: kWhiteText,
+                                  ),
+                                  selected: provider.selectedOperator ==
+                                      listOperatorPaketData[idx],
+                                  selectedColor: kDarkGreen,
+                                  backgroundColor: kYoungGreen,
+                                  onSelected: (bool selected) {
+                                    provider.selecteOperator(
+                                        listOperatorPaketData[idx]);
+                                  });
+                            },
+                          ).toList(),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding),
@@ -201,34 +235,36 @@ class _PaketDataScreenState extends State<PaketDataScreen> {
                                     ? "Saldo Tidak Cukup"
                                     : "Tukarkan",
                                 onPressed: () async {
-                                  // String tlp = controllerNoTelp.text;
-                                  // if (tlp.isNotEmpty &&
-                                  //     provider.selectePulsaModel != null) {
-                                  //   PPOBRequest request = PPOBRequest(
-                                  //     tglTransaksi: FormatterExt()
-                                  //         .dateFormat
-                                  //         .format(DateTime.now()),
-                                  //     totalTagihan: provider
-                                  //         .selectePulsaModel?.pulsaPrice
-                                  //         .toString(),
-                                  //     nomerTelepon: tlp,
-                                  //     nominalPulsa: provider
-                                  //         .selectePulsaModel?.pulsaNominal,
-                                  //     jenis: "pulsa",
-                                  //   );
-                                  //   await provider.checkout(request);
-                                  //   if (!mounted) return;
-                                  //   if (provider.btnState ==
-                                  //       RequestState.loaded) {
-                                  //     context.go(SuccessPage.routeName);
-                                  //   } else {
-                                  //     SnackbarMessage.showSnackbar(
-                                  //         context, provider.message);
-                                  //   }
-                                  // } else {
-                                  //   SnackbarMessage.showSnackbar(context,
-                                  //       "Masukan no telepon dan pilih nominal terlebih dahulu");
-                                  // }
+                                  String tlp = controllerNoTelp.text;
+                                  if (tlp.isNotEmpty &&
+                                      provider.selectePulsaModel != null) {
+                                    PPOBRequest request = PPOBRequest(
+                                      tglTransaksi: FormatterExt()
+                                          .dateFormat
+                                          .format(DateTime.now()),
+                                      totalTagihan: provider
+                                          .selectePulsaModel?.pulsaPrice
+                                          .toString(),
+                                      operator: provider.selectePulsaModel?.pulsaOp,
+                                      nomerTelepon: tlp,
+                                      codePulsa: provider.selectePulsaModel?.pulsaCode,
+                                      nominalData: provider
+                                          .selectePulsaModel?.pulsaNominal,
+                                      jenis: "data",
+                                    );
+                                    await provider.checkout(request);
+                                    if (!mounted) return;
+                                    if (provider.btnState ==
+                                        RequestState.loaded) {
+                                      context.go(SuccessPage.routeName);
+                                    } else {
+                                      SnackbarMessage.showSnackbar(
+                                          context, provider.message);
+                                    }
+                                  } else {
+                                    SnackbarMessage.showSnackbar(context,
+                                        "Masukan no telepon dan pilih nominal terlebih dahulu");
+                                  }
                                 },
                                 height: 40,
                                 width: double.infinity,

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/feature/dashboard/provider/home_page_provider.dart';
 import 'package:bank_sampah/feature/dashboard/ui/main_page.dart';
 import 'package:bank_sampah/themes/constants.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
@@ -5,6 +6,7 @@ import 'package:bank_sampah/widget/tb_button_primary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class SuccessPage extends StatefulWidget {
   static const routeName = "/success-page";
@@ -35,15 +37,17 @@ class _SuccessPageState extends State<SuccessPage> {
           const SizedBox(
             height: kDefaultPadding,
           ),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: TBButtonPrimaryWidget(
-                buttonName: "Kembali ke Dashboard",
-                onPressed: () {
-                  context.go(MainPage.routeName);
-                },
-                height: 40,
-                width: double.infinity),
+          Consumer<HomePageProvider>(
+            builder:(context, provider, _) => Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: TBButtonPrimaryWidget(
+                  buttonName: "Kembali ke Dashboard",
+                  onPressed: () {
+                    context.go(MainPage.routeName);
+                  },
+                  height: 40,
+                  width: double.infinity),
+            ),
           )
         ],
       ),

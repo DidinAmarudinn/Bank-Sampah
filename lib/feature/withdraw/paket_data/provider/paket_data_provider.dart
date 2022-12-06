@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../utils/constants.dart';
 import '../../../../utils/preference_helper.dart';
 import '../../../../utils/request_state_enum.dart';
 import '../../model/ppob_request.dart';
@@ -24,7 +25,8 @@ class PaketDataProvider extends ChangeNotifier {
   }
 
   final PreferencesHelper helper;
-
+  OperatorModel? _selectedOperator = listOperatorPaketData[0];
+  OperatorModel? get selectedOperator => _selectedOperator;
   String _point = "0";
   String get point => _point;
   RequestState _state = RequestState.empty;
@@ -40,7 +42,8 @@ class PaketDataProvider extends ChangeNotifier {
     _point = await helper.getPoint() ?? "0";
     _state = RequestState.loading;
     notifyListeners();
-    final result = await service.getPriceData();
+    final result = await service
+        .getPriceData(_selectedOperator?.code ?? "telkomsel_paket_internet");
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
@@ -75,5 +78,12 @@ class PaketDataProvider extends ChangeNotifier {
       _btnState = RequestState.loaded;
       notifyListeners();
     });
+  }
+
+  void selecteOperator(OperatorModel operatorModel) {
+    _selectedPulsaModel = null;
+    _selectedOperator = operatorModel;
+    getPriceListData();
+    notifyListeners();
   }
 }

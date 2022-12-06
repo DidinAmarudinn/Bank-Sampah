@@ -39,11 +39,10 @@ class Datum {
 
   Map<String, dynamic> toJson() => _$DatumToJson(this);
 
-
   String getNominal() {
     try {
       return FormatterExt().currency.format(int.parse(pulsaNominal ?? "0"));
-    } catch(e) {
+    } catch (e) {
       return pulsaNominal.toString();
     }
   }

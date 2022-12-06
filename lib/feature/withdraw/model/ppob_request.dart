@@ -3,6 +3,8 @@ class PPOBRequest {
   String? tglTransaksi;
   String? codePulsa;
   String? totalTagihan;
+  String? operator;
+  String? code;
   String? jenis;
   String? nomerTelepon;
   String? nominalPulsa;
@@ -11,11 +13,16 @@ class PPOBRequest {
   String? nomerRegistrasi;
   String? nominalToken;
   String? wilayah;
+  String? nominalData;
   String? nominalPelanggan;
+  String? refId;
+  String? nomerPelanggan;
   PPOBRequest({
     this.tglTransaksi,
     this.codePulsa,
     this.totalTagihan,
+    this.operator,
+    this.code,
     this.jenis,
     this.nomerTelepon,
     this.nominalPulsa,
@@ -24,6 +31,9 @@ class PPOBRequest {
     this.nomerRegistrasi,
     this.nominalToken,
     this.wilayah,
+    this.nominalData,
     this.nominalPelanggan,
+    this.refId,
+    this.nomerPelanggan,
   });
 }

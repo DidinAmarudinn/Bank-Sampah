@@ -42,10 +42,10 @@ class HomePageProvider extends ChangeNotifier {
   String _phoneNumber = "";
   String get phoneNumber => _phoneNumber;
 
-  final PagingController<int, TransactionResult> pagingController =
-      PagingController(firstPageKey: 0);
+  // final PagingController<int, TransactionResult> pagingController =
+  //     PagingController(firstPageKey: 0);
 
-  bool _isLastPage = false;
+  final bool _isLastPage = false;
   final int _numberOfTransactionPerRequest = 5;
   final DashboardService service;
   final PreferencesHelper helper;
@@ -83,18 +83,17 @@ class HomePageProvider extends ChangeNotifier {
         notifyListeners();
       });
     } else {
-       final result = await service.getDataNsabah(idG);
-    result.fold((failure) {
-      debugPrint(failure.message);
-      _state = RequestState.error;
-      notifyListeners();
-    }, (data) {
-    
-      helper.setPoint(data?.saldo ?? "");
-      _saldo = data?.saldo ?? "";
-      _state = RequestState.loaded;
-      notifyListeners();
-    });
+      final result = await service.getDataNsabah(idG);
+      result.fold((failure) {
+        debugPrint(failure.message);
+        _state = RequestState.error;
+        notifyListeners();
+      }, (data) {
+        helper.setPoint(data?.saldo ?? "");
+        _saldo = data?.saldo ?? "";
+        _state = RequestState.loaded;
+        notifyListeners();
+      });
     }
   }
 
@@ -105,41 +104,41 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getListTransaction(int pageKey) async {
-    try {
-      String id = "";
-      bool type = await helper.getLevel() == bsuCode;
-      if (type) {
-        id = await helper.getIdBsu() ?? "";
-      } else {
-        id = await helper.getIdNasabah() ?? "";
-      }
-      final result = await service.getListTransaction(
-        id,
-        pageKey + 1,
-        _numberOfTransactionPerRequest,
-        type,
-      );
-      result.fold((failure) {
-        pagingController.error = failure.message;
-      }, (transaction) {
-        int transactionCount = transaction?.result?.length ?? 0;
-        _isLastPage = transactionCount < _numberOfTransactionPerRequest;
-        if (_isLastPage) {
-          if (transaction?.result != null) {
-            pagingController.appendLastPage(transaction!.result!);
-          }
-        } else {
-          if (transaction?.result != null) {
-            final nextPage = pageKey + 1;
-            pagingController.appendPage(transaction!.result!, nextPage);
-          }
-        }
-      });
-    } catch (e) {
-      pagingController.error = e;
-    }
-  }
+  // Future<void> getListTransaction(int pageKey) async {
+  //   try {
+  //     String id = "";
+  //     bool type = await helper.getLevel() == bsuCode;
+  //     if (type) {
+  //       id = await helper.getIdBsu() ?? "";
+  //     } else {
+  //       id = await helper.getIdNasabah() ?? "";
+  //     }
+  //     final result = await service.getListTransaction(
+  //       id,
+  //       pageKey + 1,
+  //       _numberOfTransactionPerRequest,
+  //       type,
+  //     );
+  //     result.fold((failure) {
+  //       pagingController.error = failure.message;
+  //     }, (transaction) {
+  //       int transactionCount = transaction?.result?.length ?? 0;
+  //       _isLastPage = transactionCount < _numberOfTransactionPerRequest;
+  //       if (_isLastPage) {
+  //         if (transaction?.result != null) {
+  //           pagingController.appendLastPage(transaction!.result!);
+  //         }
+  //       } else {
+  //         if (transaction?.result != null) {
+  //           final nextPage = pageKey + 1;
+  //           pagingController.appendPage(transaction!.result!, nextPage);
+  //         }
+  //       }
+  //     });
+  //   } catch (e) {
+  //     pagingController.error = e;
+  //   }
+  // }
 
   Future<void> getListSlider() async {
     _sliderState = RequestState.loading;
@@ -157,13 +156,14 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   void start() {
-    pagingController.addPageRequestListener((pageKey) {
-      getListTransaction(pageKey);
-    });
+    // pagingController.addPageRequestListener((pageKey) {
+    //   getListTransaction(pageKey);
+    // });
+
     getUserData();
   }
 
   void destroy() {
-    pagingController.dispose();
+    // pagingController.dispose();
   }
 }

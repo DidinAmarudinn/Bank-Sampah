@@ -49,10 +49,12 @@ import 'package:bank_sampah/feature/withdraw/bank/ui/withdraw_bank_screen.dart';
 import 'package:bank_sampah/feature/withdraw/ewallet/ui/withdraw_ewallet_screen.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/provider/listrik_provider.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/checkout_listrik_screen.dart';
+import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_pasca_screen.dart';
 import 'package:bank_sampah/feature/withdraw/listrik/ui/listrik_screen.dart';
 import 'package:bank_sampah/feature/withdraw/paket_data/provider/paket_data_provider.dart';
 import 'package:bank_sampah/feature/withdraw/paket_data/ui/paket_data_screen.dart';
-import 'package:bank_sampah/feature/withdraw/pdam/pdam_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pdam/ui/pdam_screen.dart';
+import 'package:bank_sampah/feature/withdraw/pdam/provider/pdam_provider.dart';
 import 'package:bank_sampah/feature/withdraw/provider/ppob_provider.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/provider/pulsa_provider.dart';
 import 'package:bank_sampah/feature/withdraw/pulsa/ui/payment_method_screen.dart';
@@ -135,6 +137,13 @@ class MyApp extends StatelessWidget {
                 sharedPreference: SharedPreferences.getInstance()))),
         ChangeNotifierProvider(
           create: (_) => BSUProvider(
+            PreferencesHelper(
+              sharedPreference: SharedPreferences.getInstance(),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PDAMProvider(
             PreferencesHelper(
               sharedPreference: SharedPreferences.getInstance(),
             ),
@@ -243,6 +252,12 @@ class MyApp extends StatelessWidget {
         path: PDAMScreen.routeName,
         builder: (BuildContext context, GoRouterState state) {
           return const PDAMScreen();
+        },
+      ),
+      GoRoute(
+        path: ListrikPascaScreen.routeName,
+        builder: (BuildContext context, GoRouterState state) {
+          return const ListrikPascaScreen();
         },
       ),
       GoRoute(
