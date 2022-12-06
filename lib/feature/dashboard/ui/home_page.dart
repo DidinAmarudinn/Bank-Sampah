@@ -21,8 +21,8 @@ import '../../../themes/constants.dart';
 import '../../../utils/api_constants.dart';
 import '../../../widget/card_last_transaction.dart';
 import '../../bsu/ui/detail_transaction_bsu_screen.dart';
-import '../../withdraw/listrik/ui/listrik_screen.dart';
-import '../../withdraw/pulsa/ui/pulsa_screen.dart';
+import '../../withdraw/listrik/ui/bottom_sheet_listrik.dart';
+import '../../withdraw/pulsa/ui/bottom_sheet_pulsa.dart';
 import '../provider/home_page_provider.dart';
 import '../provider/main_page_provider.dart';
 import 'bottom_sheet_others_menu.dart';
@@ -87,11 +87,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   void init() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -233,7 +233,21 @@ class _HomePageState extends State<HomePage> {
                               iconName: kIcPuls,
                               menuName: "Pulsa",
                               onTap: () {
-                                context.push(PulsaScreen.routeName);
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(24),
+                                      ),
+                                    ),
+                                    context: context,
+                                    builder: (context) {
+                                      return Wrap(
+                                        children: const [
+                                          BottomSheetPulsa(),
+                                        ],
+                                      );
+                                    });
                               },
                             ),
                           if (provider.isBsu == false)
@@ -242,7 +256,21 @@ class _HomePageState extends State<HomePage> {
                               iconName: kIcListrik,
                               menuName: "Listrik",
                               onTap: () {
-                                context.push(ListrikScreen.routeName);
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(24),
+                                      ),
+                                    ),
+                                    context: context,
+                                    builder: (context) {
+                                      return Wrap(
+                                        children: const [
+                                          BottomSheetListrik(),
+                                        ],
+                                      );
+                                    });
                               },
                             ),
                           // CircleMenuWidget(
