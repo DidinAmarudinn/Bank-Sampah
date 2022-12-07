@@ -146,7 +146,7 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
               child: provider.btnState == RequestState.loading
                   ? const LoadingButton(height: 40, width: double.infinity)
                   : TBButtonPrimaryWidget(
-                      buttonName: "Bayar Sekarang",
+                      buttonName: "Lanjutkan Pemesanan",
                       onPressed: () async {
                         PPOBRequest request = PPOBRequest(
                             tglTransaksi: FormatterExt()
@@ -157,6 +157,7 @@ class _CheckoutListrikScreenState extends State<CheckoutListrikScreen> {
                                     .toString(),
                             jenis: "listrik",
                             jenisProduct: "token",
+                            namaPelanggan: provider.plnSubscriberModel?.name,
                             codePulsa: provider.selectToken?.pulsaCode,
                             nomerMeter: provider.plnSubscriberModel?.meterNo,
                             nominalToken: provider.selectToken?.pulsaNominal);

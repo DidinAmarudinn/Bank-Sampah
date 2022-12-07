@@ -81,8 +81,13 @@ class DashboardService {
         var response = await http.Response.fromStream(reqResponse);
         var res = json.decode(response.body);
         if (res["status"] == "true") {
-          final result = TransactionModel.fromJson(res);
+          try {
+  final result = TransactionModel.fromJson(res);
           return Right(result);
+          } catch (e) {
+            print(e);
+            return Left(ServerFailure("Error Decoding"));
+          }
         } else {
           return Left(ServerFailure(res["result"].toString()));
         }

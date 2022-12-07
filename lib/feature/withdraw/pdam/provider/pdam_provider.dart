@@ -94,6 +94,7 @@ class PDAMProvider extends ChangeNotifier {
       notifyListeners();
     }, (r) {
       _btnState = RequestState.loaded;
+      _billCheckModel = null;
       notifyListeners();
     });
   }

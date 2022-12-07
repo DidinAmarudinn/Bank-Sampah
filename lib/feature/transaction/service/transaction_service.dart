@@ -74,6 +74,8 @@ class TransactionService {
         map["filter_status[${indexStatus + 3}]"] = "ditolak";
       }
 
+      print(map);
+
       var request = http.MultipartRequest("POST", Uri.parse(url));
       request.fields.addAll(map);
       var reqResponse = await request.send();

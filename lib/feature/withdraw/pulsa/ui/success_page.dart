@@ -38,7 +38,7 @@ class _SuccessPageState extends State<SuccessPage> {
             height: kDefaultPadding,
           ),
           Consumer<HomePageProvider>(
-            builder:(context, provider, _) => Padding(
+            builder: (context, provider, _) => Padding(
               padding: const EdgeInsets.all(kDefaultPadding),
               child: TBButtonPrimaryWidget(
                   buttonName: "Kembali ke Dashboard",

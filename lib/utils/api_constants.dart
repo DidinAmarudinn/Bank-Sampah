@@ -50,8 +50,8 @@ const String paketDataUrl =
     "https://testprepaid.mobilepulsa.net/v1/legacy/index/data/";
 const String billCheckPDAMUrl =
     "https://testpostpaid.mobilepulsa.net/api/v1/bill/check";
-const String getWilayahPDAMUrl=
+const String getWilayahPDAMUrl =
     "https://testpostpaid.mobilepulsa.net/api/v1/bill/check/pdam";
-const String billCheckListrikPascaUrl=
+const String billCheckListrikPascaUrl =
     "https://testpostpaid.mobilepulsa.net/api/v1/bill/check/pdam";
 const String bsuCode = "Bank Sampah Unit";

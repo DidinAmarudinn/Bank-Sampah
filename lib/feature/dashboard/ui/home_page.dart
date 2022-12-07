@@ -3,6 +3,7 @@ import 'package:bank_sampah/feature/dashboard/service/dashboard_service.dart';
 import 'package:bank_sampah/feature/nasabah/ui/nasabah_screen.dart';
 import 'package:bank_sampah/feature/ojek/ui/detail_ojek_sampah_screen.dart';
 import 'package:bank_sampah/feature/transaction/ui/detail_transaction_pembelian_nasabah.dart';
+import 'package:bank_sampah/feature/transaction/ui/detail_transaction_ppob.dart';
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
 import 'package:bank_sampah/utils/img_constants.dart';
 import 'package:bank_sampah/utils/preference_helper.dart';
@@ -295,8 +296,10 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   context: context,
                                   builder: (context) {
-                                    return Wrap(children: const [
-                                      BottomSheetOthersMenu()
+                                    return Wrap(children: [
+                                      BottomSheetOthersMenu(
+                                        isBsu: provider.isBsu,
+                                      )
                                     ]);
                                   });
                             },
@@ -378,6 +381,15 @@ class _HomePageState extends State<HomePage> {
                             context.push(DetailTransactionBSUScreen.routeName,
                                 extra: item.idTransaksi);
                           }
+
+                          if (item.tipe?.toLowerCase() == "ppob") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailTransactionPPOB(
+                                          result: item,
+                                        )));
+                          }
                         } else {
                           if (item.tipe == "ojek_sampah") {
                             context.push(DetailOjekSampahScreen.routeName,
@@ -389,6 +401,14 @@ class _HomePageState extends State<HomePage> {
                                 DetailTransactionPembelianNasabahScreen
                                     .routeName,
                                 extra: item.idTransaksi);
+                          }
+                          if (item.tipe?.toLowerCase() == "ppob") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailTransactionPPOB(
+                                          result: item,
+                                        )));
                           }
                         }
                       },

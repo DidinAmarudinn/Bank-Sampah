@@ -99,7 +99,7 @@ class _ListrikPascaScreenState extends State<ListrikPascaScreen> {
                   provider.btnState == RequestState.loading
                       ? const LoadingButton(height: 40, width: double.infinity)
                       : TBButtonPrimaryWidget(
-                          buttonName: "Bayar",
+                          buttonName: "Lanjutkan",
                           onPressed: () async {
                             PPOBRequest request = PPOBRequest(
                                 tglTransaksi: FormatterExt()
@@ -109,6 +109,7 @@ class _ListrikPascaScreenState extends State<ListrikPascaScreen> {
                                 jenisProduct: "tagihan",
                                 refId: provider.billCheckModel?.refId,
                                 nomerRegistrasi: provider.billCheckModel?.hp,
+                                namaPelanggan: provider.billCheckModel?.trName,
                                 totalTagihan:
                                     provider.billCheckModel?.price.toString(),
                                 code: provider.billCheckModel?.code);

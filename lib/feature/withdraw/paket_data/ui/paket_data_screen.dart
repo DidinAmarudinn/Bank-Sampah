@@ -245,9 +245,11 @@ class _PaketDataScreenState extends State<PaketDataScreen> {
                                       totalTagihan: provider
                                           .selectePulsaModel?.pulsaPrice
                                           .toString(),
-                                      operator: provider.selectePulsaModel?.pulsaOp,
+                                      operator:
+                                          provider.selectePulsaModel?.pulsaOp,
                                       nomerTelepon: tlp,
-                                      codePulsa: provider.selectePulsaModel?.pulsaCode,
+                                      codePulsa:
+                                          provider.selectePulsaModel?.pulsaCode,
                                       nominalData: provider
                                           .selectePulsaModel?.pulsaNominal,
                                       jenis: "data",

@@ -43,10 +43,11 @@ class BottomSheetListrik extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                   title: Text(
                     "Token",
-                   style: kBlackText.copyWith(fontWeight: semiBold),
+                    style: kBlackText.copyWith(fontWeight: semiBold),
                   ),
                   onTap: () {
                     Navigator.pop(context);
@@ -54,7 +55,8 @@ class BottomSheetListrik extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                   title: Text(
                     "Tagihan (Pasca Bayar)",
                     style: kBlackText.copyWith(fontWeight: semiBold),

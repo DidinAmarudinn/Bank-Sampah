@@ -179,7 +179,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   if (provider.state == RequestState.loaded) {
                                     SnackbarMessage.showToast(
                                         "Berhasil melakukan pemesanan Jasa Angkut");
-                                        
+
                                     context.push(
                                         DetailOjekSampahScreen.routeName,
                                         extra: provider.idTransaksi.toString());
