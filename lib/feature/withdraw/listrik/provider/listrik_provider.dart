@@ -82,14 +82,16 @@ class ListrikProvider extends ChangeNotifier {
     int idUser = await helper.getId() ?? 0;
     String idBsu = await helper.getIdBsu() ?? "";
     String idNasabah = await helper.getIdNasabah() ?? "";
-    final result =
-        await service.checkout(request, idUser.toString(), idNasabah, idBsu);
+    final result = await service.checkout(
+        request, idUser.toString(), idNasabah, idBsu,
+        billCheck: _billCheckModel);
     result.fold((failure) {
       _message = failure.message;
       _btnState = RequestState.error;
       notifyListeners();
     }, (r) {
       _btnState = RequestState.loaded;
+      _billCheckModel = null;
       notifyListeners();
     });
   }
@@ -97,12 +99,11 @@ class ListrikProvider extends ChangeNotifier {
   PascaBillCheck? _billCheckModel;
   PascaBillCheck? get billCheckModel => _billCheckModel;
 
-   Future<void> billCheck(String customerId) async {
+  Future<void> billCheck(String customerId) async {
     _point = await helper.getPoint() ?? "0";
     _state = RequestState.loading;
     notifyListeners();
-    final result =
-        await service.getUserBillCheckListrik(customerId);
+    final result = await service.getUserBillCheckListrik(customerId);
     _billCheckModel = null;
     result.fold((failure) {
       _message = failure.message;

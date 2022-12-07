@@ -97,7 +97,8 @@ class _PDAMScreenState extends State<PDAMScreen> {
                       await provider.billCheck(controller.text);
                       if (!mounted) return;
                       if (provider.billCheckModel?.trName == null) {
-                        SnackbarMessage.showSnackbar(context, provider.message);
+                        SnackbarMessage.showSnackbar(
+                            context, "Data pelanggan tidak ditemukan");
                       }
                     } else {
                       SnackbarMessage.showSnackbar(context,
@@ -125,7 +126,7 @@ class _PDAMScreenState extends State<PDAMScreen> {
                             ? const LoadingButton(
                                 height: 40, width: double.infinity)
                             : TBButtonPrimaryWidget(
-                                buttonName: "Bayar",
+                                buttonName: "Lanjutkan",
                                 onPressed: () async {
                                   PPOBRequest request = PPOBRequest(
                                       tglTransaksi: FormatterExt()

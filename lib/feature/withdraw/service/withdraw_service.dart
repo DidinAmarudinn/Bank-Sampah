@@ -37,6 +37,7 @@ class WithdrawService {
         "nomor_registrasi": ppobRequest?.nomerRegistrasi ?? "",
         "nominal_token": ppobRequest?.nominalToken ?? "",
         "nominal_data": ppobRequest?.nominalData ?? "",
+        "nama_pelanggan": ppobRequest?.namaPelanggan ?? "",
         "pulsa_code": ppobRequest?.codePulsa ?? "",
         "wilayah": ppobRequest?.wilayah ?? "",
         "nominal_pelanggan": ppobRequest?.nominalPelanggan ?? "",

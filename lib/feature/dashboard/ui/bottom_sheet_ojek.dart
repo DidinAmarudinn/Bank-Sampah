@@ -46,7 +46,7 @@ class BottomSheetOjekSampah extends StatelessWidget {
             Column(
               children: [
                 CardOjekSampah(
-                  titile: "Jasa Ankut",
+                  titile: "Jasa Angkut",
                   color: kDarkGreen,
                   onTap: () {
                     Navigator.of(context).pop();

@@ -11,6 +11,7 @@ import '../../bsu/ui/detail_transaction_bsu_screen.dart';
 import '../../dashboard/model/transaction_model.dart';
 import '../../ojek/ui/detail_ojek_sampah_screen.dart';
 import '../provider/transaction_provider.dart';
+import 'detail_transaction_ppob.dart';
 
 class TransactionOnProgress extends StatefulWidget {
   final PagingController<int, TransactionResult> pagingController;
@@ -53,6 +54,14 @@ class _TransactionOnProgressState extends State<TransactionOnProgress> {
                         context.push(DetailTransactionBSUScreen.routeName,
                             extra: item.idTransaksi);
                       }
+                      if (item.tipe?.toLowerCase() == "ppob") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailTransactionPPOB(
+                                      result: item,
+                                    )));
+                      }
                     } else {
                       if (item.tipe == "ojek_sampah") {
                         context.push(DetailOjekSampahScreen.routeName,
@@ -63,6 +72,14 @@ class _TransactionOnProgressState extends State<TransactionOnProgress> {
                         context.push(
                             DetailTransactionPembelianNasabahScreen.routeName,
                             extra: item.idTransaksi);
+                      }
+                      if (item.tipe?.toLowerCase() == "ppob") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailTransactionPPOB(
+                                      result: item,
+                                    )));
                       }
                     }
                   },

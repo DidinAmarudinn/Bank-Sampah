@@ -78,11 +78,11 @@ class DescPasca {
     daya = json['daya'];
     lembarTagihan = json['lembar_tagihan'];
     tagihan =
-        json['tagihan'] != null ?  Tagihan.fromJson(json['tagihan']) : null;
+        json['tagihan'] != null ? Tagihan.fromJson(json['tagihan']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['tarif'] = tarif;
     data['daya'] = daya;
     data['lembar_tagihan'] = lembarTagihan;

@@ -15,6 +15,7 @@ class PPOBRequest {
   String? wilayah;
   String? nominalData;
   String? nominalPelanggan;
+  String? namaPelanggan;
   String? refId;
   String? nomerPelanggan;
   PPOBRequest({
@@ -33,6 +34,7 @@ class PPOBRequest {
     this.wilayah,
     this.nominalData,
     this.nominalPelanggan,
+    this.namaPelanggan,
     this.refId,
     this.nomerPelanggan,
   });

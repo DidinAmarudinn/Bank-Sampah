@@ -43,10 +43,11 @@ class BottomSheetPulsa extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                   title: Text(
                     "Pulsa",
-                   style: kBlackText.copyWith(fontWeight: semiBold),
+                    style: kBlackText.copyWith(fontWeight: semiBold),
                   ),
                   onTap: () {
                     Navigator.pop(context);
@@ -54,7 +55,8 @@ class BottomSheetPulsa extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                   title: Text(
                     "Paket Data",
                     style: kBlackText.copyWith(fontWeight: semiBold),

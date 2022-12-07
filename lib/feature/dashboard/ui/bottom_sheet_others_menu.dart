@@ -1,13 +1,18 @@
 import 'package:bank_sampah/feature/trash_calculator/ui/trash_calculator_page.dart';
+import 'package:bank_sampah/feature/withdraw/pdam/ui/pdam_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../themes/constants.dart';
 import '../../../utils/img_constants.dart';
 import '../../../widget/circle_menu_widget.dart';
+import '../../withdraw/listrik/ui/bottom_sheet_listrik.dart';
+import '../../withdraw/pulsa/ui/bottom_sheet_pulsa.dart';
 
 class BottomSheetOthersMenu extends StatelessWidget {
-  const BottomSheetOthersMenu({Key? key}) : super(key: key);
+  final bool isBsu;
+  const BottomSheetOthersMenu({Key? key, required this.isBsu})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,6 @@ class BottomSheetOthersMenu extends StatelessWidget {
             const SizedBox(
               height: kDefaultPadding,
             ),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -55,45 +59,79 @@ class BottomSheetOthersMenu extends StatelessWidget {
                   },
                   menuName: "Kalkulator\nSampah",
                 ),
-                const Expanded(child: SizedBox()),
-                const Expanded(child: SizedBox())
-                // const CircleMenuWidget(
-                //   color: kDarkGreen,
-                //   iconName: kIcPuls,
-                //   menuName: "Pulsa",
-                // ),
-                // const CircleMenuWidget(
-                //   color: kDarkGreen,
-                //   iconName: kIcCalculator,
-                //   menuName: "Listrik",
-                // ),
+                // const Expanded(child: SizedBox()),
+                // const Expanded(child: SizedBox())
+                isBsu
+                    ? const SizedBox()
+                    : CircleMenuWidget(
+                        color: kDarkGreen,
+                        iconName: kIcPuls,
+                        onTap: () {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(24),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return Wrap(
+                                  children: const [
+                                    BottomSheetPulsa(),
+                                  ],
+                                );
+                              });
+                        },
+                        menuName: "Pulsa / Paket Data",
+                      ),
+                isBsu
+                    ? const SizedBox()
+                    : CircleMenuWidget(
+                        color: kDarkGreen,
+                        iconName: kIcCalculator,
+                        onTap: () {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(24),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return Wrap(
+                                  children: const [
+                                    BottomSheetListrik(),
+                                  ],
+                                );
+                              });
+                        },
+                        menuName: "Listrik",
+                      ),
               ],
             ),
-            // const SizedBox(
-            //   height: kDefaultPadding,
-            // ),
-            // Row(
-            //   children: [
-            //     const CircleMenuWidget(
-            //       color: kDarkGreen,
-            //       iconName: kIcPdam,
-            //       menuName: "Pdam",
-            //     ),
-            //     CircleMenuWidget(
-            //       onTap: () {
-            //         Navigator.of(context).pop();
-            //         context.push(WithdrawPointScreen.routeName);
-            //       },
-            //       color: kYellowColor,
-            //       iconName: kIcPoin,
-            //       menuName: "Tuker Poin",
-            //     ),
-            //     const Expanded(
-            //         child: SizedBox(
-            //       width: 20,
-            //     ))
-            //   ],
-            // )
+            const SizedBox(
+              height: kDefaultPadding,
+            ),
+            Row(
+              children: [
+                CircleMenuWidget(
+                  color: kDarkGreen,
+                  iconName: kIcPdam,
+                  menuName: "Pdam",
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.push(PDAMScreen.routeName);
+                  },
+                ),
+                const Expanded(child: SizedBox()),
+                const Expanded(
+                    child: SizedBox(
+                  width: 20,
+                ))
+              ],
+            )
           ],
         ),
       ),

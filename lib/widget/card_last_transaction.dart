@@ -79,7 +79,7 @@ class CardLastTransaction extends StatelessWidget {
           width: 15,
         ),
       );
-    } else if (transactionResult?.getTransactionType().toLowerCase() ==
+    } else if (transactionResult?.jenis ==
         "pulsa") {
       return Container(
         padding: const EdgeInsets.all(7),
@@ -90,7 +90,7 @@ class CardLastTransaction extends StatelessWidget {
           width: 15,
         ),
       );
-    } else if (transactionResult?.getTransactionType().toLowerCase() ==
+    } else if (transactionResult?.jenis ==
         "data") {
       return Container(
         padding: const EdgeInsets.all(7),
@@ -101,7 +101,7 @@ class CardLastTransaction extends StatelessWidget {
           width: 15,
         ),
       );
-    } else if (transactionResult?.getTransactionType().toLowerCase() ==
+    } else if (transactionResult?.jenis ==
         "listrik") {
       return Container(
         padding: const EdgeInsets.all(7),
